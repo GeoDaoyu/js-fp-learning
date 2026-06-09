@@ -1,21 +1,103 @@
 // ==========================================
 // Week 01 · Day 2: 一等公民函数 & 高阶函数入门
 // ==========================================
+import { describe, it } from 'node:test';
+import assert from 'node:assert/strict';
+
+// ==========================================
+// === 在这里写你的代码 ===
+// ==========================================
 
 // 练习1: 函数赋值、传参、返回函数
-// TODO
 
-// 练习2: 手写基础高阶函数
-// TODO
+// 1a: 将匿名函数赋值给变量 greet
+const greet = null; // TODO: 赋值一个函数，接收 name，返回 'Hello, {name}!'
 
-// 练习3: 用 map 改写以下循环逻辑
+// 1b: 编写一个函数 callWith5，接收一个函数 fn，用 5 作为参数调用它
+function callWith5(fn) {
+  // TODO
+}
+
+// 1c: 编写一个函数 makeMultiplier，接收 n，返回一个函数，该函数接收 x 并返回 x * n
+function makeMultiplier(n) {
+  // TODO
+}
+
+// 练习2: 手写高阶函数
+
+// 2a: 实现 repeat(times, fn) — 执行 fn 共 times 次，将每次结果收集到数组返回
+function repeat(times, fn) {
+  // TODO: 禁止使用 for/while
+}
+
+// 2b: 实现 twice(fn, x) — 对 x 连续应用 fn 两次，即 fn(fn(x))
+function twice(fn, x) {
+  // TODO
+}
+
+// 练习3: 用 map 改写循环
 const numbers = [1, 2, 3, 4, 5];
 
-// 原始写法（禁止使用）
-// const doubled = [];
-// for (let i = 0; i < numbers.length; i++) {
-//   doubled.push(numbers[i] * 2);
-// }
+// 3a: 将每个数翻倍（替代 for 循环）
+function doubleArray(arr) {
+  // TODO: 用 arr.map(...) 实现
+}
 
-// FP 写法:
-const doubled = null; // TODO: 用 map 实现
+// 3b: 将每个数转为字符串
+function stringifyArray(arr) {
+  // TODO: 用 arr.map(...) 实现
+}
+
+// 3c: 求每个数的平方再 +1
+function squarePlusOne(arr) {
+  // TODO: 用 arr.map(...) 实现
+}
+
+// ==========================================
+// === 测试（不要修改） ===
+// ==========================================
+
+describe('练习1: 函数是一等公民', () => {
+  it('greet 应返回问候语', () => {
+    assert.equal(typeof greet, 'function');
+    assert.equal(greet('World'), 'Hello, World!');
+  });
+
+  it('callWith5 应用 5 调用传入的函数', () => {
+    const double = x => x * 2;
+    assert.equal(callWith5(double), 10);
+  });
+
+  it('makeMultiplier 应返回乘法函数', () => {
+    const triple = makeMultiplier(3);
+    assert.equal(typeof triple, 'function');
+    assert.equal(triple(7), 21);
+  });
+});
+
+describe('练习2: 高阶函数', () => {
+  it('repeat 应执行 fn 指定次数并返回结果数组', () => {
+    let i = 0;
+    const result = repeat(4, () => i++);
+    assert.deepEqual(result, [0, 1, 2, 3]);
+  });
+
+  it('twice 应对 x 连续应用 fn 两次', () => {
+    const addOne = x => x + 1;
+    assert.equal(twice(addOne, 5), 7);
+  });
+});
+
+describe('练习3: map 改写循环', () => {
+  it('doubleArray 应返回翻倍后的数组', () => {
+    assert.deepEqual(doubleArray(numbers), [2, 4, 6, 8, 10]);
+  });
+
+  it('stringifyArray 应返回字符串数组', () => {
+    assert.deepEqual(stringifyArray(numbers), ['1', '2', '3', '4', '5']);
+  });
+
+  it('squarePlusOne 应返回平方+1的数组', () => {
+    assert.deepEqual(squarePlusOne([1, 2, 3]), [2, 5, 10]);
+  });
+});

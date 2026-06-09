@@ -1,0 +1,21 @@
+{
+  "name": "js-fp-learning",
+  "version": "1.0.0",
+  "description": "JS 函数式编程 10 周学习计划 - 练习与笔记",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"exercises/**/*.js\"",
+    "week:01": "node --test \"exercises/week-01-pure-functions/*.js\"",
+    "week:02": "node --test \"exercises/week-02-closures-immutability/*.js\"",
+    "week:03": "node --test \"exercises/week-03-currying-compose/*.js\"",
+    "week:04": "node --test \"exercises/week-04-ramda-basics/*.js\"",
+    "week:05": "node --test \"exercises/week-05-ramda-advanced/*.js\"",
+    "week:06": "node --test \"exercises/week-06-functor-maybe/*.js\"",
+    "week:07": "node --test \"exercises/week-07-either/*.js\"",
+    "week:08": "node --test \"exercises/week-08-monad/*.js\"",
+    "week:09": "node --test \"exercises/week-09-fp-ts/*.js\"",
+    "week:10": "node --test \"exercises/week-10-capstone/*.js\"",
+    "run": "node"
+  }
+}

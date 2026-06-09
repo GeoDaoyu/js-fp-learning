@@ -48,9 +48,22 @@
 ## 快速开始
 
 ```bash
-# 进入某周的练习目录
-cd exercises/week-01-pure-functions
+# 测试当前周所有练习
+npm run week:01
 
-# 运行单个练习
-node 01-pure-functions.js
+# 测试全部练习
+npm test
+
+# 单独运行某个文件（不跑测试，只看输出）
+npm run run -- exercises/week-01-pure-functions/01-pure-functions.js
+
+# 单独测试某个文件
+node --test exercises/week-01-pure-functions/01-pure-functions.js
 ```
+
+## 练习工作流
+
+1. 打开当天练习文件，在 `=== 在这里写你的代码 ===` 区域写实现
+2. 运行 `npm run week:XX` 查看测试结果
+3. 所有测试 `# pass` 全绿 → 完成，可以提交
+4. 遇到红叉看报错信息，改进实现
