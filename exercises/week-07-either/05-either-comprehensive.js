@@ -1,0 +1,159 @@
+// ==========================================
+// Week 07 · Day 5: Either 综合练习 + 周复盘
+// ==========================================
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
+
+// ==========================================
+// === 在这里写你的代码 ===
+// ==========================================
+
+class Maybe {
+  static of(value) { return value == null ? new Nothing() : new Just(value); }
+}
+
+class Just extends Maybe {
+  constructor(value) { super(); this._value = value; }
+  map(fn) { return Maybe.of(fn(this._value)); }
+  chain(fn) { return fn(this._value); }
+  getOrElse(_) { return this._value; }
+}
+
+class Nothing extends Maybe {
+  map(_) { return this; }
+  chain(_) { return this; }
+  getOrElse(defaultVal) { return defaultVal; }
+}
+
+class Either {
+  static of(value) { return new Right(value); }
+  static left(value) { return new Left(value); }
+  static right(value) { return new Right(value); }
+}
+
+class Right extends Either {
+  constructor(value) { super(); this._value = value; }
+  map(fn) { return Either.of(fn(this._value)); }
+  chain(fn) { return fn(this._value); }
+  fold(_, rightFn) { return rightFn(this._value); }
+  getOrElse(_) { return this._value; }
+}
+
+class Left extends Either {
+  constructor(value) { super(); this._value = value; }
+  map(_) { return this; }
+  chain(_) { return this; }
+  fold(leftFn, _) { return leftFn(this._value); }
+  getOrElse(defaultVal) { return defaultVal; }
+}
+
+// 练习1: 完整的空值 + 异常处理链路
+// 场景: 用户下单
+//   1. 检查用户是否存在 (Maybe)
+//   2. 校验用户状态是否正常 (Either)
+//   3. 检查商品库存 (Either)
+//   4. 计算订单总额
+//   5. 整条链路：一处失败 = 全链路失败
+
+const usersDb = {
+  "u1": { id: "u1", name: "Alice", active: true },
+  "u2": { id: "u2", name: "Bob", active: false },
+};
+
+const productsDb = {
+  "p1": { id: "p1", name: "Laptop", price: 8000, stock: 5 },
+  "p2": { id: "p2", name: "Mouse", price: 150, stock: 0 },
+};
+
+// 1a: findUser(userId) — 查找用户
+function findUser(userId) {
+  // TODO: 返回 Maybe
+}
+
+// 1b: verifyActive(user) — 校验用户是否激活
+function verifyActive(user) {
+  // TODO: 返回 Either
+}
+
+// 1c: verifyStock(productId, quantity) — 校验库存
+function verifyStock(productId, quantity) {
+  // TODO: 返回 Either
+}
+
+// 1d: calculateTotal(product, quantity) — 计算总额
+function calculateTotal(product, quantity) {
+  // TODO: 返回 Either
+}
+
+// 练习2: 全链路串联 — placeOrder(userId, productId, quantity)
+// findUser → verifyActive → verifyStock → calculateTotal
+// 要求: 正确串联 Maybe 和 Either
+function placeOrder(userId, productId, quantity) {
+  // TODO
+  // 提示: Maybe 可以用 toEither 转 Either
+  // 返回 Either，fold 出最终结果
+}
+
+// 练习3: 对比传统写法（写在注释里）
+//
+// 3a. 用 Maybe + Either 串联 vs 传统的 if/else + try/catch
+//    在代码可读性和可维护性上分别有哪些优劣？
+//
+// TODO: 回答
+
+// ==========================================
+// === 测试（不要修改） ===
+// ==========================================
+
+describe("练习1: 业务函数", () => {
+  it("findUser 存在的用户", () => {
+    assert.equal(findUser("u1").getOrElse(null).name, "Alice");
+  });
+
+  it("findUser 不存在的用户", () => {
+    assert.equal(findUser("u999").getOrElse(null), null);
+  });
+
+  it("verifyActive 活跃用户", () => {
+    const result = verifyActive(usersDb["u1"]);
+    assert.ok(result instanceof Right);
+  });
+
+  it("verifyActive 非活跃用户", () => {
+    const result = verifyActive(usersDb["u2"]);
+    assert.ok(result instanceof Left);
+  });
+
+  it("verifyStock 库存充足", () => {
+    const result = verifyStock("p1", 3);
+    assert.ok(result instanceof Right);
+  });
+
+  it("verifyStock 库存不足", () => {
+    const result = verifyStock("p2", 1);
+    assert.ok(result instanceof Left);
+  });
+});
+
+describe("练习2: 全链路下单", () => {
+  it("正常下单应成功", () => {
+    const result = placeOrder("u1", "p1", 2);
+    // 8000 * 2 = 16000
+    assert.equal(result.fold(() => 0, (total) => total), 16000);
+  });
+
+  it("不存在的用户应失败", () => {
+    const result = placeOrder("u999", "p1", 1);
+    assert.ok(result instanceof Left);
+  });
+
+  it("非活跃用户应失败", () => {
+    const result = placeOrder("u2", "p1", 1);
+    assert.ok(result instanceof Left);
+  });
+
+  it("库存不足应失败", () => {
+    const result = placeOrder("u1", "p2", 1);
+    assert.ok(result instanceof Left);
+  });
+});
