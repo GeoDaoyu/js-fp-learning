@@ -20,29 +20,23 @@ const orders = [
 // 练习1: reduce 实现数组分组 — 按 category 分组
 // 期望: { electronics: [{...}, {...}], books: [{...}, {...}], clothing: [{...}, {...}] }
 function groupByCategory(orderList) {
-  const categories = orderList.map((order) => order.category);
-  const uniqueCategories = Array.from(new Set(categories));
-  const initial = Object.fromEntries(uniqueCategories.map((v) => [v, []]));
   return orderList.reduce((grouped, order) => {
     return {
       ...grouped,
-      [order.category]: [...grouped[order.category], order],
+      [order.category]: [...(grouped[order.category] || []), order],
     };
-  }, initial);
+  }, {});
 }
 
 // 练习2: reduce 实现分类汇总 — 统计每个 category 的总金额
 // 期望: { electronics: 450, books: 80, clothing: 200 }
 function totalByCategory(orderList) {
-  const categories = orderList.map((order) => order.category);
-  const uniqueCategories = Array.from(new Set(categories));
-  const initial = Object.fromEntries(uniqueCategories.map((v) => [v, []]));
   return orderList.reduce((grouped, order) => {
     return {
       ...grouped,
-      [order.category]: +grouped[order.category] + order.amount,
+      [order.category]: (grouped[order.category] || 0) + order.amount,
     };
-  }, initial);
+  }, {});
 }
 
 // 练习3: 综合题 — 筛选→转换→聚合 全链路 FP 写法
