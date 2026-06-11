@@ -13,27 +13,27 @@ import assert from "node:assert/strict";
 
 // 练习1: append — 在数组末尾追加元素
 function append(arr, item) {
-  // TODO
+  return [...arr, item];
 }
 
 // 练习2: prepend — 在数组开头插入元素
 function prepend(arr, item) {
-  // TODO
+  return [item, ...arr];
 }
 
 // 练习3: removeAt — 删除指定索引的元素
 function removeAt(arr, index) {
-  // TODO
+  return arr.filter((_, i) => i !== index);
 }
 
 // 练习4: updateAt — 更新指定索引的元素
 function updateAt(arr, index, newVal) {
-  // TODO
+  return arr.map((v, i) => (i === index ? newVal : v));
 }
 
 // 练习5: insertAt — 在指定索引处插入元素（原位置及之后的元素后移）
 function insertAt(arr, index, item) {
-  // TODO
+  return [...arr.slice(0, index), item, ...arr.slice(index)];
 }
 
 // ==========================================
