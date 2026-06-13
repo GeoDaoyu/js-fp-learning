@@ -10,30 +10,31 @@ import assert from "node:assert/strict";
 
 // 练习1: 手写一组柯里化的验证函数
 // greaterThan(min)(value) — value > min 返回 true
-const greaterThan = null; // TODO: 实现
+const greaterThan = (min) => (value) => value > min;
 
 // lessThan(max)(value) — value < max 返回 true
-const lessThan = null; // TODO: 实现
+const lessThan = (max) => (value) => value < max;
 
 // between(min, max)(value) — min < value < max 返回 true
-const between = null; // TODO: 实现（复用了 greaterThan 和 lessThan）
+const between = (min, max) => (value) =>
+  greaterThan(min)(value) && lessThan(max)(value);
 
 // 练习2: filterBy — 柯里化的过滤器
 // filterBy(predicate)(array) → 返回过滤后的数组
 function filterBy(predicate) {
-  // TODO: 返回一个函数，接收数组并用 predicate 过滤
+  return (array) => array.filter(predicate);
 }
 
 // 练习3: mapOver — 柯里化的 map
 // mapOver(fn)(array) → 返回映射后的数组
 function mapOver(fn) {
-  // TODO: 返回一个函数，接收数组并用 fn 映射
+  return (array) => array.map(fn);
 }
 
 // 练习4: formatCurrency — 柯里化的格式化器
 // formatCurrency(symbol)(amount) → 如 formatCurrency('¥')(100) → '¥100.00'
 function formatCurrency(symbol) {
-  // TODO: 返回一个函数，接收金额，返回格式化字符串（保留两位小数）
+  return (amount) => `${symbol}${amount.toFixed(2)}`;
 }
 
 // ==========================================

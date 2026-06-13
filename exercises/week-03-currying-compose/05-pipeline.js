@@ -20,12 +20,15 @@ const students = [
 
 // autoCurry（复用 Day1 的实现或重新实现）
 function autoCurry(fn) {
-  // TODO: 自动柯里化
+  return (...accumulated) => {
+    if (accumulated.length >= fn.length) return fn(...accumulated);
+    return (...more) => autoCurry(fn)(...accumulated, ...more);
+  };
 }
 
 // pipe（复用 Day4 的实现）
 function pipe(...fns) {
-  // TODO: 从左到右组合
+  return (init) => fns.reduce((val, fn) => fn(val), init);
 }
 
 // 练习1: 拆分单一职责小函数
@@ -34,32 +37,52 @@ function pipe(...fns) {
 // addGrade: 根据 score 添加 grade 字段
 // >= 90 → 'A', >= 80 → 'B', >= 70 → 'C', >= 60 → 'D', < 60 → 'F'
 function addGrade(student) {
-  // TODO: 返回新对象 { ...student, grade: ... }
+  const grade =
+    student.score >= 90
+      ? "A"
+      : student.score >= 80
+        ? "B"
+        : student.score >= 70
+          ? "C"
+          : student.score >= 60
+            ? "D"
+            : "F";
+  return { ...student, grade };
 }
 
 // addPassed: 添加 passed 字段（grade 不是 'F'）
 function addPassed(student) {
-  // TODO: 返回新对象 { ...student, passed: grade !== 'F' }
+  return { ...student, passed: student.grade !== "F" };
 }
 
 // formatStudent: 重命名为 { name, score, grade, passed }
 function formatStudent(student) {
-  // TODO: 返回 { name: student.name, score: student.score, grade: student.grade, passed: student.passed }
+  const { name, score, grade, passed } = student;
+  return { name, score, grade, passed };
 }
 
 // 练习2: 用 pipe 串联数据处理链路
 // 处理所有学生: 加评分 → 加通过状态 → 格式化
 function processStudents(studentList) {
-  // TODO: 用 pipe + map 实现
-  // 提示: 先用 autoCurry 柯里化 map，再 pipe
+  const map = autoCurry((fn, arr) => arr.map(fn));
+  return pipe(map(addGrade), map(addPassed), map(formatStudent))(studentList);
 }
 
 // 练习3: point-free 风格
 // 获取所有及格学生的名字（大写），按分数降序排列
 // 要求: 用 pipe 串联，尽量 point-free
 function topPassedNames(studentList) {
-  // TODO
-  // 步骤: filter passed → sort by score desc → map name → map toUpperCase
+  const filter = autoCurry((fn, arr) => arr.filter(fn));
+  const map = autoCurry((fn, arr) => arr.map(fn));
+  const sort = autoCurry((fn, arr) => [...arr].sort(fn));
+  return pipe(
+    map(addGrade),
+    map(addPassed),
+    filter((s) => s.passed),
+    sort((a, b) => b.score - a.score),
+    map((s) => s.name),
+    map((s) => s.toUpperCase()),
+  )(studentList);
 }
 
 // ==========================================
@@ -87,8 +110,19 @@ describe("练习1: 单一职责函数", () => {
   });
 
   it("formatStudent 应重命名属性", () => {
-    const result = formatStudent({ name: "A", score: 80, grade: "B", passed: true, extra: 1 });
-    assert.deepEqual(result, { name: "A", score: 80, grade: "B", passed: true });
+    const result = formatStudent({
+      name: "A",
+      score: 80,
+      grade: "B",
+      passed: true,
+      extra: 1,
+    });
+    assert.deepEqual(result, {
+      name: "A",
+      score: 80,
+      grade: "B",
+      passed: true,
+    });
   });
 });
 
@@ -99,7 +133,12 @@ describe("练习2: pipe 串联数据处理", () => {
     assert.equal(result[0].name, "Alice");
     assert.equal(result[0].grade, "B");
     assert.equal(result[0].passed, true);
-    assert.deepEqual(Object.keys(result[0]), ["name", "score", "grade", "passed"]);
+    assert.deepEqual(Object.keys(result[0]), [
+      "name",
+      "score",
+      "grade",
+      "passed",
+    ]);
   });
 });
 
