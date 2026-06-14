@@ -17,5 +17,8 @@
     "week:09": "node --test \"exercises/week-09-fp-ts/*.js\"",
     "week:10": "node --test \"exercises/week-10-capstone/*.js\"",
     "run": "node"
+  },
+  "dependencies": {
+    "ramda": "^0.32.0"
   }
 }

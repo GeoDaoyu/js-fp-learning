@@ -21,26 +21,26 @@ const orders = [
 
 // 练习1: R.groupBy — 按 category 分组
 function groupByCat(orderList) {
-  // TODO: 用 R.groupBy
+  return R.groupBy(R.prop("category"), orderList);
 }
 
 // 练习2: R.sort / R.sortBy — 排序
 
 // 2a: sortByAmount — 按 amount 升序排列
 function sortByAmount(orderList) {
-  // TODO: 用 R.sortBy
+  return R.sortBy(R.prop("amount"))(orderList);
 }
 
 // 2b: sortByAmountDesc — 按 amount 降序排列
 function sortByAmountDesc(orderList) {
-  // TODO: 用 R.sort 或 R.sortBy + R.descend
+  return R.sort(R.descend(R.prop("amount")))(orderList);
 }
 
 // 练习3: R.uniq / R.uniqBy — 去重
 
 // 3a: uniqueCategories — 返回所有不重复的 category
 function uniqueCategories(orderList) {
-  // TODO: 用 R.uniq + map 或 R.uniqBy
+  return R.uniq(R.map(R.prop("category"), orderList));
 }
 
 // 练习4: R.partition — 根据谓词一分为二
@@ -48,13 +48,13 @@ function uniqueCategories(orderList) {
 
 // 4a: splitHighValue — 将 >= 100 的订单和 < 100 的订单分开
 function splitHighValue(orderList) {
-  // TODO: 用 R.partition
+  return R.partition(R.propSatisfies(R.gt(R.__, 100), "amount"), orderList);
 }
 
 // 练习5: R.zip / R.zipObj — 合并数组
 // 5a: makeDict — keys 和 values 两个数组合并为对象
 function makeDict(keys, values) {
-  // TODO: 用 R.zipObj
+  return R.zipObj(keys, values);
 }
 
 // ==========================================
