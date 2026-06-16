@@ -25,7 +25,23 @@ const employees = [
 // → 按总包降序排列 → 取前三名 → 格式化为 { name, totalPackage }
 
 function topEngineers(employeeList) {
-  // TODO: 用 R.pipe 或 R.compose 串联
+  return R.pipe(
+    R.filter(R.propEq("Engineering", "department")),
+    R.map(
+      R.applySpec({
+        name: R.prop("name"),
+        totalPackage: R.converge(R.multiply, [
+          R.pipe(R.prop("salary"), R.multiply(12)),
+          R.pipe(
+            R.prop("years"),
+            R.ifElse(R.gt(R.__, 3), R.always(1.2), R.always(1)),
+          ),
+        ]),
+      }),
+    ),
+    R.sort(R.descend(R.prop("totalPackage"))),
+    R.take(3),
+  )(employeeList);
 }
 
 // 练习2: 部门统计报告
@@ -33,8 +49,14 @@ function topEngineers(employeeList) {
 // 期望格式: { Engineering: { count, avgSalary, maxSalary }, Sales: {...}, ... }
 
 function departmentReport(employeeList) {
-  // TODO
-  // 提示: R.groupBy → R.map + R.applySpec
+  return R.map(
+    R.applySpec({
+      count: R.length,
+      avgSalary: R.pipe(R.map(R.prop("salary")), R.mean),
+      maxSalary: R.pipe(R.map(R.prop("salary")), R.reduce(R.max, -Infinity)),
+    }),
+    R.groupBy(R.prop("department"), employeeList),
+  );
 }
 
 // 练习3: 用 Lens 实现薪资调整
@@ -42,18 +64,37 @@ function departmentReport(employeeList) {
 // 要求: 用 Lens 做不可变更新
 
 function giveRaise(employeeList) {
-  // TODO
+  const eligible = R.allPass([
+    R.propEq("Engineering", "department"),
+    R.propSatisfies(R.gte(R.__, 5), "years"),
+  ]);
+  return R.map(
+    R.when(eligible, R.over(R.lensProp("salary"), R.multiply(1.1))),
+    employeeList,
+  );
 }
 
 // 练习4: Ramda 选型反思（写在注释里）
 //
 // 4a. 经过两周 Ramda 练习，你认为项目中什么场景适合用 Ramda，什么场景不适合？
 //
-// TODO: 回答
+// 适合：
+// - 数据管道：filter → map → sort → take 这类串联转换，pipe 比嵌套函数调用清晰得多
+// - 不可变更新：Lens 的 view/set/over 比手动 spread 嵌套对象安全且简洁
+// - 条件逻辑：R.cond / R.ifElse / R.when 消除了 if-else 链，声明式且无遗漏分支
+// - 数据派生：applySpec 一份数据转成多种视图，省去重复取值代码
+//
+// 不适合：
+// - 性能敏感的热路径：Ramda 的柯里化和不可变拷贝有额外开销
+// - 简单的属性访问：obj.price 比 R.prop("price")(obj) 直观，团队也不一定都熟悉 Ramda
+// - 需要副作用（IO、DOM操作、数据库写入）：FP 管道天然排斥副作用，强行塞进去反而别扭
 
 // 4b. 对比 Ramda 与传统命令式代码，最大的心智转变是什么？
 //
-// TODO: 回答
+// 从"怎么一步步做（how）"变成"数据要变成什么样（what）"。
+// 命令式关注中间变量、循环、赋值顺序；Ramda 关注数据在各阶段的形态变化。
+// 另一个转变是"数据最后传入"——先定义好转换规则的组合，数据作为最后参数注入，
+// 这让管道可以提前声明、复用，而不是每次都要从数据出发重写逻辑。
 
 // ==========================================
 // === 测试（不要修改） ===

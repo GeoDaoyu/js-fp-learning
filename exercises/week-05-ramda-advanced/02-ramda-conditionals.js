@@ -24,19 +24,31 @@ const users = [
 // >= 90 → 'A', >= 80 → 'B', >= 70 → 'C', >= 60 → 'D', < 60 → 'F'
 // 要求: 用多个 R.ifElse 嵌套或 R.cond
 function classifyScore(score) {
-  // TODO
+  return R.cond([
+    [R.gte(R.__, 90), R.always("A")],
+    [R.gte(R.__, 80), R.always("B")],
+    [R.gte(R.__, 70), R.always("C")],
+    [R.gte(R.__, 60), R.always("D")],
+    [R.T, R.always("F")],
+  ])(score);
 }
 
 // 1b: doubleIfAdult(user) — 如果是成年人(age>=18)，score 翻倍
 // 要求: 用 R.when
 function doubleIfAdult(user) {
-  // TODO: 返回新对象
+  return R.when(
+    R.propSatisfies(R.gte(R.__, 18), "age"),
+    R.over(R.lensProp("score"), R.multiply(2)),
+  )(user);
 }
 
 // 1c: banMinors(user) — 除非是成年人，否则标记 banned: true
 // 要求: 用 R.unless
 function banMinors(user) {
-  // TODO: 返回新对象
+  return R.unless(
+    R.propSatisfies(R.gte(R.__, 18), "age"),
+    R.over(R.lensProp("banned"), R.always(true)),
+  )(user);
 }
 
 // 练习2: R.cond — 多条件分支
@@ -46,20 +58,31 @@ function banMinors(user) {
 // < 13 → 'child', < 18 → 'teen', < 60 → 'adult', >= 60 → 'senior'
 // 要求: 用 R.cond
 function ageGroup(age) {
-  // TODO
+  return R.cond([
+    [R.lt(R.__, 13), R.always("child")],
+    [R.lt(R.__, 18), R.always("teen")],
+    [R.lt(R.__, 60), R.always("adult")],
+    [R.T, R.always("senior")],
+  ])(age);
 }
 
 // 练习3: R.allPass / R.anyPass — 组合谓词
 
 // 3a: isAdminAdult — 判断是否既是 admin 又是成年人
-const isAdminAdult = null; // TODO: 用 R.allPass
+const isAdminAdult = R.allPass([
+  R.propEq("admin", "role"),
+  R.propSatisfies(R.gte(R.__, 18), "age"),
+]);
 
 // 3b: isHighOrAdmin — 判断是否 score >= 90 或 role 为 admin
-const isHighOrAdmin = null; // TODO: 用 R.anyPass
+const isHighOrAdmin = R.anyPass([
+  R.propSatisfies(R.gte(R.__, 90), "score"),
+  R.propEq("admin", "role"),
+]);
 
 // 3c: getEligibleUsers(userList) — 筛选符合条件的用户（isAdminAdult）
 function getEligibleUsers(userList) {
-  // TODO: 用 R.filter + isAdminAdult
+  return R.filter(isAdminAdult)(userList);
 }
 
 // ==========================================
@@ -111,6 +134,9 @@ describe("练习3: allPass / anyPass", () => {
   it("getEligibleUsers 应筛选符合条件的用户", () => {
     const result = getEligibleUsers(users);
     assert.equal(result.length, 2); // Alice, Charlie
-    assert.deepEqual(result.map((u) => u.name), ["Alice", "Charlie"]);
+    assert.deepEqual(
+      result.map((u) => u.name),
+      ["Alice", "Charlie"],
+    );
   });
 });

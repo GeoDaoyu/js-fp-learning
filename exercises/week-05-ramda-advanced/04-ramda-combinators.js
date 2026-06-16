@@ -22,13 +22,15 @@ const orders = [
 // 1a: totalValue — 计算每个订单的总价值 { id, product, total: price * quantity }
 // 要求: 用 R.converge 组合 price 和 quantity
 function addTotalValue(order) {
-  // TODO: 返回 { ...order, total: price * quantity }
-  // 提示: R.converge(R.assoc('total'), [R.prop('price'), R.prop('quantity')])
+  return R.converge(R.assoc("total"), [
+    R.converge(R.multiply, [R.prop("price"), R.prop("quantity")]),
+    R.identity,
+  ])(order);
 }
 
 // 1b: allTotals — 给所有订单添加 total 字段
 function allTotals(orderList) {
-  // TODO: 用 R.map(addTotalValue)
+  return R.map(addTotalValue)(orderList);
 }
 
 // 练习2: R.useWith — 参数预处理
@@ -37,7 +39,8 @@ function allTotals(orderList) {
 // 2a: compareByTotal — 比较两个订单的总价值
 // compareByTotal(orderA, orderB) → orderA.price * orderA.quantity > orderB.price * orderB.quantity
 function compareByTotal(orderA, orderB) {
-  // TODO: 用 R.useWith
+  const total = R.converge(R.multiply, [R.prop("price"), R.prop("quantity")]);
+  return R.useWith(R.gt, [total, total])(orderA, orderB);
 }
 
 // 练习3: R.applySpec — 批量从同一数据派生多个值
@@ -45,12 +48,17 @@ function compareByTotal(orderA, orderB) {
 // 3a: orderSummary — 从单个订单生成摘要对象
 // { productName: product, unitPrice: price, quantity, lineTotal: price * quantity }
 function orderSummary(order) {
-  // TODO: 用 R.applySpec
+  return R.applySpec({
+    productName: R.prop("product"),
+    unitPrice: R.prop("price"),
+    quantity: R.prop("quantity"),
+    lineTotal: R.converge(R.multiply, [R.prop("price"), R.prop("quantity")]),
+  })(order);
 }
 
 // 3b: summarizeAll — 给所有订单生成摘要
 function summarizeAll(orderList) {
-  // TODO: 用 R.map(orderSummary)
+  return R.map(orderSummary)(orderList);
 }
 
 // 练习4: R.evolve — 深度转换对象
@@ -59,8 +67,14 @@ function summarizeAll(orderList) {
 // 4a: salesReport(orderList) — 生成销售报告
 // { orderCount, totalItems, totalRevenue }
 function salesReport(orderList) {
-  // TODO
-  // 提示: 可结合 R.applySpec 和 R.pipe
+  return R.applySpec({
+    orderCount: R.length,
+    totalItems: R.pipe(R.map(R.prop("quantity")), R.sum),
+    totalRevenue: R.pipe(
+      R.map(R.converge(R.multiply, [R.prop("price"), R.prop("quantity")])),
+      R.sum,
+    ),
+  })(orderList);
 }
 
 // ==========================================
@@ -112,7 +126,7 @@ describe("练习4: evolve 综合", () => {
     assert.deepEqual(report, {
       orderCount: 4,
       totalItems: 11, // 1+3+5+2
-      totalRevenue: 9250, // 8000+450+300+800
+      totalRevenue: 9550, // 8000*1+150*3+60*5+400*2
     });
   });
 });
