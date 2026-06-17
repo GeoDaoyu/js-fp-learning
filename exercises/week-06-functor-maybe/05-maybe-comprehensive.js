@@ -33,14 +33,17 @@ class Nothing extends Maybe {
 // 1a: safeDiscount(order) — 安全获取有效折扣率
 // 如果 rate 不存在或 > 0.5，返回 Nothing
 function safeDiscount(order) {
-  // TODO: 返回 Maybe
+  return Maybe.of(order)
+    .map((o) => o.discount)
+    .map((d) => d.rate)
+    .chain((rate) => (rate > 0.5 ? Maybe.of(null) : Maybe.of(rate)));
 }
 
 // 1b: calcTotal(order) — 计算折扣后总价
 // 拿到有效折扣率后计算 total
 function calcTotal(order) {
-  // TODO: 用 safeDiscount 然后 map 计算
-  // 返回 Maybe 实例
+  const rate = safeDiscount(order).getOrElse(0);
+  return Maybe.of(order.quantity * order.price * (1 - rate));
 }
 
 // 练习2: 用 Maybe 替代多层 if 判空
@@ -56,18 +59,39 @@ function calcTotal(order) {
 
 // 2a: getUserLevel(user) — FP 版本，用 Maybe
 function getUserLevel(user) {
-  // TODO: 用 Maybe 安全取值
+  return Maybe.of(user)
+    .map((u) => u.profile)
+    .map((p) => p.settings)
+    .map((s) => s.level)
+    .getOrElse("basic");
 }
 
 // 练习3: 梳理函子/Maybe 解决的问题（写在注释里）
 //
 // 3a. 函子（Functor）模式的核心价值是什么？
 //
-// TODO: 回答
+// 函子的核心价值是"在容器内做变换"——你不需要把值取出来，操作完再放回去。
+// 它把"如何取出值 → 对值做变换 → 如何放回容器"这套流程抽象成了统一的 map 方法。
+// 具体来说：
+// ① 解耦了变换逻辑和容器上下文——调用方只关心 fn 怎么写，不关心容器内部机制
+// ② 链式串联——Container(5).map(add1).map(double).map(toString) 读起来像管道
+// ③ 不同类型的容器（Array、Maybe、Either）共享相同的 map 接口，切换容器类型无需改链式代码
 
 // 3b. Maybe 函子的局限是什么？什么场景下 Maybe 不够用？
 //
-// TODO: 回答
+// 局限：
+// ① 只区分"有值/无值"两种情况，无法携带错误信息——如果 rate > 0.5 被拒绝，
+//    Nothing 说不出原因，调用方只知道"没有"，不知道"为什么没有"
+// ② 无法区分多种空值原因——order.discount 不存在 vs rate 超过 0.5 都是 Nothing，
+//    无法做差异化处理
+// ③ getOrElse 只能给一个默认值，无法根据错误类型走不同分支
+//
+// 不够用的场景：
+// ① 需要知道失败原因的——比如表单校验，Nothing 无法告知是哪个字段校验失败
+// ② 需要分叉处理的——比如 rate > 0.5 走审批流，rate 缺失走无折扣，两者处理不同
+// ③ 多个 Maybe 组合——两个 Maybe 都是 Nothing 时，不知道哪个出了问题
+//
+// → 这些场景需要 Either（Left/Right），Right 走成功路径，Left 携带错误信息
 
 // ==========================================
 // === 测试（不要修改） ===

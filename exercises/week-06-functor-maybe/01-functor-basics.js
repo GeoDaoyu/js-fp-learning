@@ -14,18 +14,34 @@ import assert from "node:assert/strict";
 //   - map(fn) 方法: 将 fn 作用于 value，返回新的 Container
 
 class Container {
-  // TODO
+  constructor(value) {
+    this.value = value;
+  }
+
+  map(fn) {
+    return new Container(fn(this.value));
+  }
 }
 
 // 练习2: 函子的两个要素（写在注释里）
 //
 // 2a. 一个 Functor（函子）需要满足哪两个条件？
 //
-// TODO: 回答
+// ① 同一律（Identity）：对函子调用 map(x => x)（恒等函数），
+//    返回的函子应与原函子等价。
+//    → F.map(id) === F
+//
+// ② 复合律（Composition）：连续 map 两个函数的效果，
+//    等同于 map 这两个函数的组合。
+//    → F.map(g).map(h) === F.map(x => h(g(x)))
 
 // 2b. Array.map 是函子吗？为什么？
 //
-// TODO: 回答
+// 严格来说，Array（数组类型）才是函子，map 是它作为函子必须具备的方法。
+// 但从题意理解：Array 是函子，因为：
+//   ① Array 是一个容器（容纳多个值）
+//   ② Array.prototype.map 满足同一律：[1,2,3].map(x => x) // [1,2,3]
+//   ③ Array.prototype.map 满足复合律：[1,2,3].map(g).map(h) === [1,2,3].map(x => h(g(x)))
 
 // 练习3: 用 Container 串联操作
 
@@ -37,7 +53,10 @@ class Container {
 // reverse: 反转字符串
 
 function processString(str) {
-  // TODO: 使用 Container 链式处理
+  return new Container(str)
+    .map((x) => x.toUpperCase())
+    .map((x) => x.trim())
+    .map((x) => x.split("").reverse().join(""));
 }
 
 // ==========================================
