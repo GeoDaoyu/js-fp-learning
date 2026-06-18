@@ -43,7 +43,10 @@ const inventory = {
 // 库存不足 → Left('Insufficient stock')
 // 足够 → Right({ sku, quantity, available: stock })
 function checkStock(sku, quantity) {
-  // TODO
+  const product = inventory[sku];
+  if (!product) return Either.left('Product not found');
+  if (product.stock < quantity) return Either.left('Insufficient stock');
+  return Either.right({ sku, quantity, available: product.stock });
 }
 
 // 1b: applyDiscount(orderInfo, discountRate) — 应用折扣
@@ -52,7 +55,13 @@ function checkStock(sku, quantity) {
 // 否则 → Right({ ...orderInfo, discountRate, total: price * quantity * (1 - discountRate) })
 // 需要把 price 也带上，所以这里用扩展的 orderInfo: { sku, quantity, price }
 function applyDiscount(orderInfo, discountRate) {
-  // TODO
+  if (discountRate > 0.8) return Either.left('Discount too high');
+  if (discountRate < 0) return Either.left('Invalid discount');
+  return Either.right({
+    ...orderInfo,
+    discountRate,
+    total: orderInfo.price * orderInfo.quantity * (1 - discountRate),
+  });
 }
 
 // 练习2: 用 chain 串联业务流程
@@ -60,14 +69,24 @@ function applyDiscount(orderInfo, discountRate) {
 //   1. checkStock
 //   2. applyDiscount (传入 discountRate)
 function processOrder(sku, quantity, discountRate) {
-  // TODO: 用 chain 串联
+  return checkStock(sku, quantity)
+    .map(orderInfo => ({
+      ...orderInfo,
+      price: inventory[sku].price,
+    }))
+    .chain(orderInfo => applyDiscount(orderInfo, discountRate));
 }
 
 // 练习3: Either + 业务 vs try/catch（写在注释里）
 //
 // 3a. Either 处理业务异常相比 try/catch 有什么优势？
 //
-// TODO: 回答
+// 1. 类型安全：Either 将错误作为值返回，类型签名明确表达了"可能失败"的语义，
+//    而 try/catch 的错误是不可见的，调用者无法从类型上知道函数是否会抛出异常。
+// 2. 可组合：Either 支持 map/chain 串联，错误会自动短路传递，无需每步都写
+//    try/catch 包裹；try/catch 的嵌套会让业务流程变得难以阅读。
+// 3. 强制处理：fold/getOrElse 要求调用者显式处理错误分支，try/catch 可以
+//    被遗漏（unhandled rejection）。
 
 // ==========================================
 // === 测试（不要修改） ===

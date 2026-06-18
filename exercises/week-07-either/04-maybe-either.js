@@ -17,7 +17,7 @@ class Just extends Maybe {
   map(fn) { return Maybe.of(fn(this._value)); }
   chain(fn) { return fn(this._value); }
   getOrElse(_) { return this._value; }
-  toEither(leftValue) { return Either.right(this._value); }
+  toEither(_) { return Either.right(this._value); }
 }
 
 class Nothing extends Maybe {
@@ -48,7 +48,7 @@ class Left extends Either {
   chain(_) { return this; }
   fold(leftFn, _) { return leftFn(this._value); }
   getOrElse(defaultVal) { return defaultVal; }
-  toMaybe() { return Nothing; }
+  toMaybe() { return new Nothing(); }
 }
 
 // 练习1: Maybe → Either 转换
@@ -60,7 +60,10 @@ class Left extends Either {
 // user.age < 18 → Left('Underage')
 // 一切 OK → Right(user)
 function validateUser(user) {
-  // TODO: 先用 Maybe 判空，再转 Either 做校验
+  return Maybe.of(user)
+    .toEither('User not found')
+    .chain(u => u.name ? Either.right(u) : Either.left('Name required'))
+    .chain(u => u.age >= 18 ? Either.right(u) : Either.left('Underage'));
 }
 
 // 练习2: Either → Maybe 转换
@@ -71,14 +74,28 @@ function validateUser(user) {
 // 2. 获取 user.address.city（可能为 null → Nothing）
 // 3. 返回最终结果
 function safeGetUserCity(userId, userDb) {
-  // TODO
+  const user = userDb[userId];
+  return (user ? Either.right(user) : Either.left('User not found'))
+    .toMaybe()
+    .chain(u => Maybe.of(u.address))
+    .map(addr => addr.city);
 }
 
 // 练习3: 两种容器协作模式总结（写在注释里）
 //
 // 3a. 什么场景下用 Maybe，什么场景下用 Either？何时需要两者配合？
 //
-// TODO: 回答
+// Maybe：用于处理"值可能不存在"的场景（null/undefined），不携带错误信息，
+// 只区分"有值"和"无值"。适合做空值安全的链式访问，如 user.address.city。
+//
+// Either：用于处理"可能失败"的场景，Left 携带错误信息，适合业务校验、
+// 错误需要区分类型的场景，如"用户不存在"vs"库存不足"。
+//
+// 两者配合的典型模式：
+// - Maybe → Either（toEither）：先判空再校验。Maybe 处理 null，
+//   转成 Either 后引入带错误信息的业务规则校验。
+// - Either → Maybe（toMaybe）：先处理异常再安全访问。Either 处理
+//   业务错误后，转 Maybe 做后续的空值安全操作，此时错误原因已不重要。
 
 // ==========================================
 // === 测试（不要修改） ===

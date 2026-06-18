@@ -17,12 +17,14 @@ class Just extends Maybe {
   map(fn) { return Maybe.of(fn(this._value)); }
   chain(fn) { return fn(this._value); }
   getOrElse(_) { return this._value; }
+  toEither(_) { return Either.right(this._value); }
 }
 
 class Nothing extends Maybe {
   map(_) { return this; }
   chain(_) { return this; }
   getOrElse(defaultVal) { return defaultVal; }
+  toEither(leftValue) { return Either.left(leftValue); }
 }
 
 class Either {
@@ -67,31 +69,36 @@ const productsDb = {
 
 // 1a: findUser(userId) — 查找用户
 function findUser(userId) {
-  // TODO: 返回 Maybe
+  return Maybe.of(usersDb[userId]);
 }
 
 // 1b: verifyActive(user) — 校验用户是否激活
 function verifyActive(user) {
-  // TODO: 返回 Either
+  return user.active ? Either.right(user) : Either.left('User not active');
 }
 
 // 1c: verifyStock(productId, quantity) — 校验库存
 function verifyStock(productId, quantity) {
-  // TODO: 返回 Either
+  const product = productsDb[productId];
+  if (!product) return Either.left('Product not found');
+  if (product.stock < quantity) return Either.left('Insufficient stock');
+  return Either.right(product);
 }
 
 // 1d: calculateTotal(product, quantity) — 计算总额
 function calculateTotal(product, quantity) {
-  // TODO: 返回 Either
+  return Either.right(product.price * quantity);
 }
 
 // 练习2: 全链路串联 — placeOrder(userId, productId, quantity)
 // findUser → verifyActive → verifyStock → calculateTotal
 // 要求: 正确串联 Maybe 和 Either
 function placeOrder(userId, productId, quantity) {
-  // TODO
-  // 提示: Maybe 可以用 toEither 转 Either
-  // 返回 Either，fold 出最终结果
+  return findUser(userId)
+    .toEither('User not found')
+    .chain(user => verifyActive(user))
+    .chain(() => verifyStock(productId, quantity))
+    .chain(product => calculateTotal(product, quantity));
 }
 
 // 练习3: 对比传统写法（写在注释里）
@@ -99,7 +106,17 @@ function placeOrder(userId, productId, quantity) {
 // 3a. 用 Maybe + Either 串联 vs 传统的 if/else + try/catch
 //    在代码可读性和可维护性上分别有哪些优劣？
 //
-// TODO: 回答
+// Maybe + Either 的优势：
+// - 可读性：链式调用是线性叙事，从左到右顺序清晰；传统写法的 if/else
+//   嵌套会形成"箭头型"代码，错误处理和业务逻辑混在一起。
+// - 可维护性：新增校验步骤只需在链上加一个 .chain()，不影响已有逻辑；
+//   传统写法需要在嵌套中插入新的 if/else，容易改出 bug。
+// - 类型即文档：Maybe 表示"可能为空"，Either 表示"可能失败"，
+//   签名就说明了行为，不需要读实现。
+//
+// 传统写法的优势：
+// - 入门成本低，不需要理解容器概念。
+// - 小规模场景（1-2 个校验）时 Maybe/Either 反而显得过度抽象。
 
 // ==========================================
 // === 测试（不要修改） ===

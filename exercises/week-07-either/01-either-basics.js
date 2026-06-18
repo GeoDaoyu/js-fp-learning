@@ -23,7 +23,7 @@ import assert from "node:assert/strict";
 
 class Either {
   static of(value) {
-    // TODO: 默认创建 Right
+    return new Right(value);
   }
 
   static left(value) {
@@ -36,11 +36,41 @@ class Either {
 }
 
 class Right extends Either {
-  // TODO: constructor, map, fold, getOrElse
+  constructor(value) {
+    super();
+    this._value = value;
+  }
+
+  map(fn) {
+    return new Right(fn(this._value));
+  }
+
+  fold(_leftFn, rightFn) {
+    return rightFn(this._value);
+  }
+
+  getOrElse(_defaultVal) {
+    return this._value;
+  }
 }
 
 class Left extends Either {
-  // TODO: constructor, map, fold, getOrElse
+  constructor(value) {
+    super();
+    this._value = value;
+  }
+
+  map(_fn) {
+    return this;
+  }
+
+  fold(leftFn, _rightFn) {
+    return leftFn(this._value);
+  }
+
+  getOrElse(defaultVal) {
+    return defaultVal;
+  }
 }
 
 // 练习2: 用 Either 处理异常
@@ -49,21 +79,29 @@ class Left extends Either {
 // b === 0 → Left('division by zero')
 // 否则 → Right(a / b)
 function safeDivide(a, b) {
-  // TODO
+  return b === 0 ? Either.left("division by zero") : Either.of(a / b);
 }
 
 // 2b: safeParse(jsonStr) — 安全解析 JSON
 // 解析成功 → Right(obj)
 // 解析失败 → Left(error message)
 function safeParse(jsonStr) {
-  // TODO: 用 try/catch 包裹 JSON.parse
+  try {
+    return Either.of(JSON.parse(jsonStr));
+  } catch (e) {
+    return Either.left(e.message);
+  }
 }
 
 // 练习3: Either 与 Maybe 的区别（写在注释里）
 //
 // 3a. Either 相比 Maybe 最大的优势是什么？
 //
-// TODO: 回答
+// Either 的 Left 可以携带错误信息，而 Maybe 的 Nothing 只是"空"。
+// 这意味着：
+// ① 调用方知道失败原因——Left("division by zero") vs Nothing（不知道为啥）
+// ② 可以差异化处理——fold 的两个分支分别处理错误和成功，而 Maybe 只能 getOrElse 兜底
+// ③ 适合"可恢复但需要告知"的场景——比如表单校验，Left 可以告诉你是哪个字段不合法
 
 // ==========================================
 // === 测试（不要修改） ===
