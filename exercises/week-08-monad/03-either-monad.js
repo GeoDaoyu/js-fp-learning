@@ -20,7 +20,7 @@ class Right extends Either {
   constructor(value) { super(); this._value = value; }
   map(fn) { return Either.of(fn(this._value)); }
   chain(fn) {
-    // TODO: fn 返回 Either，直接返回那个 Either
+    return fn(this._value);
   }
   fold(_, rightFn) { return rightFn(this._value); }
   getOrElse(_) { return this._value; }
@@ -39,18 +39,17 @@ class Left extends Either {
 
 // 2a: validateName(name) → name非空 ? Right(name) : Left('name empty')
 function validateName(name) {
-  // TODO
+  return name && name.trim() !== "" ? Either.right(name) : Either.left("name empty");
 }
 
-// 2b: validateAge(age) → age >= 18 ? Right(age) : Left('underage')
 function validateAge(age) {
-  // TODO
+  return age >= 18 ? Either.right(age) : Either.left("underage");
 }
 
-// 2c: createUser(data) → 先校验 name，再校验 age，全部通过返回 Right(user对象)
-// 要求: 用 chain 串联，任一失败返回 Left
 function createUser(data) {
-  // TODO: 用 validateName(data.name).chain(...) 串联
+  return validateName(data.name).chain((name) =>
+    validateAge(data.age).map((age) => ({ name, age }))
+  );
 }
 
 // 练习3: 对比 — 有 chain 和没 chain 的区别
@@ -68,7 +67,13 @@ function createUser(data) {
 //     ({ name, age })))
 // 结果: Right({...}) — 展平了
 
-// TODO: 解释为什么 chain 能解决这个问题
+// 解释：
+// 外层用 chain 替代 map，因为 validateName 返回的是 Either（可能 Left 也可能 Right），
+// chain 会把结果展平而不是再包一层。内层的 validateAge 返回的是 Either，
+// 但 validateAge 后面紧跟的 .map(age => ({ name, age })) 中，map 的回调返回的是
+// 普通对象（不是 Either），所以这里用 map 就够了。
+// 关键：chain 接的是"返回 Either 的函数"，map 接的是"返回普通值的函数"。
+// 如果外层也用 map，结果就是 Right(Right({...})) 嵌套；用 chain 就展平成 Right({...})。
 
 // ==========================================
 // === 测试（不要修改） ===

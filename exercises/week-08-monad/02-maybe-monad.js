@@ -12,22 +12,37 @@ import assert from "node:assert/strict";
 // chain 行为和 map 类似，但 fn 返回 Maybe 时不会嵌套
 
 class Maybe {
-  static of(value) { return value == null ? new Nothing() : new Just(value); }
+  static of(value) {
+    return value == null ? new Nothing() : new Just(value);
+  }
 }
 
 class Just extends Maybe {
-  constructor(value) { super(); this._value = value; }
-  map(fn) { return Maybe.of(fn(this._value)); }
-  chain(fn) {
-    // TODO: fn 返回 Maybe，直接返回那个 Maybe
+  constructor(value) {
+    super();
+    this._value = value;
   }
-  getOrElse(_) { return this._value; }
+  map(fn) {
+    return Maybe.of(fn(this._value));
+  }
+  chain(fn) {
+    return fn(this._value);
+  }
+  getOrElse(_) {
+    return this._value;
+  }
 }
 
 class Nothing extends Maybe {
-  map(_) { return this; }
-  chain(_) { return this; }
-  getOrElse(defaultVal) { return defaultVal; }
+  map(_) {
+    return this;
+  }
+  chain(_) {
+    return this;
+  }
+  getOrElse(defaultVal) {
+    return defaultVal;
+  }
 }
 
 // 练习2: chain 解决嵌套 Maybe 问题
@@ -40,12 +55,12 @@ class Nothing extends Maybe {
 // 用 chain 串联，得到最终的 Maybe<Email>
 
 function findDepartment(deptId) {
-  const db = { "d1": { name: "Engineering", managerId: "m1" } };
+  const db = { d1: { name: "Engineering", managerId: "m1" } };
   return Maybe.of(db[deptId]);
 }
 
 function findManager(department) {
-  const db = { "m1": { name: "Alice", email: "alice@example.com" } };
+  const db = { m1: { name: "Alice", email: "alice@example.com" } };
   return Maybe.of(db[department.managerId]);
 }
 
@@ -55,8 +70,9 @@ function getEmail(manager) {
 
 // 2b: getManagerEmail(deptId) — 串联三步查询
 function getManagerEmail(deptId) {
-  // TODO: 用 chain 串联 findDepartment → findManager → getEmail
-  // 不使用 map 嵌套
+  return findDepartment(deptId)
+    .chain(findManager)
+    .chain(getEmail);
 }
 
 // 练习3: map + chain 链式调用的实际意义
@@ -68,7 +84,13 @@ function getManagerEmail(deptId) {
 //   .chain(a => Maybe.of(a.city))
 //   .getOrElse('Unknown')
 //
-// TODO: 回答 — map 和 chain 分别用在什么环节？为什么？
+// 回答：
+// - `.map(o => o.customer)` 用 map 因为 o.customer 是普通属性取值，返回的是普通值不是 Maybe
+// - `.chain(c => Maybe.of(c.address))` 用 chain 因为要包装进 Maybe（address 可能为空），
+//   如果这里也用 map 就会得到 Maybe(Maybe(address)) 的嵌套
+// - `.chain(a => Maybe.of(a.city))` 同理，city 也可能为空，用 chain 保持扁平
+//
+// 规则：fn 返回普通值 → map；fn 返回 Maybe → chain
 
 // ==========================================
 // === 测试（不要修改） ===
