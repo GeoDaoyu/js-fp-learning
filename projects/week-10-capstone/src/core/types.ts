@@ -15,4 +15,5 @@ export interface TodoState {
   query: string;
   page: number;
   pageSize: number;
+  error: string | null;
 }
