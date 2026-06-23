@@ -4,8 +4,7 @@
 // 需要先安装 fp-ts: npm install fp-ts
 import { pipe } from "fp-ts/function";
 import * as E from "fp-ts/Either";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -22,18 +21,18 @@ import assert from "node:assert/strict";
 
 // 1a: validatePositive(n) → n > 0 ? E.right(n) : E.left('not positive')
 function validatePositive(n) {
-  // TODO
+  return n > 0 ? E.right(n) : E.left("not positive");
 }
 
 // 1b: validateEven(n) → n % 2 === 0 ? E.right(n) : E.left('not even')
 function validateEven(n) {
-  // TODO
+  return n % 2 === 0 ? E.right(n) : E.left("not even");
 }
 
 // 1c: 串联校验 validatePositive → validateEven
 // 用 pipe + E.chain
 function validateNumber(n) {
-  // TODO
+  return pipe(validatePositive(n), E.chain(validateEven));
 }
 
 // 练习2: E.tryCatch — 捕获异常为 Either
@@ -41,14 +40,22 @@ function validateNumber(n) {
 
 // 2a: safeParseJSON(str) — 用 E.tryCatch 解析 JSON
 function safeParseJSON(str) {
-  // TODO: E.tryCatch(() => JSON.parse(str), (e) => String(e.message))
+  return E.tryCatch(
+    () => JSON.parse(str),
+    (e) => String(e.message),
+  );
 }
 
 // 练习3: 对比手写 Either 和 fp-ts Either（写在注释里）
 //
 // 3a. fp-ts Either 和我们手写的版本在使用方式上有什么不同？
 //
-// TODO: 回答
+// 除了和 Option 一样的 pipe vs 方法链差异外，fp-ts Either 还提供了：
+//   - E.tryCatch：自动将同步抛出的异常捕获为 Left，避免了手写 try/catch
+//   - E.fold：同时处理两种分支的折叠函数，比手写更类型安全
+//   - E.mapLeft：只变换错误分支，正常分支保持不变
+//   - 和其他模块的互操作：比如 O.toEither 将 Option 转 Either，
+//     E.fromOption 反向转换，这些在手写版本中需要自己实现
 
 // ==========================================
 // === 测试（不要修改） ===
@@ -56,28 +63,25 @@ function safeParseJSON(str) {
 
 describe("练习1: Either 基本操作", () => {
   it("validatePositive 应正确判断", () => {
-    assert.ok(E.isRight(validatePositive(5)));
-    assert.ok(E.isLeft(validatePositive(-1)));
-    assert.equal(
-      pipe(validatePositive(10), E.getOrElse(() => 0)),
-      10,
-    );
+    expect(E.isRight(validatePositive(5))).toBe(true);
+    expect(E.isLeft(validatePositive(-1))).toBe(true);
+    expect(pipe(validatePositive(10), E.getOrElse(() => 0))).toBe(10);
   });
 
   it("validateEven 应正确判断", () => {
-    assert.ok(E.isRight(validateEven(4)));
-    assert.ok(E.isLeft(validateEven(3)));
+    expect(E.isRight(validateEven(4))).toBe(true);
+    expect(E.isLeft(validateEven(3))).toBe(true);
   });
 
   it("validateNumber 串联校验", () => {
-    assert.ok(E.isRight(validateNumber(6)));
-    assert.ok(E.isLeft(validateNumber(-2)));
-    assert.ok(E.isLeft(validateNumber(3)));
+    expect(E.isRight(validateNumber(6))).toBe(true);
+    expect(E.isLeft(validateNumber(-2))).toBe(true);
+    expect(E.isLeft(validateNumber(3))).toBe(true);
   });
 
   it("validateNumber 返回正确的值", () => {
     const result = pipe(validateNumber(8), E.getOrElse(() => -1));
-    assert.equal(result, 8);
+    expect(result).toBe(8);
   });
 });
 
@@ -88,11 +92,11 @@ describe("练习2: tryCatch", () => {
       E.map((o) => o.name),
       E.getOrElse(() => "error"),
     );
-    assert.equal(result, "Alice");
+    expect(result).toBe("Alice");
   });
 
   it("safeParseJSON 错误 JSON", () => {
     const result = safeParseJSON("{invalid}");
-    assert.ok(E.isLeft(result));
+    expect(E.isLeft(result)).toBe(true);
   });
 });

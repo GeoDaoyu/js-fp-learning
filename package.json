@@ -14,11 +14,15 @@
     "week:06": "node --test \"exercises/week-06-functor-maybe/*.js\"",
     "week:07": "node --test \"exercises/week-07-either/*.js\"",
     "week:08": "node --test \"exercises/week-08-monad/*.js\"",
-    "week:09": "node --test \"exercises/week-09-fp-ts/*.js\"",
+    "week:09": "vitest run exercises/week-09-fp-ts/",
     "week:10": "node --test \"exercises/week-10-capstone/*.js\"",
     "run": "node"
   },
   "dependencies": {
+    "fp-ts": "^2.16.11",
     "ramda": "^0.32.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.9"
   }
 }
