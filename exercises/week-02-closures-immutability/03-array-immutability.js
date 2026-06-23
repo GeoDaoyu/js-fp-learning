@@ -1,8 +1,8 @@
 // ==========================================
 // Week 02 · Day 3: 数组不可变操作
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -44,65 +44,65 @@ const original = [1, 2, 3, 4, 5];
 
 describe("练习1: append", () => {
   it("应在末尾追加元素", () => {
-    assert.deepEqual(append(original, 6), [1, 2, 3, 4, 5, 6]);
+    expect(append(original, 6)).toEqual([1, 2, 3, 4, 5, 6]);
   });
 
   it("不应修改原数组", () => {
     const arr = [1, 2, 3];
     append(arr, 4);
-    assert.deepEqual(arr, [1, 2, 3]);
+    expect(arr).toEqual([1, 2, 3]);
   });
 });
 
 describe("练习2: prepend", () => {
   it("应在开头插入元素", () => {
-    assert.deepEqual(prepend(original, 0), [0, 1, 2, 3, 4, 5]);
+    expect(prepend(original, 0)).toEqual([0, 1, 2, 3, 4, 5]);
   });
 
   it("不应修改原数组", () => {
     const arr = [1, 2, 3];
     prepend(arr, 0);
-    assert.deepEqual(arr, [1, 2, 3]);
+    expect(arr).toEqual([1, 2, 3]);
   });
 });
 
 describe("练习3: removeAt", () => {
   it("应删除指定索引的元素", () => {
-    assert.deepEqual(removeAt(original, 0), [2, 3, 4, 5]);
-    assert.deepEqual(removeAt(original, 2), [1, 2, 4, 5]);
-    assert.deepEqual(removeAt(original, 4), [1, 2, 3, 4]);
+    expect(removeAt(original, 0)).toEqual([2, 3, 4, 5]);
+    expect(removeAt(original, 2)).toEqual([1, 2, 4, 5]);
+    expect(removeAt(original, 4)).toEqual([1, 2, 3, 4]);
   });
 
   it("不应修改原数组", () => {
     const arr = [1, 2, 3];
     removeAt(arr, 1);
-    assert.deepEqual(arr, [1, 2, 3]);
+    expect(arr).toEqual([1, 2, 3]);
   });
 });
 
 describe("练习4: updateAt", () => {
   it("应更新指定索引的元素", () => {
-    assert.deepEqual(updateAt(original, 0, 10), [10, 2, 3, 4, 5]);
-    assert.deepEqual(updateAt(original, 4, 50), [1, 2, 3, 4, 50]);
+    expect(updateAt(original, 0, 10)).toEqual([10, 2, 3, 4, 5]);
+    expect(updateAt(original, 4, 50)).toEqual([1, 2, 3, 4, 50]);
   });
 
   it("不应修改原数组", () => {
     const arr = [1, 2, 3];
     updateAt(arr, 1, 99);
-    assert.deepEqual(arr, [1, 2, 3]);
+    expect(arr).toEqual([1, 2, 3]);
   });
 });
 
 describe("练习5: insertAt", () => {
   it("应在指定索引处插入元素", () => {
-    assert.deepEqual(insertAt(original, 0, 0), [0, 1, 2, 3, 4, 5]);
-    assert.deepEqual(insertAt(original, 2, 99), [1, 2, 99, 3, 4, 5]);
-    assert.deepEqual(insertAt(original, 5, 6), [1, 2, 3, 4, 5, 6]);
+    expect(insertAt(original, 0, 0)).toEqual([0, 1, 2, 3, 4, 5]);
+    expect(insertAt(original, 2, 99)).toEqual([1, 2, 99, 3, 4, 5]);
+    expect(insertAt(original, 5, 6)).toEqual([1, 2, 3, 4, 5, 6]);
   });
 
   it("不应修改原数组", () => {
     const arr = [1, 2, 3];
     insertAt(arr, 1, 99);
-    assert.deepEqual(arr, [1, 2, 3]);
+    expect(arr).toEqual([1, 2, 3]);
   });
 });

@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const orders = [
   { id: 1, product: "Laptop", price: 8000, quantity: 1 },
@@ -84,28 +84,28 @@ function salesReport(orderList) {
 describe("练习1: converge", () => {
   it("addTotalValue 应计算 total", () => {
     const result = addTotalValue(orders[0]);
-    assert.equal(result.total, 8000);
-    assert.equal(result.product, "Laptop");
+    expect(result.total).toBe(8000);
+    expect(result.product).toBe("Laptop");
   });
 
   it("allTotals 应给所有订单添加 total", () => {
     const result = allTotals(orders);
-    assert.equal(result[1].total, 450);
-    assert.equal(result[2].total, 300);
+    expect(result[1].total).toBe(450);
+    expect(result[2].total).toBe(300);
   });
 });
 
 describe("练习2: useWith", () => {
   it("compareByTotal 应正确比较", () => {
-    assert.equal(compareByTotal(orders[0], orders[1]), true); // 8000 > 450
-    assert.equal(compareByTotal(orders[2], orders[3]), false); // 300 < 800
+    expect(compareByTotal(orders[0], orders[1])).toBe(true); // 8000 > 450
+    expect(compareByTotal(orders[2], orders[3])).toBe(false); // 300 < 800
   });
 });
 
 describe("练习3: applySpec", () => {
   it("orderSummary 应生成摘要", () => {
     const result = orderSummary(orders[0]);
-    assert.deepEqual(result, {
+    expect(result).toEqual({
       productName: "Laptop",
       unitPrice: 8000,
       quantity: 1,
@@ -115,15 +115,15 @@ describe("练习3: applySpec", () => {
 
   it("summarizeAll 应生成所有摘要", () => {
     const result = summarizeAll(orders);
-    assert.equal(result.length, 4);
-    assert.equal(result[0].lineTotal, 8000);
+    expect(result.length).toBe(4);
+    expect(result[0].lineTotal).toBe(8000);
   });
 });
 
 describe("练习4: evolve 综合", () => {
   it("salesReport 应生成报告", () => {
     const report = salesReport(orders);
-    assert.deepEqual(report, {
+    expect(report).toEqual({
       orderCount: 4,
       totalItems: 11, // 1+3+5+2
       totalRevenue: 9550, // 8000*1+150*3+60*5+400*2

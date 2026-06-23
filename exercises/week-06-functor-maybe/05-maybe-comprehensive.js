@@ -1,8 +1,8 @@
 // ==========================================
 // Week 06 · Day 5: Maybe 综合练习 + 周复盘
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -101,29 +101,29 @@ describe("练习1: 订单计算", () => {
   it("有效折扣应正确计算", () => {
     const order = { quantity: 2, price: 100, discount: { rate: 0.2 } };
     const result = calcTotal(order);
-    assert.equal(result.getOrElse(0), 160); // 2 * 100 * 0.8
+    expect(result.getOrElse(0)).toBe(160); // 2 * 100 * 0.8
   });
 
   it("无折扣应等同 0 折扣", () => {
     const order = { quantity: 1, price: 50 };
     const result = calcTotal(order);
-    assert.equal(result.getOrElse(0), 50);
+    expect(result.getOrElse(0)).toBe(50);
   });
 
   it("折扣率超过 0.5 应视为无效", () => {
     const order = { quantity: 1, price: 100, discount: { rate: 0.8 } };
-    assert.equal(calcTotal(order).getOrElse(0), 100); // 无效折扣，等同无折扣
+    expect(calcTotal(order).getOrElse(0)).toBe(100); // 无效折扣，等同无折扣
   });
 });
 
 describe("练习2: 替代判空", () => {
   it("完整数据应正确获取 level", () => {
     const user = { profile: { settings: { level: "premium" } } };
-    assert.equal(getUserLevel(user), "premium");
+    expect(getUserLevel(user)).toBe("premium");
   });
 
   it("缺失数据应返回默认值", () => {
-    assert.equal(getUserLevel({}), "basic");
-    assert.equal(getUserLevel({ profile: {} }), "basic");
+    expect(getUserLevel({})).toBe("basic");
+    expect(getUserLevel({ profile: {} })).toBe("basic");
   });
 });

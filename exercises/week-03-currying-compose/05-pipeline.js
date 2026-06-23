@@ -1,8 +1,8 @@
 // ==========================================
 // Week 03 · Day 5: 组合 + 柯里化联用 + 周复盘
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const students = [
   { name: "Alice", score: 85, grade: "" },
@@ -91,22 +91,22 @@ function topPassedNames(studentList) {
 
 describe("练习1: 单一职责函数", () => {
   it("addGrade 应添加正确 grade", () => {
-    assert.equal(addGrade({ name: "X", score: 95 }).grade, "A");
-    assert.equal(addGrade({ name: "X", score: 85 }).grade, "B");
-    assert.equal(addGrade({ name: "X", score: 73 }).grade, "C");
-    assert.equal(addGrade({ name: "X", score: 62 }).grade, "D");
-    assert.equal(addGrade({ name: "X", score: 30 }).grade, "F");
+    expect(addGrade({ name: "X", score: 95 }).grade).toBe("A");
+    expect(addGrade({ name: "X", score: 85 }).grade).toBe("B");
+    expect(addGrade({ name: "X", score: 73 }).grade).toBe("C");
+    expect(addGrade({ name: "X", score: 62 }).grade).toBe("D");
+    expect(addGrade({ name: "X", score: 30 }).grade).toBe("F");
   });
 
   it("addGrade 不修改原对象", () => {
     const s = { name: "X", score: 85 };
     addGrade(s);
-    assert.equal("grade" in s, false);
+    expect("grade" in s).toBe(false);
   });
 
   it("addPassed 应正确判断", () => {
-    assert.equal(addPassed({ name: "X", grade: "A" }).passed, true);
-    assert.equal(addPassed({ name: "X", grade: "F" }).passed, false);
+    expect(addPassed({ name: "X", grade: "A" }).passed).toBe(true);
+    expect(addPassed({ name: "X", grade: "F" }).passed).toBe(false);
   });
 
   it("formatStudent 应重命名属性", () => {
@@ -117,7 +117,7 @@ describe("练习1: 单一职责函数", () => {
       passed: true,
       extra: 1,
     });
-    assert.deepEqual(result, {
+    expect(result).toEqual({
       name: "A",
       score: 80,
       grade: "B",
@@ -129,11 +129,11 @@ describe("练习1: 单一职责函数", () => {
 describe("练习2: pipe 串联数据处理", () => {
   it("应完整处理学生数据", () => {
     const result = processStudents(students);
-    assert.equal(result.length, 5);
-    assert.equal(result[0].name, "Alice");
-    assert.equal(result[0].grade, "B");
-    assert.equal(result[0].passed, true);
-    assert.deepEqual(Object.keys(result[0]), [
+    expect(result.length).toBe(5);
+    expect(result[0].name).toBe("Alice");
+    expect(result[0].grade).toBe("B");
+    expect(result[0].passed).toBe(true);
+    expect(Object.keys(result[0])).toEqual([
       "name",
       "score",
       "grade",
@@ -147,6 +147,6 @@ describe("练习3: point-free 风格", () => {
     const result = topPassedNames(students);
     // 及格: Alice(85), Charlie(73), Diana(91)
     // 按分降序: Diana(91), Alice(85), Charlie(73)
-    assert.deepEqual(result, ["DIANA", "ALICE", "CHARLIE"]);
+    expect(result).toEqual(["DIANA", "ALICE", "CHARLIE"]);
   });
 });

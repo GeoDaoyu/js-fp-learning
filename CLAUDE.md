@@ -6,21 +6,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Run all exercises
-npm test
+pnpm test
 
 # Run a specific week
-npm run week:01
+pnpm run week:01
 
 # Run a single exercise file
-node --test exercises/week-01-pure-functions/01-pure-functions.js
+npx vitest run exercises/week-01-pure-functions/01-pure-functions.js
 
 # Run a file without tests (just execute)
-npm run run -- exercises/week-01-pure-functions/01-pure-functions.js
+pnpm run run -- exercises/week-01-pure-functions/01-pure-functions.js
 ```
 
 ## Architecture
 
-This is a **10-week functional programming learning repo** in JavaScript. Exercises use Node's native test runner (`node:test` + `node:assert/strict`) with ES modules.
+This is a **10-week functional programming learning repo** in JavaScript. Exercises use **Vitest** (`describe`/`it`/`expect`) with ES modules.
 
 ### Repo structure
 

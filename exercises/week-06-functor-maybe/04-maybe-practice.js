@@ -1,8 +1,8 @@
 // ==========================================
 // Week 06 · Day 4: Maybe 实战 — 空值安全处理
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -107,39 +107,39 @@ function getAgeInMonths(formData) {
 
 describe("练习1: 安全访问嵌套数据", () => {
   it("完整数据应正确获取 city", () => {
-    assert.equal(getCity(apiResponse1).getOrElse("Unknown"), "Beijing");
+    expect(getCity(apiResponse1).getOrElse("Unknown")).toBe("Beijing");
   });
 
   it("缺少 address 应返回默认值", () => {
-    assert.equal(getCity(apiResponse2).getOrElse("Unknown"), "Unknown");
+    expect(getCity(apiResponse2).getOrElse("Unknown")).toBe("Unknown");
   });
 
   it("data 为 null 应返回默认值", () => {
-    assert.equal(getCity(apiResponse3).getOrElse("Unknown"), "Unknown");
+    expect(getCity(apiResponse3).getOrElse("Unknown")).toBe("Unknown");
   });
 
   it("不应抛出异常", () => {
     // 即使数据结构不完整，也不应抛错
-    assert.doesNotThrow(() => getCity(apiResponse2));
-    assert.doesNotThrow(() => getCity(apiResponse3));
+    expect(() => getCity(apiResponse2)).not.toThrow();
+    expect(() => getCity(apiResponse3)).not.toThrow();
   });
 });
 
 describe("练习2: 表单数据", () => {
   it("formatGreeting 有名字时应正确格式化", () => {
-    assert.equal(formatGreeting({ name: "Alice", age: 25 }), "Hello, Alice!");
+    expect(formatGreeting({ name: "Alice", age: 25 })).toBe("Hello, Alice!");
   });
 
   it("formatGreeting 无名字应使用默认", () => {
-    assert.equal(formatGreeting({ age: 25 }), "Hello, Guest!");
-    assert.equal(formatGreeting({}), "Hello, Guest!");
+    expect(formatGreeting({ age: 25 })).toBe("Hello, Guest!");
+    expect(formatGreeting({})).toBe("Hello, Guest!");
   });
 
   it("getAgeInMonths 应正确计算", () => {
-    assert.equal(getAgeInMonths({ name: "A", age: 5 }).getOrElse(null), 60);
+    expect(getAgeInMonths({ name: "A", age: 5 }).getOrElse(null)).toBe(60);
   });
 
   it("getAgeInMonths 缺 age 应返回 Nothing", () => {
-    assert.ok(getAgeInMonths({ name: "A" }) instanceof Nothing);
+    expect(getAgeInMonths({ name: "A" }) instanceof Nothing).toBe(true);
   });
 });

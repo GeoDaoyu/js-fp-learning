@@ -1,8 +1,8 @@
 // ==========================================
 // Week 03 · Day 2: 柯里化优化 + 偏函数
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -46,19 +46,19 @@ describe("练习1: partial", () => {
   it("应固定前置参数", () => {
     const greet = (greeting, name) => `${greeting}, ${name}!`;
     const sayHello = partial(greet, "Hello");
-    assert.equal(sayHello("Alice"), "Hello, Alice!");
-    assert.equal(sayHello("Bob"), "Hello, Bob!");
+    expect(sayHello("Alice")).toBe("Hello, Alice!");
+    expect(sayHello("Bob")).toBe("Hello, Bob!");
   });
 
   it("应支持多个前置参数", () => {
     const add3 = (a, b, c) => a + b + c;
     const add5to2 = partial(add3, 5, 2);
-    assert.equal(add5to2(3), 10);
+    expect(add5to2(3)).toBe(10);
   });
 
   it("传入所有参数应直接执行", () => {
     const add = (a, b) => a + b;
-    assert.equal(partial(add, 3)(5), 8);
+    expect(partial(add, 3)(5)).toBe(8);
   });
 });
 
@@ -67,12 +67,12 @@ describe("练习2: partialRight", () => {
     const greet = (greeting, name, punctuation) =>
       `${greeting}, ${name}${punctuation}`;
     const excited = partialRight(greet, "!");
-    assert.equal(excited("Hi", "Bob"), "Hi, Bob!");
+    expect(excited("Hi", "Bob")).toBe("Hi, Bob!");
   });
 
   it("应支持多个后置参数", () => {
     const format = (name, age, city) => `${name} (${age}) - ${city}`;
     const withDetails = partialRight(format, 25, "Beijing");
-    assert.equal(withDetails("Alice"), "Alice (25) - Beijing");
+    expect(withDetails("Alice")).toBe("Alice (25) - Beijing");
   });
 });

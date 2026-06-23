@@ -1,8 +1,8 @@
 // ==========================================
 // Week 01 · Day 1: 纯函数 & 副作用
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -56,37 +56,37 @@ function incrementCounter() {
 
 describe("练习2: 纯函数", () => {
   it("square(5) 应返回 25", () => {
-    assert.equal(square(5), 25);
+    expect(square(5)).toBe(25);
   });
   it("square(-3) 应返回 9", () => {
-    assert.equal(square(-3), 9);
+    expect(square(-3)).toBe(9);
   });
 
   it("isEven(4) 应返回 true", () => {
-    assert.equal(isEven(4), true);
+    expect(isEven(4)).toBe(true);
   });
   it("isEven(7) 应返回 false", () => {
-    assert.equal(isEven(7), false);
+    expect(isEven(7)).toBe(false);
   });
 
   it("concatStrings 应拼接字符串", () => {
-    assert.equal(concatStrings("Hello", "World"), "HelloWorld");
+    expect(concatStrings("Hello", "World")).toBe("HelloWorld");
   });
 });
 
 describe("练习3: 副作用函数", () => {
   it("updateDOM 应存在且可调用", () => {
-    assert.equal(typeof updateDOM, "function");
+    expect(typeof updateDOM).toBe("function");
   });
 
   it("saveToLocalStorage 应存在且可调用", () => {
-    assert.equal(typeof saveToLocalStorage, "function");
+    expect(typeof saveToLocalStorage).toBe("function");
   });
 
   it("incrementCounter 应存在且可调用", () => {
     // 验证确实修改了外部变量
     const before = counter;
     incrementCounter();
-    assert.notEqual(counter, before);
+    expect(counter).not.toBe(before);
   });
 });

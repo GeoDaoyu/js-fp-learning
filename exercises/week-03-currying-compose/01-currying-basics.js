@@ -1,8 +1,8 @@
 // ==========================================
 // Week 03 · Day 1: 柯里化概念 + 简易实现
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -56,14 +56,14 @@ describe("练习1: curry2", () => {
   it("应将二元函数转为柯里化形式", () => {
     const add = (a, b) => a + b;
     const curriedAdd = curry2(add);
-    assert.equal(typeof curriedAdd(1), "function");
-    assert.equal(curriedAdd(1)(2), 3);
+    expect(typeof curriedAdd(1)).toBe("function");
+    expect(curriedAdd(1)(2)).toBe(3);
   });
 
   it("应支持不同的二元函数", () => {
     const multiply = (a, b) => a * b;
     const curriedMul = curry2(multiply);
-    assert.equal(curriedMul(3)(5), 15);
+    expect(curriedMul(3)(5)).toBe(15);
   });
 });
 
@@ -71,36 +71,36 @@ describe("练习2: curry3", () => {
   it("应将三元函数转为柯里化形式", () => {
     const join3 = (a, b, c) => `${a}-${b}-${c}`;
     const curried = curry3(join3);
-    assert.equal(curried("x")("y")("z"), "x-y-z");
+    expect(curried("x")("y")("z")).toBe("x-y-z");
   });
 });
 
 describe("练习3: autoCurry", () => {
   it("一次传所有参数应直接调用", () => {
     const add = autoCurry((a, b, c) => a + b + c);
-    assert.equal(add(1, 2, 3), 6);
+    expect(add(1, 2, 3)).toBe(6);
   });
 
   it("逐步传参", () => {
     const add = autoCurry((a, b, c) => a + b + c);
-    assert.equal(add(1)(2)(3), 6);
+    expect(add(1)(2)(3)).toBe(6);
   });
 
   it("混合传参", () => {
     const add = autoCurry((a, b, c) => a + b + c);
-    assert.equal(add(1, 2)(3), 6);
-    assert.equal(add(1)(2, 3), 6);
+    expect(add(1, 2)(3)).toBe(6);
+    expect(add(1)(2, 3)).toBe(6);
   });
 
   it("应支持二元函数", () => {
     const mul = autoCurry((a, b) => a * b);
-    assert.equal(mul(4)(5), 20);
-    assert.equal(mul(4, 5), 20);
+    expect(mul(4)(5)).toBe(20);
+    expect(mul(4, 5)).toBe(20);
   });
 
   it("fn.length 局限性：默认参数不计入", () => {
     const fn = autoCurry((a, b = 10) => a + b);
     // fn.length === 1，所以传入 1 个参数就会调用
-    assert.equal(fn(5), 15);
+    expect(fn(5)).toBe(15);
   });
 });

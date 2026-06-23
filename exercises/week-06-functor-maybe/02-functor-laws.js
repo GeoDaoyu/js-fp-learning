@@ -1,8 +1,8 @@
 // ==========================================
 // Week 06 · Day 2: 函子两大定律 + 代码验证
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -67,11 +67,11 @@ function runLawTests() {
 
 describe("练习1: 恒等律验证", () => {
   it("Container.of(5) 应满足恒等律", () => {
-    assert.equal(verifyIdentityLaw(Container.of(5)), true);
+    expect(verifyIdentityLaw(Container.of(5))).toBe(true);
   });
 
   it("Container.of('hello') 应满足恒等律", () => {
-    assert.equal(verifyIdentityLaw(Container.of("hello")), true);
+    expect(verifyIdentityLaw(Container.of("hello"))).toBe(true);
   });
 });
 
@@ -79,19 +79,19 @@ describe("练习2: 组合律验证", () => {
   it("应满足组合律", () => {
     const f = (x) => x * 2;
     const g = (x) => x + 1;
-    assert.equal(verifyCompositionLaw(Container.of(3), f, g), true);
+    expect(verifyCompositionLaw(Container.of(3), f, g)).toBe(true);
   });
 
   it("另一组函数也应满足", () => {
     const f = (x) => x.toUpperCase();
     const g = (x) => x + "!";
-    assert.equal(verifyCompositionLaw(Container.of("hi"), f, g), true);
+    expect(verifyCompositionLaw(Container.of("hi"), f, g)).toBe(true);
   });
 });
 
 describe("练习3: 综合验证", () => {
   it("runLawTests 应返回两个 true", () => {
     const result = runLawTests();
-    assert.deepEqual(result, { identity: true, composition: true });
+    expect(result).toEqual({ identity: true, composition: true });
   });
 });

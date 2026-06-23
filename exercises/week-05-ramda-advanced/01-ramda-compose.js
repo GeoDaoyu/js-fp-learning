@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const products = [
   { name: "Laptop", price: 8000, category: "electronics", rating: 4.5 },
@@ -76,11 +76,11 @@ const avgRating = R.converge(R.divide, [R.sum, R.length]);
 describe("练习1: R.pipe 管道", () => {
   it("highRatedElectronics 应筛选高分电子产品", () => {
     const result = highRatedElectronics(products);
-    assert.deepEqual(result, ["LAPTOP", "KEYBOARD"]);
+    expect(result).toEqual(["LAPTOP", "KEYBOARD"]);
   });
 
   it("categoryStats 应正确统计", () => {
-    assert.deepEqual(categoryStats(products), {
+    expect(categoryStats(products)).toEqual({
       electronics: 3,
       books: 2,
       clothing: 1,
@@ -90,11 +90,11 @@ describe("练习1: R.pipe 管道", () => {
 
 describe("练习2: converge", () => {
   it("priceRange 应返回价差", () => {
-    assert.equal(priceRange(products), 7955); // 8000 - 45
+    expect(priceRange(products)).toBe(7955); // 8000 - 45
   });
 
   it("avgRating 应计算平均评分", () => {
     const ratings = [4, 5, 3, 4];
-    assert.equal(avgRating(ratings), 4);
+    expect(avgRating(ratings)).toBe(4);
   });
 });

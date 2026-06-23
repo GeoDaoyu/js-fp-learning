@@ -1,8 +1,8 @@
 // ==========================================
 // Week 08 · Day 1: Monad 概念 & 基础实现
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -78,42 +78,42 @@ function demonstrateMapVsChain() {
 
 describe("练习1: Identity Monad", () => {
   it("of 应创建 Identity 实例", () => {
-    assert.ok(Identity.of(5) instanceof Identity);
+    expect(Identity.of(5) instanceof Identity).toBe(true);
   });
 
   it("map 应变换值", () => {
     const result = Identity.of(5)
       .map((x) => x + 1)
       .map((x) => x * 2);
-    assert.equal(result.getValue(), 12);
+    expect(result.getValue()).toBe(12);
   });
 
   it("chain 应变换并展平", () => {
     const result = Identity.of(5)
       .chain((x) => Identity.of(x * 2))
       .chain((x) => Identity.of(x + 1));
-    assert.equal(result.getValue(), 11);
+    expect(result.getValue()).toBe(11);
   });
 
   it("map 产生嵌套，chain 展平", () => {
     const mapped = Identity.of(5).map((x) => Identity.of(x * 2));
     // map 不会展平: Identity(Identity(10))
-    assert.ok(mapped.getValue() instanceof Identity);
+    expect(mapped.getValue() instanceof Identity).toBe(true);
 
     const chained = Identity.of(5).chain((x) => Identity.of(x * 2));
     // chain 展平: Identity(10)
-    assert.equal(chained.getValue(), 10);
+    expect(chained.getValue()).toBe(10);
   });
 });
 
 describe("练习2: map vs chain", () => {
   it("应正确展示差异", () => {
     const { mapResult, chainResult } = demonstrateMapVsChain();
-    assert.ok(mapResult instanceof Identity);
-    assert.ok(chainResult instanceof Identity);
+    expect(mapResult instanceof Identity).toBe(true);
+    expect(chainResult instanceof Identity).toBe(true);
     // map 结果嵌套了一层
-    assert.ok(mapResult.getValue() instanceof Identity);
+    expect(mapResult.getValue() instanceof Identity).toBe(true);
     // chain 结果已展平
-    assert.equal(typeof chainResult.getValue(), "number");
+    expect(typeof chainResult.getValue()).toBe("number");
   });
 });

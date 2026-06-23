@@ -1,8 +1,8 @@
 // ==========================================
 // Week 08 · Day 4: Monad 实战 — 链式调用
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -168,28 +168,28 @@ function register(username, password) {
 describe("练习1: 注册流程", () => {
   it("有效的注册信息应通过", () => {
     const result = register("alice123", "password123");
-    assert.ok(result instanceof Right);
+    expect(result instanceof Right).toBe(true);
   });
 
   it("用户名过短应失败", () => {
     const result = register("ab", "password123");
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("密码过短应失败", () => {
     const result = register("alice123", "123");
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("用户名被占用应失败", () => {
     const result = register("admin", "password123");
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("注册信息应包含用户名和时间", () => {
     const result = register("alice123", "password123");
     const data = result.getOrElse(null);
-    assert.equal(data.username, "alice123");
-    assert.ok(data.createdAt instanceof Date);
+    expect(data.username).toBe("alice123");
+    expect(data.createdAt instanceof Date).toBe(true);
   });
 });

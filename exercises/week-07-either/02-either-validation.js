@@ -1,8 +1,8 @@
 // ==========================================
 // Week 07 · Day 2: Either 实战 — 数据校验
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -97,23 +97,20 @@ function validateForm(formData) {
 
 describe("练习1: 单字段校验", () => {
   it("validateName 应校验名字", () => {
-    assert.equal(validateName({ name: "Alice" }).getOrElse(""), "Alice");
-    assert.ok(validateName({}) instanceof Left);
-    assert.ok(validateName({ name: "" }) instanceof Left);
+    expect(validateName({ name: "Alice" }).getOrElse("")).toBe("Alice");
+    expect(validateName({}) instanceof Left).toBe(true);
+    expect(validateName({ name: "" }) instanceof Left).toBe(true);
   });
 
   it("validateAge 应校验年龄", () => {
-    assert.equal(validateAge({ age: 25 }).getOrElse(0), 25);
-    assert.ok(validateAge({ age: 15 }) instanceof Left);
-    assert.ok(validateAge({}) instanceof Left);
+    expect(validateAge({ age: 25 }).getOrElse(0)).toBe(25);
+    expect(validateAge({ age: 15 }) instanceof Left).toBe(true);
+    expect(validateAge({}) instanceof Left).toBe(true);
   });
 
   it("validateEmail 应校验邮箱", () => {
-    assert.equal(
-      validateEmail({ email: "a@b.com" }).getOrElse(""),
-      "a@b.com",
-    );
-    assert.ok(validateEmail({ email: "invalid" }) instanceof Left);
+    expect(validateEmail({ email: "a@b.com" }).getOrElse("")).toBe("a@b.com",);
+    expect(validateEmail({ email: "invalid" }) instanceof Left).toBe(true);
   });
 });
 
@@ -121,17 +118,17 @@ describe("练习2: 串联校验", () => {
   it("全部通过应返回 Right(formData)", () => {
     const data = { name: "Alice", age: 25, email: "alice@example.com" };
     const result = validateForm(data);
-    assert.ok(result instanceof Right);
-    assert.equal(result.getOrElse(null), data);
+    expect(result instanceof Right).toBe(true);
+    expect(result.getOrElse(null)).toBe(data);
   });
 
   it("第一个字段失败应返回 Left", () => {
     const result = validateForm({ name: "", age: 25, email: "ok@ok.com" });
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("中间字段失败应返回 Left", () => {
     const result = validateForm({ name: "Bob", age: 10, email: "ok@ok.com" });
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 });

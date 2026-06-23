@@ -1,8 +1,8 @@
 // ==========================================
 // Week 07 · Day 1: Either 函子 — Left / Right
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -112,14 +112,14 @@ describe("练习1: Either 函子", () => {
     const result = Either.of(5)
       .map((x) => x * 2)
       .map((x) => x + 1);
-    assert.equal(result.getOrElse(0), 11);
+    expect(result.getOrElse(0)).toBe(11);
   });
 
   it("Left.map 应保持不变", () => {
     const result = Either.left("error")
       .map((x) => x * 2)
       .map((x) => x + 1);
-    assert.equal(result.getOrElse(0), 0);
+    expect(result.getOrElse(0)).toBe(0);
   });
 
   it("fold 应处理两种分支", () => {
@@ -128,36 +128,36 @@ describe("练习1: Either 函子", () => {
       (err) => `Error: ${err}`,
       (val) => `Success: ${val}`,
     );
-    assert.equal(result1, "Success: 10");
+    expect(result1).toBe("Success: 10");
 
     const err = Either.left("not found");
     const result2 = err.fold(
       (err) => `Error: ${err}`,
       (val) => `Success: ${val}`,
     );
-    assert.equal(result2, "Error: not found");
+    expect(result2).toBe("Error: not found");
   });
 });
 
 describe("练习2: Either 异常处理", () => {
   it("safeDivide 正常除法", () => {
-    assert.equal(safeDivide(10, 2).getOrElse(-1), 5);
+    expect(safeDivide(10, 2).getOrElse(-1)).toBe(5);
   });
 
   it("safeDivide 除零应返回 Left", () => {
     const result = safeDivide(10, 0);
-    assert.ok(result instanceof Left);
-    assert.equal(result.fold((e) => e, () => ""), "division by zero");
+    expect(result instanceof Left).toBe(true);
+    expect(result.fold((e) => e, () => "")).toBe("division by zero");
   });
 
   it("safeParse 正确 JSON", () => {
     const result = safeParse('{"name":"Alice"}');
-    assert.ok(result instanceof Right);
-    assert.equal(result.map((o) => o.name).getOrElse(""), "Alice");
+    expect(result instanceof Right).toBe(true);
+    expect(result.map((o) => o.name).getOrElse("")).toBe("Alice");
   });
 
   it("safeParse 错误 JSON", () => {
     const result = safeParse("{invalid}");
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 });

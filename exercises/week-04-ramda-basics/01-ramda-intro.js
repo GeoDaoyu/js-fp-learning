@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const numbers = [1, 2, 3, 4, 5];
 const users = [
@@ -72,41 +72,38 @@ const isAlice = R.propEq("Alice", "name");
 
 describe("练习1: Ramda 基本操作", () => {
   it("1a: doubleAll", () => {
-    assert.deepEqual(doubleAll(numbers), [2, 4, 6, 8, 10]);
+    expect(doubleAll(numbers)).toEqual([2, 4, 6, 8, 10]);
   });
 
   it("1b: filterAdults", () => {
     const result = filterAdults(users);
-    assert.equal(result.length, 2);
-    assert.deepEqual(
-      result.map((u) => u.name),
-      ["Alice", "Charlie"],
-    );
+    expect(result.length).toBe(2);
+    expect(result.map((u) => u.name)).toEqual(["Alice", "Charlie"],);
   });
 
   it("1c: sumAll", () => {
-    assert.equal(sumAll(numbers), 15);
+    expect(sumAll(numbers)).toBe(15);
   });
 });
 
 describe("练习2: Ramda 自动柯里化", () => {
   it("increment 应 +1", () => {
-    assert.equal(increment(5), 6);
-    assert.equal(increment(-1), 0);
+    expect(increment(5)).toBe(6);
+    expect(increment(-1)).toBe(0);
   });
 
   it("double 应翻倍", () => {
-    assert.equal(double(3), 6);
-    assert.equal(double(0), 0);
+    expect(double(3)).toBe(6);
+    expect(double(0)).toBe(0);
   });
 
   it("getName 应取 name 属性", () => {
-    assert.equal(getName({ name: "Alice" }), "Alice");
-    assert.deepEqual(users.map(getName), ["Alice", "Bob", "Charlie"]);
+    expect(getName({ name: "Alice" })).toBe("Alice");
+    expect(users.map(getName)).toEqual(["Alice", "Bob", "Charlie"]);
   });
 
   it("isAlice 应判断 name", () => {
-    assert.equal(isAlice({ name: "Alice" }), true);
-    assert.equal(isAlice({ name: "Bob" }), false);
+    expect(isAlice({ name: "Alice" })).toBe(true);
+    expect(isAlice({ name: "Bob" })).toBe(false);
   });
 });

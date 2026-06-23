@@ -1,8 +1,8 @@
 // ==========================================
 // Week 06 · Day 1: 容器思想 & 基础函子
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -66,14 +66,14 @@ function processString(str) {
 describe("练习1: Container", () => {
   it("应创建容器并支持 map", () => {
     const result = new Container(5).map((x) => x + 1).map((x) => x * 2);
-    assert.ok(result instanceof Container);
+    expect(result instanceof Container).toBe(true);
   });
 
   it("map 应正确转换值", () => {
     const c = new Container(10);
     const result = c.map((x) => x / 2).map((x) => x.toString());
     // result 是一个 Container，需要通过某种方式取值
-    assert.ok(result instanceof Container);
+    expect(result instanceof Container).toBe(true);
   });
 
   it("Container 应有取值方法", () => {
@@ -81,7 +81,7 @@ describe("练习1: Container", () => {
     // 如果实现了 getValue / fold / join 之类的取值方法
     // 提示: 可以在 Container 上加一个 getValue() 方法
     if (typeof c.getValue === "function") {
-      assert.equal(c.map((x) => x + 8).getValue(), 50);
+      expect(c.map((x) => x + 8).getValue()).toBe(50);
     }
   });
 });
@@ -92,7 +92,7 @@ describe("练习3: processString", () => {
     const result = processString("hello world");
     // 如果实现了 getValue，可以直接比较
     if (result instanceof Container && typeof result.getValue === "function") {
-      assert.equal(result.getValue(), "DLROWOLLEH");
+      expect(result.getValue()).toBe("DLROWOLLEH");
     }
   });
 });

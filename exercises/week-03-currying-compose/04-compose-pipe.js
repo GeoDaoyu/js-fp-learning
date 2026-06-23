@@ -1,8 +1,8 @@
 // ==========================================
 // Week 03 · Day 4: Compose + Pipe 概念与实现
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -51,7 +51,7 @@ describe("练习1: compose2", () => {
     const add1 = (x) => x + 1;
     const double = (x) => x * 2;
     const doubleThenAdd1 = compose2(add1, double);
-    assert.equal(doubleThenAdd1(3), 7); // add1(double(3)) = add1(6) = 7
+    expect(doubleThenAdd1(3)).toBe(7); // add1(double(3)) = add1(6) = 7
   });
 });
 
@@ -63,12 +63,12 @@ describe("练习2: compose", () => {
 
     const fn = compose(add1, double, square);
     // add1(double(square(3))) = add1(double(9)) = add1(18) = 19
-    assert.equal(fn(3), 19);
+    expect(fn(3)).toBe(19);
   });
 
   it("单函数应原样返回", () => {
     const fn = compose((x) => x * 2);
-    assert.equal(fn(5), 10);
+    expect(fn(5)).toBe(10);
   });
 });
 
@@ -80,7 +80,7 @@ describe("练习3: pipe", () => {
 
     const fn = pipe(add1, double, square);
     // square(double(add1(3))) = square(double(4)) = square(8) = 64
-    assert.equal(fn(3), 64);
+    expect(fn(3)).toBe(64);
   });
 
   it("pipe 和 compose 对调顺序结果相同", () => {
@@ -89,6 +89,6 @@ describe("练习3: pipe", () => {
     const h = (x) => x - 3;
 
     // pipe(f, g, h) 应从左到右：h(g(f(x)))
-    assert.equal(pipe(f, g, h)(5), compose(h, g, f)(5));
+    expect(pipe(f, g, h)(5)).toBe(compose(h, g, f)(5));
   });
 });

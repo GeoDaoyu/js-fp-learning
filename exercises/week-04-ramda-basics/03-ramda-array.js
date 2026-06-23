@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const orders = [
   { id: 1, category: "electronics", amount: 300 },
@@ -64,50 +64,44 @@ function makeDict(keys, values) {
 describe("练习1: groupBy", () => {
   it("应按 category 正确分组", () => {
     const grouped = groupByCat(orders);
-    assert.equal(grouped.electronics.length, 2);
-    assert.equal(grouped.books.length, 2);
-    assert.equal(grouped.clothing.length, 2);
+    expect(grouped.electronics.length).toBe(2);
+    expect(grouped.books.length).toBe(2);
+    expect(grouped.clothing.length).toBe(2);
   });
 });
 
 describe("练习2: sort / sortBy", () => {
   it("sortByAmount 应按 amount 升序", () => {
     const result = sortByAmount(orders);
-    assert.deepEqual(
-      result.map((o) => o.amount),
-      [30, 50, 80, 120, 150, 300],
-    );
+    expect(result.map((o) => o.amount)).toEqual([30, 50, 80, 120, 150, 300],);
   });
 
   it("sortByAmountDesc 应按 amount 降序", () => {
     const result = sortByAmountDesc(orders);
-    assert.deepEqual(
-      result.map((o) => o.amount),
-      [300, 150, 120, 80, 50, 30],
-    );
+    expect(result.map((o) => o.amount)).toEqual([300, 150, 120, 80, 50, 30],);
   });
 });
 
 describe("练习3: uniq", () => {
   it("uniqueCategories 应返回不重复分类", () => {
     const result = uniqueCategories(orders);
-    assert.deepEqual(result.sort(), ["books", "clothing", "electronics"]);
+    expect(result.sort()).toEqual(["books", "clothing", "electronics"]);
   });
 });
 
 describe("练习4: partition", () => {
   it("splitHighValue 应分开高低金额订单", () => {
     const [high, low] = splitHighValue(orders);
-    assert.equal(high.length, 3);
-    assert.equal(low.length, 3);
-    high.forEach((o) => assert.ok(o.amount >= 100));
-    low.forEach((o) => assert.ok(o.amount < 100));
+    expect(high.length).toBe(3);
+    expect(low.length).toBe(3);
+    high.forEach((o) => expect(o.amount >= 100).toBe(true));
+    low.forEach((o) => expect(o.amount < 100).toBe(true));
   });
 });
 
 describe("练习5: zipObj", () => {
   it("makeDict 应创建对象", () => {
-    assert.deepEqual(makeDict(["a", "b", "c"], [1, 2, 3]), {
+    expect(makeDict(["a", "b", "c"], [1, 2, 3])).toEqual({
       a: 1,
       b: 2,
       c: 3,

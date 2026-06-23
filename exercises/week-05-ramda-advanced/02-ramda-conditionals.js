@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const users = [
   { name: "Alice", age: 25, role: "admin", score: 85 },
@@ -91,52 +91,49 @@ function getEligibleUsers(userList) {
 
 describe("练习1: ifElse / when / unless", () => {
   it("classifyScore 应返回正确等级", () => {
-    assert.equal(classifyScore(95), "A");
-    assert.equal(classifyScore(85), "B");
-    assert.equal(classifyScore(73), "C");
-    assert.equal(classifyScore(62), "D");
-    assert.equal(classifyScore(30), "F");
+    expect(classifyScore(95)).toBe("A");
+    expect(classifyScore(85)).toBe("B");
+    expect(classifyScore(73)).toBe("C");
+    expect(classifyScore(62)).toBe("D");
+    expect(classifyScore(30)).toBe("F");
   });
 
   it("doubleIfAdult 应对成年人翻倍 score", () => {
-    assert.equal(doubleIfAdult({ name: "A", age: 25, score: 40 }).score, 80);
-    assert.equal(doubleIfAdult({ name: "B", age: 15, score: 40 }).score, 40);
+    expect(doubleIfAdult({ name: "A", age: 25, score: 40 }).score).toBe(80);
+    expect(doubleIfAdult({ name: "B", age: 15, score: 40 }).score).toBe(40);
   });
 
   it("banMinors 应标记未成年 banned", () => {
-    assert.equal(banMinors({ name: "A", age: 25 }).banned, undefined);
-    assert.equal(banMinors({ name: "B", age: 15 }).banned, true);
+    expect(banMinors({ name: "A", age: 25 }).banned).toBe(undefined);
+    expect(banMinors({ name: "B", age: 15 }).banned).toBe(true);
   });
 });
 
 describe("练习2: cond", () => {
   it("ageGroup 应返回正确年龄段", () => {
-    assert.equal(ageGroup(10), "child");
-    assert.equal(ageGroup(15), "teen");
-    assert.equal(ageGroup(30), "adult");
-    assert.equal(ageGroup(65), "senior");
+    expect(ageGroup(10)).toBe("child");
+    expect(ageGroup(15)).toBe("teen");
+    expect(ageGroup(30)).toBe("adult");
+    expect(ageGroup(65)).toBe("senior");
   });
 });
 
 describe("练习3: allPass / anyPass", () => {
   it("isAdminAdult 应正确判断", () => {
-    assert.equal(isAdminAdult({ role: "admin", age: 25 }), true);
-    assert.equal(isAdminAdult({ role: "admin", age: 15 }), false);
-    assert.equal(isAdminAdult({ role: "user", age: 30 }), false);
+    expect(isAdminAdult({ role: "admin", age: 25 })).toBe(true);
+    expect(isAdminAdult({ role: "admin", age: 15 })).toBe(false);
+    expect(isAdminAdult({ role: "user", age: 30 })).toBe(false);
   });
 
   it("isHighOrAdmin 应正确判断", () => {
-    assert.equal(isHighOrAdmin({ role: "admin", score: 50 }), true);
-    assert.equal(isHighOrAdmin({ role: "user", score: 95 }), true);
-    assert.equal(isHighOrAdmin({ role: "user", score: 50 }), false);
+    expect(isHighOrAdmin({ role: "admin", score: 50 })).toBe(true);
+    expect(isHighOrAdmin({ role: "user", score: 95 })).toBe(true);
+    expect(isHighOrAdmin({ role: "user", score: 50 })).toBe(false);
   });
 
   it("getEligibleUsers 应筛选符合条件的用户", () => {
     const result = getEligibleUsers(users);
-    assert.equal(result.length, 2); // Alice, Charlie
-    assert.deepEqual(
-      result.map((u) => u.name),
-      ["Alice", "Charlie"],
-    );
+    expect(result.length).toBe(2); // Alice, Charlie
+    expect(result.map((u) => u.name)).toEqual(["Alice", "Charlie"],);
   });
 });

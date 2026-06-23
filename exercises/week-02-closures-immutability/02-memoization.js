@@ -1,8 +1,8 @@
 // ==========================================
 // Week 02 · Day 2: 闭包实战 — 记忆函数（Memoization）
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -57,19 +57,19 @@ describe("练习1: memoize", () => {
       return n * 2;
     });
 
-    assert.equal(double(3), 6);
-    assert.equal(callCount, 1);
-    assert.equal(double(3), 6);
-    assert.equal(callCount, 1); // 缓存命中，不增加调用次数
-    assert.equal(double(4), 8);
-    assert.equal(callCount, 2); // 新参数，调用一次
-    assert.equal(double(3), 6);
-    assert.equal(callCount, 2); // 旧参数，缓存命中
+    expect(double(3)).toBe(6);
+    expect(callCount).toBe(1);
+    expect(double(3)).toBe(6);
+    expect(callCount).toBe(1); // 缓存命中，不增加调用次数
+    expect(double(4)).toBe(8);
+    expect(callCount).toBe(2); // 新参数，调用一次
+    expect(double(3)).toBe(6);
+    expect(callCount).toBe(2); // 旧参数，缓存命中
   });
 
   it("缓存应私有，外部无法访问", () => {
     const fn = memoize((x) => x);
-    assert.equal(typeof fn.cache, "undefined");
+    expect(typeof fn.cache).toBe("undefined");
   });
 });
 
@@ -84,12 +84,12 @@ describe("练习2: memoizeWith", () => {
       },
     );
 
-    assert.equal(add(1, 2), 3);
-    assert.equal(callCount, 1);
-    assert.equal(add(1, 2), 3);
-    assert.equal(callCount, 1); // 缓存命中
-    assert.equal(add(2, 3), 5);
-    assert.equal(callCount, 2); // 新参数
+    expect(add(1, 2)).toBe(3);
+    expect(callCount).toBe(1);
+    expect(add(1, 2)).toBe(3);
+    expect(callCount).toBe(1); // 缓存命中
+    expect(add(2, 3)).toBe(5);
+    expect(callCount).toBe(2); // 新参数
   });
 
   it("resolver 应决定缓存粒度", () => {
@@ -102,9 +102,9 @@ describe("练习2: memoizeWith", () => {
       },
     );
 
-    assert.equal(fn(1, 2), 3);
-    assert.equal(callCount, 1);
-    assert.equal(fn(5, 6), 3); // 缓存命中（key 相同），返回错误的缓存值
-    assert.equal(callCount, 1);
+    expect(fn(1, 2)).toBe(3);
+    expect(callCount).toBe(1);
+    expect(fn(5, 6)).toBe(3); // 缓存命中（key 相同），返回错误的缓存值
+    expect(callCount).toBe(1);
   });
 });

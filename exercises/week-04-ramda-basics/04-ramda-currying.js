@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const products = [
   { name: "Laptop", price: 8000, category: "electronics", inStock: true },
@@ -66,25 +66,25 @@ function totalInStockAbove(minPrice, productList) {
 describe("练习1: 柯里化过滤器", () => {
   it("inStockOnly 应筛选在售商品", () => {
     const result = inStockOnly(products);
-    assert.equal(result.length, 4);
-    result.forEach((p) => assert.equal(p.inStock, true));
+    expect(result.length).toBe(4);
+    result.forEach((p) => expect(p.inStock).toBe(true));
   });
 
   it("inCategory 应筛选指定分类", () => {
     const electronics = inCategory("electronics")(products);
-    assert.equal(electronics.length, 3);
+    expect(electronics.length).toBe(3);
   });
 
   it("priceAbove 应筛选价格 >= min", () => {
     const result = priceAbove(150)(products);
-    assert.equal(result.length, 3);
-    result.forEach((p) => assert.ok(p.price >= 150));
+    expect(result.length).toBe(3);
+    result.forEach((p) => expect(p.price >= 150).toBe(true));
   });
 });
 
 describe("练习2: 柯里化提取器", () => {
   it("getProductNames 应提取所有名字", () => {
-    assert.deepEqual(getProductNames(products), [
+    expect(getProductNames(products)).toEqual([
       "Laptop",
       "Mouse",
       "Book",
@@ -94,24 +94,24 @@ describe("练习2: 柯里化提取器", () => {
   });
 
   it("totalPrice 应计算总价", () => {
-    assert.equal(totalPrice(products), 8730);
+    expect(totalPrice(products)).toBe(8730);
   });
 });
 
 describe("练习3: flip", () => {
   it("divideBy 应翻转除法参数", () => {
-    assert.equal(divideBy(2)(10), 5); // 10 / 2
-    assert.equal(divideBy(3)(12), 4); // 12 / 3
+    expect(divideBy(2)(10)).toBe(5); // 10 / 2
+    expect(divideBy(3)(12)).toBe(4); // 12 / 3
   });
 });
 
 describe("练习4: 综合", () => {
   it("totalInStockAbove(100) 应正确统计", () => {
     // Laptop(8000) + T-shirt(120) + Keyboard(400) = 8520
-    assert.equal(totalInStockAbove(100, products), 8520);
+    expect(totalInStockAbove(100, products)).toBe(8520);
   });
 
   it("totalInStockAbove(5000) 应正确统计", () => {
-    assert.equal(totalInStockAbove(5000, products), 8000);
+    expect(totalInStockAbove(5000, products)).toBe(8000);
   });
 });

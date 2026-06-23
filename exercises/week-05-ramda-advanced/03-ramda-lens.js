@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const user = {
   name: "Alice",
@@ -92,46 +92,43 @@ function capitalizeStreet(u) {
 
 describe("练习1: Lens 基础", () => {
   it("getName 应获取 name", () => {
-    assert.equal(getName(user), "Alice");
+    expect(getName(user)).toBe("Alice");
   });
 
   it("setName 应设置 name 且不修改原对象", () => {
     const result = setName(user, "Bob");
-    assert.equal(result.name, "Bob");
-    assert.equal(user.name, "Alice");
+    expect(result.name).toBe("Bob");
+    expect(user.name).toBe("Alice");
   });
 
   it("toUpperName 应将 name 转大写", () => {
     const result = toUpperName(user);
-    assert.equal(result.name, "ALICE");
-    assert.equal(user.name, "Alice");
+    expect(result.name).toBe("ALICE");
+    expect(user.name).toBe("Alice");
   });
 });
 
 describe("练习2: lensPath", () => {
   it("setCity 应设置城市", () => {
     const result = setCity(user, "Shanghai");
-    assert.equal(result.address.city, "Shanghai");
-    assert.equal(user.address.city, "Beijing");
+    expect(result.address.city).toBe("Shanghai");
+    expect(user.address.city).toBe("Beijing");
   });
 
   it("toggleTheme 应切换主题", () => {
-    assert.equal(toggleTheme(user).settings.theme, "light");
-    assert.equal(
-      toggleTheme({ settings: { theme: "light" } }).settings.theme,
-      "dark",
-    );
+    expect(toggleTheme(user).settings.theme).toBe("light");
+    expect(toggleTheme({ settings: { theme: "light" } }).settings.theme).toBe("dark",);
   });
 });
 
 describe("练习3: Lens 组合", () => {
   it("capitalizeStreet 应大写首字母", () => {
     const result = capitalizeStreet(user);
-    assert.equal(result.address.street, "Chang'an Ave");
+    expect(result.address.street).toBe("Chang'an Ave");
     // Actually, capitalize just first char:
     // Let me adjust: R.toUpper wouldn't work well for this case.
     // Let's just test that street is accessible
-    assert.ok(result.address.street.length > 0);
-    assert.equal(user.address.street, "Chang'an Ave");
+    expect(result.address.street.length > 0).toBe(true);
+    expect(user.address.street).toBe("Chang'an Ave");
   });
 });

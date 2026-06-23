@@ -1,8 +1,8 @@
 // ==========================================
 // Week 02 · Day 4: 对象 & 嵌套对象不可变操作
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -56,45 +56,45 @@ const base = { name: "Alice", age: 25 };
 describe("练习1: updateProp", () => {
   it("应更新指定属性", () => {
     const result = updateProp(base, "age", 26);
-    assert.deepEqual(result, { name: "Alice", age: 26 });
+    expect(result).toEqual({ name: "Alice", age: 26 });
   });
 
   it("不应修改原对象", () => {
     const obj = { x: 1, y: 2 };
     updateProp(obj, "x", 10);
-    assert.deepEqual(obj, { x: 1, y: 2 });
+    expect(obj).toEqual({ x: 1, y: 2 });
   });
 
   it("应返回新引用", () => {
     const result = updateProp(base, "name", "Bob");
-    assert.notEqual(result, base);
+    expect(result).not.toBe(base);
   });
 });
 
 describe("练习2: addProp", () => {
   it("应添加新属性", () => {
     const result = addProp(base, "city", "Beijing");
-    assert.deepEqual(result, { name: "Alice", age: 25, city: "Beijing" });
+    expect(result).toEqual({ name: "Alice", age: 25, city: "Beijing" });
   });
 
   it("不应修改原对象", () => {
     const obj = { x: 1 };
     addProp(obj, "y", 2);
-    assert.deepEqual(obj, { x: 1 });
+    expect(obj).toEqual({ x: 1 });
   });
 });
 
 describe("练习3: removeProp", () => {
   it("应删除指定属性", () => {
     const result = removeProp(base, "age");
-    assert.deepEqual(result, { name: "Alice" });
-    assert.equal("age" in result, false);
+    expect(result).toEqual({ name: "Alice" });
+    expect("age" in result).toBe(false);
   });
 
   it("不应修改原对象", () => {
     const obj = { a: 1, b: 2 };
     removeProp(obj, "a");
-    assert.deepEqual(obj, { a: 1, b: 2 });
+    expect(obj).toEqual({ a: 1, b: 2 });
   });
 });
 
@@ -107,26 +107,26 @@ describe("练习4: updateCity", () => {
 
   it("应更新嵌套的 city", () => {
     const result = updateCity(user, "Beijing");
-    assert.equal(result.address.city, "Beijing");
-    assert.equal(result.address.street, "Nanjing Rd");
+    expect(result.address.city).toBe("Beijing");
+    expect(result.address.street).toBe("Nanjing Rd");
   });
 
   it("不应修改原 user", () => {
     const snapshot = { ...user };
     updateCity(user, "Shenzhen");
-    assert.equal(user.address.city, "Shanghai");
-    assert.deepEqual(user, snapshot);
+    expect(user.address.city).toBe("Shanghai");
+    expect(user).toEqual(snapshot);
   });
 
   it("不应修改原 user.address 的引用", () => {
     const oldAddress = user.address;
     const result = updateCity(user, "Guangzhou");
-    assert.notEqual(result.address, oldAddress);
+    expect(result.address).not.toBe(oldAddress);
   });
 
   it("原 address 内容不变", () => {
     const oldAddress = user.address;
     updateCity(user, "Chengdu");
-    assert.equal(oldAddress.city, "Shanghai");
+    expect(oldAddress.city).toBe("Shanghai");
   });
 });

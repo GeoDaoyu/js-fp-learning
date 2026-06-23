@@ -1,8 +1,8 @@
 // ==========================================
 // Week 07 · Day 4: Maybe + Either 混合使用
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -104,23 +104,23 @@ function safeGetUserCity(userId, userDb) {
 describe("练习1: Maybe → Either", () => {
   it("有效用户应返回 Right", () => {
     const result = validateUser({ name: "Alice", age: 25 });
-    assert.ok(result instanceof Right);
+    expect(result instanceof Right).toBe(true);
   });
 
   it("null 用户应返回 Left", () => {
     const result = validateUser(null);
-    assert.ok(result instanceof Left);
-    assert.equal(result.fold((e) => e, () => ""), "User not found");
+    expect(result instanceof Left).toBe(true);
+    expect(result.fold((e) => e, () => "")).toBe("User not found");
   });
 
   it("名字为空应返回 Left", () => {
     const result = validateUser({ name: "", age: 25 });
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("未成年应返回 Left", () => {
     const result = validateUser({ name: "Bob", age: 15 });
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 });
 
@@ -132,16 +132,16 @@ describe("练习2: Either → Maybe", () => {
 
   it("完整数据应获取 city", () => {
     const result = safeGetUserCity("1", db);
-    assert.equal(result.getOrElse("Unknown"), "Beijing");
+    expect(result.getOrElse("Unknown")).toBe("Beijing");
   });
 
   it("缺少 address 应返回 Nothing 或默认值", () => {
     const result = safeGetUserCity("2", db);
-    assert.equal(result.getOrElse("Unknown"), "Unknown");
+    expect(result.getOrElse("Unknown")).toBe("Unknown");
   });
 
   it("用户不存在应返回 Left 或默认值", () => {
     const result = safeGetUserCity("999", db);
-    assert.equal(result.getOrElse("Unknown"), "Unknown");
+    expect(result.getOrElse("Unknown")).toBe("Unknown");
   });
 });

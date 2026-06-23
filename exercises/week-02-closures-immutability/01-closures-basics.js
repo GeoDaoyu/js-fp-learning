@@ -1,8 +1,8 @@
 // ==========================================
 // Week 02 · Day 1: 闭包原理与基础应用
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -75,59 +75,59 @@ function createSecret(initialSecret) {
 describe("练习1: createCounter", () => {
   it("基本功能: inc / dec / get", () => {
     const c = createCounter();
-    assert.equal(c.get(), 0);
-    assert.equal(c.inc(), 1);
-    assert.equal(c.inc(), 2);
-    assert.equal(c.dec(), 1);
-    assert.equal(c.get(), 1);
+    expect(c.get()).toBe(0);
+    expect(c.inc()).toBe(1);
+    expect(c.inc()).toBe(2);
+    expect(c.dec()).toBe(1);
+    expect(c.get()).toBe(1);
   });
 
   it("支持自定义初始值", () => {
     const c = createCounter(10);
-    assert.equal(c.get(), 10);
-    assert.equal(c.inc(), 11);
+    expect(c.get()).toBe(10);
+    expect(c.inc()).toBe(11);
   });
 
   it("reset 应重置为 0", () => {
     const c = createCounter(5);
     c.inc();
     c.inc();
-    assert.equal(c.reset(), 0);
-    assert.equal(c.get(), 0);
+    expect(c.reset()).toBe(0);
+    expect(c.get()).toBe(0);
   });
 
   it("count 应私有，外部无法直接访问", () => {
     const c = createCounter();
-    assert.equal(typeof c.count, "undefined");
+    expect(typeof c.count).toBe("undefined");
   });
 
   it("多个实例应独立", () => {
     const a = createCounter(0);
     const b = createCounter(100);
     a.inc();
-    assert.equal(a.get(), 1);
-    assert.equal(b.get(), 100);
+    expect(a.get()).toBe(1);
+    expect(b.get()).toBe(100);
   });
 });
 
 describe("练习2: createSecret", () => {
   it("基本功能: get / set", () => {
     const s = createSecret("my-password");
-    assert.equal(s.getSecret(), "my-password");
-    assert.equal(s.setSecret("new-password"), "new-password");
-    assert.equal(s.getSecret(), "new-password");
+    expect(s.getSecret()).toBe("my-password");
+    expect(s.setSecret("new-password")).toBe("new-password");
+    expect(s.getSecret()).toBe("new-password");
   });
 
   it("secret 应私有，外部无法直接访问", () => {
     const s = createSecret("hidden");
-    assert.equal(typeof s.secret, "undefined");
-    assert.equal(typeof s._secret, "undefined");
+    expect(typeof s.secret).toBe("undefined");
+    expect(typeof s._secret).toBe("undefined");
   });
 
   it("多个实例应独立", () => {
     const a = createSecret("a");
     const b = createSecret("b");
-    assert.equal(a.getSecret(), "a");
-    assert.equal(b.getSecret(), "b");
+    expect(a.getSecret()).toBe("a");
+    expect(b.getSecret()).toBe("b");
   });
 });

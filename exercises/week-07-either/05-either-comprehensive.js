@@ -1,8 +1,8 @@
 // ==========================================
 // Week 07 · Day 5: Either 综合练习 + 周复盘
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -124,31 +124,31 @@ function placeOrder(userId, productId, quantity) {
 
 describe("练习1: 业务函数", () => {
   it("findUser 存在的用户", () => {
-    assert.equal(findUser("u1").getOrElse(null).name, "Alice");
+    expect(findUser("u1").getOrElse(null).name).toBe("Alice");
   });
 
   it("findUser 不存在的用户", () => {
-    assert.equal(findUser("u999").getOrElse(null), null);
+    expect(findUser("u999").getOrElse(null)).toBe(null);
   });
 
   it("verifyActive 活跃用户", () => {
     const result = verifyActive(usersDb["u1"]);
-    assert.ok(result instanceof Right);
+    expect(result instanceof Right).toBe(true);
   });
 
   it("verifyActive 非活跃用户", () => {
     const result = verifyActive(usersDb["u2"]);
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("verifyStock 库存充足", () => {
     const result = verifyStock("p1", 3);
-    assert.ok(result instanceof Right);
+    expect(result instanceof Right).toBe(true);
   });
 
   it("verifyStock 库存不足", () => {
     const result = verifyStock("p2", 1);
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 });
 
@@ -156,21 +156,21 @@ describe("练习2: 全链路下单", () => {
   it("正常下单应成功", () => {
     const result = placeOrder("u1", "p1", 2);
     // 8000 * 2 = 16000
-    assert.equal(result.fold(() => 0, (total) => total), 16000);
+    expect(result.fold(() => 0, (total) => total)).toBe(16000);
   });
 
   it("不存在的用户应失败", () => {
     const result = placeOrder("u999", "p1", 1);
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("非活跃用户应失败", () => {
     const result = placeOrder("u2", "p1", 1);
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("库存不足应失败", () => {
     const result = placeOrder("u1", "p2", 1);
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 });

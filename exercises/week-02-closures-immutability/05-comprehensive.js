@@ -1,8 +1,8 @@
 // ==========================================
 // Week 02 · Day 5: 综合训练 — 闭包 + 不可变数据 + 纯函数
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const orders = [
   { id: 1, product: "Book", price: 29, quantity: 2, status: "delivered" },
@@ -85,19 +85,19 @@ function createImmutableStore(initialState) {
 describe("练习1: createStack", () => {
   it("push / pop / peek / size", () => {
     const s = createStack();
-    assert.equal(s.size(), 0);
-    assert.equal(s.push("a"), 1);
-    assert.equal(s.push("b"), 2);
-    assert.equal(s.size(), 2);
-    assert.equal(s.peek(), "b");
-    assert.equal(s.pop(), "b");
-    assert.equal(s.size(), 1);
-    assert.equal(s.peek(), "a");
+    expect(s.size()).toBe(0);
+    expect(s.push("a")).toBe(1);
+    expect(s.push("b")).toBe(2);
+    expect(s.size()).toBe(2);
+    expect(s.peek()).toBe("b");
+    expect(s.pop()).toBe("b");
+    expect(s.size()).toBe(1);
+    expect(s.peek()).toBe("a");
   });
 
   it("空栈 pop 应返回 undefined", () => {
     const s = createStack();
-    assert.equal(s.pop(), undefined);
+    expect(s.pop()).toBe(undefined);
   });
 
   it("toArray 应返回浅拷贝且不影响内部数据", () => {
@@ -105,16 +105,16 @@ describe("练习1: createStack", () => {
     s.push("x");
     s.push("y");
     const arr = s.toArray();
-    assert.deepEqual(arr, ["x", "y"]);
+    expect(arr).toEqual(["x", "y"]);
     arr.push("z");
-    assert.equal(s.size(), 2); // 内部不变
+    expect(s.size()).toBe(2); // 内部不变
   });
 
   it("内部数据应私有", () => {
     const s = createStack();
     s.push("a");
-    assert.equal(typeof s.items, "undefined");
-    assert.equal(typeof s._items, "undefined");
+    expect(typeof s.items).toBe("undefined");
+    expect(typeof s._items).toBe("undefined");
   });
 });
 
@@ -123,61 +123,61 @@ describe("练习2: 不可变数据处理", () => {
 
   it("2a: filterDelivered 应筛选已交付订单", () => {
     const result = filterDelivered(orders);
-    assert.equal(result.length, 3);
-    result.forEach((o) => assert.equal(o.status, "delivered"));
+    expect(result.length).toBe(3);
+    result.forEach((o) => expect(o.status).toBe("delivered"));
   });
 
   it("2a: 不应修改原数组", () => {
-    assert.deepEqual(orders, snapshot);
+    expect(orders).toEqual(snapshot);
   });
 
   it("2b: addTotal 应添加 total 字段", () => {
     const result = addTotal(orders);
-    assert.equal(result[0].total, 58);
-    assert.equal(result[1].total, 50);
-    assert.equal(result[3].total, 45);
+    expect(result[0].total).toBe(58);
+    expect(result[1].total).toBe(50);
+    expect(result[3].total).toBe(45);
   });
 
   it("2b: 不应修改原数组元素", () => {
     addTotal(orders);
-    assert.equal("total" in orders[0], false);
+    expect("total" in orders[0]).toBe(false);
   });
 
   it("2c: totalRevenue 应计算已交付订单总收入", () => {
     // delivered: id1 29*2=58, id3 29*1=29, id5 5*5=25 → 58+29+25 = 112
-    assert.equal(totalRevenue(orders), 112);
+    expect(totalRevenue(orders)).toBe(112);
   });
 
   it("2c: 不应修改原数组", () => {
-    assert.deepEqual(orders, snapshot);
+    expect(orders).toEqual(snapshot);
   });
 });
 
 describe("练习3: createImmutableStore", () => {
   it("getState 应返回初始状态", () => {
     const store = createImmutableStore({ count: 0, name: "test" });
-    assert.deepEqual(store.getState(), { count: 0, name: "test" });
+    expect(store.getState()).toEqual({ count: 0, name: "test" });
   });
 
   it("setState 应合并更新并返回新状态", () => {
     const store = createImmutableStore({ count: 0, name: "test" });
     const newState = store.setState({ count: 5 });
-    assert.deepEqual(newState, { count: 5, name: "test" });
-    assert.deepEqual(store.getState(), { count: 5, name: "test" });
+    expect(newState).toEqual({ count: 5, name: "test" });
+    expect(store.getState()).toEqual({ count: 5, name: "test" });
   });
 
   it("setState 不应修改旧 state 引用", () => {
     const store = createImmutableStore({ count: 0 });
     const oldState = store.getState();
     store.setState({ count: 1 });
-    assert.deepEqual(oldState, { count: 0 });
-    assert.notEqual(store.getState(), oldState);
+    expect(oldState).toEqual({ count: 0 });
+    expect(store.getState()).not.toBe(oldState);
   });
 
   it("多次更新应累积", () => {
     const store = createImmutableStore({ a: 1, b: 2 });
     store.setState({ a: 10 });
     store.setState({ b: 20 });
-    assert.deepEqual(store.getState(), { a: 10, b: 20 });
+    expect(store.getState()).toEqual({ a: 10, b: 20 });
   });
 });

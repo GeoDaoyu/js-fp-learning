@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -91,20 +91,17 @@ function memoizeR(fn) {
 
 describe("练习1: 重构 map / filter", () => {
   it("myMapR 应等价于 Array.map", () => {
-    assert.deepEqual(myMapR([1, 2, 3], R.multiply(2)), [2, 4, 6]);
+    expect(myMapR([1, 2, 3], R.multiply(2))).toEqual([2, 4, 6]);
   });
 
   it("myFilterR 应等价于 Array.filter", () => {
-    assert.deepEqual(
-      myFilterR([1, 2, 3, 4], (x) => x % 2 === 0),
-      [2, 4],
-    );
+    expect(myFilterR([1, 2, 3, 4], (x) => x % 2 === 0)).toEqual([2, 4],);
   });
 });
 
 describe("练习2: 重构管道", () => {
   it("electronicsRevenue 应统计电子产品总收入", () => {
-    assert.equal(electronicsRevenue(orders), 450);
+    expect(electronicsRevenue(orders)).toBe(450);
   });
 });
 
@@ -115,9 +112,9 @@ describe("练习3: 重构 memoize", () => {
       calls++;
       return x * 2;
     });
-    assert.equal(fn(5), 10);
-    assert.equal(calls, 1);
-    assert.equal(fn(5), 10);
-    assert.equal(calls, 1); // 缓存命中
+    expect(fn(5)).toBe(10);
+    expect(calls).toBe(1);
+    expect(fn(5)).toBe(10);
+    expect(calls).toBe(1); // 缓存命中
   });
 });

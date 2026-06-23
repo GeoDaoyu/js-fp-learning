@@ -1,8 +1,8 @@
 // ==========================================
 // Week 01 · Day 2: 一等公民函数 & 高阶函数入门
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -59,19 +59,19 @@ function squarePlusOne(arr) {
 
 describe("练习1: 函数是一等公民", () => {
   it("greet 应返回问候语", () => {
-    assert.equal(typeof greet, "function");
-    assert.equal(greet("World"), "Hello, World!");
+    expect(typeof greet).toBe("function");
+    expect(greet("World")).toBe("Hello, World!");
   });
 
   it("callWith5 应用 5 调用传入的函数", () => {
     const double = (x) => x * 2;
-    assert.equal(callWith5(double), 10);
+    expect(callWith5(double)).toBe(10);
   });
 
   it("makeMultiplier 应返回乘法函数", () => {
     const triple = makeMultiplier(3);
-    assert.equal(typeof triple, "function");
-    assert.equal(triple(7), 21);
+    expect(typeof triple).toBe("function");
+    expect(triple(7)).toBe(21);
   });
 });
 
@@ -79,25 +79,25 @@ describe("练习2: 高阶函数", () => {
   it("repeat 应执行 fn 指定次数并返回结果数组", () => {
     let i = 0;
     const result = repeat(4, () => i++);
-    assert.deepEqual(result, [0, 1, 2, 3]);
+    expect(result).toEqual([0, 1, 2, 3]);
   });
 
   it("twice 应对 x 连续应用 fn 两次", () => {
     const addOne = (x) => x + 1;
-    assert.equal(twice(addOne, 5), 7);
+    expect(twice(addOne, 5)).toBe(7);
   });
 });
 
 describe("练习3: map 改写循环", () => {
   it("doubleArray 应返回翻倍后的数组", () => {
-    assert.deepEqual(doubleArray(numbers), [2, 4, 6, 8, 10]);
+    expect(doubleArray(numbers)).toEqual([2, 4, 6, 8, 10]);
   });
 
   it("stringifyArray 应返回字符串数组", () => {
-    assert.deepEqual(stringifyArray(numbers), ["1", "2", "3", "4", "5"]);
+    expect(stringifyArray(numbers)).toEqual(["1", "2", "3", "4", "5"]);
   });
 
   it("squarePlusOne 应返回平方+1的数组", () => {
-    assert.deepEqual(squarePlusOne([1, 2, 3]), [2, 5, 10]);
+    expect(squarePlusOne([1, 2, 3])).toEqual([2, 5, 10]);
   });
 });

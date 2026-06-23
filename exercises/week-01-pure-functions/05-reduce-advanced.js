@@ -1,8 +1,8 @@
 // ==========================================
 // Week 01 · Day 5: reduce 进阶 + 本周综合复盘
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const orders = [
   { category: "electronics", amount: 300 },
@@ -66,48 +66,36 @@ function myFilter(arr, predicate) {
 describe("练习1: reduce 数组分组", () => {
   it("应按 category 正确分组", () => {
     const grouped = groupByCategory(orders);
-    assert.equal(grouped.electronics.length, 2);
-    assert.equal(grouped.books.length, 2);
-    assert.equal(grouped.clothing.length, 2);
-    assert.equal(grouped.electronics[0].amount, 300);
+    expect(grouped.electronics.length).toBe(2);
+    expect(grouped.books.length).toBe(2);
+    expect(grouped.clothing.length).toBe(2);
+    expect(grouped.electronics[0].amount).toBe(300);
   });
 });
 
 describe("练习2: reduce 分类汇总", () => {
   it("应正确统计每个分类的总金额", () => {
     const totals = totalByCategory(orders);
-    assert.deepEqual(totals, { electronics: 450, books: 80, clothing: 200 });
+    expect(totals).toEqual({ electronics: 450, books: 80, clothing: 200 });
   });
 });
 
 describe("练习3: 综合 filter + map + reduce", () => {
   it("应统计电子产品的总金额为 450", () => {
-    assert.equal(totalElectronics(orders), 450);
+    expect(totalElectronics(orders)).toBe(450);
   });
 });
 
 describe("练习4: 用 reduce 实现 map", () => {
   it("功能应与 Array.map 一致", () => {
-    assert.deepEqual(
-      myMap([1, 2, 3], (x) => x * 2),
-      [2, 4, 6],
-    );
-    assert.deepEqual(
-      myMap(["a", "b"], (x) => x.toUpperCase()),
-      ["A", "B"],
-    );
+    expect(myMap([1, 2, 3], (x) => x * 2)).toEqual([2, 4, 6],);
+    expect(myMap(["a", "b"], (x) => x.toUpperCase())).toEqual(["A", "B"],);
   });
 });
 
 describe("练习5: 用 reduce 实现 filter", () => {
   it("功能应与 Array.filter 一致", () => {
-    assert.deepEqual(
-      myFilter([1, 2, 3, 4], (x) => x % 2 === 0),
-      [2, 4],
-    );
-    assert.deepEqual(
-      myFilter(["a", "bb", "ccc"], (x) => x.length > 1),
-      ["bb", "ccc"],
-    );
+    expect(myFilter([1, 2, 3, 4], (x) => x % 2 === 0)).toEqual([2, 4],);
+    expect(myFilter(["a", "bb", "ccc"], (x) => x.length > 1)).toEqual(["bb", "ccc"],);
   });
 });

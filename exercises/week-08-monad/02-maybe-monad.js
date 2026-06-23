@@ -1,8 +1,8 @@
 // ==========================================
 // Week 08 · Day 2: Maybe 改造为 Monad
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -101,32 +101,32 @@ describe("练习1: Maybe chain", () => {
     const result = Maybe.of(5)
       .chain((x) => Maybe.of(x * 2))
       .chain((x) => Maybe.of(x + 1));
-    assert.equal(result.getOrElse(0), 11);
+    expect(result.getOrElse(0)).toBe(11);
   });
 
   it("Nothing.chain 应安全短路", () => {
     const result = Maybe.of(null)
       .chain((x) => Maybe.of(x * 2))
       .chain((x) => Maybe.of(x + 1));
-    assert.equal(result.getOrElse(99), 99);
+    expect(result.getOrElse(99)).toBe(99);
   });
 
   it("chain 不会像 map 一样产生嵌套 Maybe", () => {
     const chained = Maybe.of(5).chain((x) => Maybe.of(x));
-    assert.ok(chained instanceof Maybe);
+    expect(chained instanceof Maybe).toBe(true);
     // map 会产生 Just(Just(5))，chain 只产生 Just(5)
-    assert.equal(chained.getOrElse(0), 5);
+    expect(chained.getOrElse(0)).toBe(5);
   });
 });
 
 describe("练习2: chain 串联查询", () => {
   it("存在的部门应正确获取经理邮箱", () => {
     const result = getManagerEmail("d1");
-    assert.equal(result.getOrElse("not found"), "alice@example.com");
+    expect(result.getOrElse("not found")).toBe("alice@example.com");
   });
 
   it("不存在的部门应返回 Nothing", () => {
     const result = getManagerEmail("d999");
-    assert.equal(result.getOrElse("not found"), "not found");
+    expect(result.getOrElse("not found")).toBe("not found");
   });
 });

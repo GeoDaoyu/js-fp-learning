@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const user = {
   id: 1,
@@ -74,7 +74,7 @@ function ageInfo(user) {
 
 describe("练习1: pick / omit", () => {
   it("pickPublic 应只保留 name 和 email", () => {
-    assert.deepEqual(pickPublic(user), {
+    expect(pickPublic(user)).toEqual({
       name: "Alice",
       email: "alice@example.com",
     });
@@ -82,62 +82,62 @@ describe("练习1: pick / omit", () => {
 
   it("omitSensitive 应排除 email 和 address", () => {
     const result = omitSensitive(user);
-    assert.equal("email" in result, false);
-    assert.equal("address" in result, false);
-    assert.equal(result.name, "Alice");
-    assert.equal(result.age, 25);
+    expect("email" in result).toBe(false);
+    expect("address" in result).toBe(false);
+    expect(result.name).toBe("Alice");
+    expect(result.age).toBe(25);
   });
 });
 
 describe("练习2: assoc / dissoc", () => {
   it("addRole 应添加 role 属性", () => {
     const result = addRole(user, "admin");
-    assert.equal(result.role, "admin");
-    assert.equal(result.name, "Alice");
+    expect(result.role).toBe("admin");
+    expect(result.name).toBe("Alice");
   });
 
   it("addRole 不应修改原对象", () => {
     const snapshot = { ...user };
     addRole(user, "admin");
-    assert.deepEqual(user, snapshot);
+    expect(user).toEqual(snapshot);
   });
 
   it("removeEmail 应删除 email", () => {
     const result = removeEmail(user);
-    assert.equal("email" in result, false);
+    expect("email" in result).toBe(false);
   });
 });
 
 describe("练习3: path / pathOr", () => {
   it("getCity 应获取深层属性", () => {
-    assert.equal(getCity(user), "Beijing");
+    expect(getCity(user)).toBe("Beijing");
   });
 
   it("getCity 应对缺失路径返回 undefined", () => {
-    assert.equal(getCity({ name: "X" }), undefined);
+    expect(getCity({ name: "X" })).toBe(undefined);
   });
 
   it("getZipOr 应在存在时返回值，缺失时返回默认值", () => {
-    assert.equal(getZipOr(user, "000000"), "100000");
-    assert.equal(getZipOr({ name: "X" }, "999999"), "999999");
+    expect(getZipOr(user, "000000")).toBe("100000");
+    expect(getZipOr({ name: "X" }, "999999")).toBe("999999");
   });
 });
 
 describe("练习4: evolve", () => {
   it("ageInfo 应转换 age 和 name", () => {
     const result = ageInfo(user);
-    assert.equal(result.name, "ALICE");
-    assert.equal(result.age, "25");
+    expect(result.name).toBe("ALICE");
+    expect(result.age).toBe("25");
   });
 
   it("不应修改其他属性", () => {
     const result = ageInfo(user);
-    assert.equal(result.email, "alice@example.com");
+    expect(result.email).toBe("alice@example.com");
   });
 
   it("不应修改原对象", () => {
     const snapshot = { ...user };
     ageInfo(user);
-    assert.deepEqual(user, snapshot);
+    expect(user).toEqual(snapshot);
   });
 });

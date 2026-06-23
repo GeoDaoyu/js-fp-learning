@@ -1,8 +1,8 @@
 // ==========================================
 // Week 06 · Day 3: Maybe 函子 — Just / Nothing
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -77,30 +77,30 @@ function safeGet(obj, key) {
 describe("练习1: Maybe 函子", () => {
   it("Maybe.of(非空值) 应返回 Just", () => {
     const result = Maybe.of(42);
-    assert.ok(result instanceof Just);
-    assert.equal(result.getOrElse(0), 42);
+    expect(result instanceof Just).toBe(true);
+    expect(result.getOrElse(0)).toBe(42);
   });
 
   it("Maybe.of(null) 应返回 Nothing", () => {
-    assert.ok(Maybe.of(null) instanceof Nothing);
+    expect(Maybe.of(null) instanceof Nothing).toBe(true);
   });
 
   it("Maybe.of(undefined) 应返回 Nothing", () => {
-    assert.ok(Maybe.of(undefined) instanceof Nothing);
+    expect(Maybe.of(undefined) instanceof Nothing).toBe(true);
   });
 
   it("Just.map 应正常转换", () => {
     const result = Maybe.of(5)
       .map((x) => x * 2)
       .map((x) => x + 1);
-    assert.equal(result.getOrElse(0), 11);
+    expect(result.getOrElse(0)).toBe(11);
   });
 
   it("Nothing.map 应安全跳过", () => {
     const result = Maybe.of(null)
       .map((x) => x * 2)
       .map((x) => x + 1);
-    assert.equal(result.getOrElse(99), 99);
+    expect(result.getOrElse(99)).toBe(99);
   });
 
   it("链式调用中 Nothing 不抛错", () => {
@@ -109,25 +109,25 @@ describe("练习1: Maybe 函子", () => {
       .map((x) => String(x));
     // map 只是应用函数，不会检查返回值是否为 null
     // 这个测试验证 map 的基本行为
-    assert.equal(result.getOrElse("fallback"), "null");
+    expect(result.getOrElse("fallback")).toBe("null");
   });
 });
 
 describe("练习2: Maybe 基本使用", () => {
   it("safeDivide 正常除法", () => {
-    assert.equal(safeDivide(10, 2).getOrElse(0), 5);
+    expect(safeDivide(10, 2).getOrElse(0)).toBe(5);
   });
 
   it("safeDivide 除零应返回 Nothing", () => {
-    assert.ok(safeDivide(10, 0) instanceof Nothing);
+    expect(safeDivide(10, 0) instanceof Nothing).toBe(true);
   });
 
   it("safeGet 存在属性", () => {
-    assert.equal(safeGet({ name: "Alice" }, "name").getOrElse("unknown"), "Alice");
+    expect(safeGet({ name: "Alice" }, "name").getOrElse("unknown")).toBe("Alice");
   });
 
   it("safeGet 不存在属性", () => {
-    assert.ok(safeGet({ name: "Alice" }, "age") instanceof Nothing);
-    assert.equal(safeGet({ name: "Alice" }, "age").getOrElse(0), 0);
+    expect(safeGet({ name: "Alice" }, "age") instanceof Nothing).toBe(true);
+    expect(safeGet({ name: "Alice" }, "age").getOrElse(0)).toBe(0);
   });
 });

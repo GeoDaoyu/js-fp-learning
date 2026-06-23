@@ -1,8 +1,8 @@
 // ==========================================
 // Week 01 · Day 3: filter / find / some / every
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const users = [
   { name: "Alice", age: 25, active: true },
@@ -51,54 +51,48 @@ function getAdultNamesUpper(userList) {
 describe("练习1: filter 筛选", () => {
   it("应筛选出年龄 >= 18 的用户", () => {
     const result = getAdults(users);
-    assert.equal(result.length, 3);
-    assert.deepEqual(
-      result.map((u) => u.name),
-      ["Alice", "Charlie", "Diana"],
-    );
+    expect(result.length).toBe(3);
+    expect(result.map((u) => u.name)).toEqual(["Alice", "Charlie", "Diana"],);
   });
 });
 
 describe("练习2: find 查找", () => {
   it("应找到 Charlie", () => {
     const result = findByName(users, "Charlie");
-    assert.equal(result.name, "Charlie");
-    assert.equal(result.age, 30);
+    expect(result.name).toBe("Charlie");
+    expect(result.age).toBe(30);
   });
 
   it("找不到时应返回 undefined", () => {
-    assert.equal(findByName(users, "Zoe"), undefined);
+    expect(findByName(users, "Zoe")).toBe(undefined);
   });
 });
 
 describe("练习3: some 判断", () => {
   it("应返回 true（存在未成年）", () => {
-    assert.equal(hasMinor(users), true);
+    expect(hasMinor(users)).toBe(true);
   });
 
   it("全部成年时应返回 false", () => {
-    assert.equal(hasMinor([{ name: "A", age: 20 }]), false);
+    expect(hasMinor([{ name: "A", age: 20 }])).toBe(false);
   });
 });
 
 describe("练习4: every 判断", () => {
   it("应返回 false（有用户不活跃）", () => {
-    assert.equal(allActive(users), false);
+    expect(allActive(users)).toBe(false);
   });
 
   it("全部活跃时应返回 true", () => {
-    assert.equal(
-      allActive([
+    expect(allActive([
         { name: "A", active: true },
         { name: "B", active: true },
-      ]),
-      true,
-    );
+      ])).toBe(true,);
   });
 });
 
 describe("练习5: 综合 filter + map", () => {
   it("应返回成年用户的大写姓名数组", () => {
-    assert.deepEqual(getAdultNamesUpper(users), ["ALICE", "CHARLIE", "DIANA"]);
+    expect(getAdultNamesUpper(users)).toEqual(["ALICE", "CHARLIE", "DIANA"]);
   });
 });

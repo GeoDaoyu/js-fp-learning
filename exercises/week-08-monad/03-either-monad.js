@@ -1,8 +1,8 @@
 // ==========================================
 // Week 08 · Day 3: Either 改造为 Monad
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -84,38 +84,38 @@ describe("练习1: Either chain", () => {
     const result = Either.of(5)
       .chain((x) => Either.right(x * 2))
       .chain((x) => Either.right(x + 1));
-    assert.equal(result.getOrElse(0), 11);
+    expect(result.getOrElse(0)).toBe(11);
   });
 
   it("Left.chain 应短路", () => {
     const result = Either.left("error")
       .chain((x) => Either.right(x * 2));
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("chain 中途失败应短路", () => {
     const result = Either.of(5)
       .chain((x) => Either.left("fail"))
       .chain((x) => Either.right(x * 2));
-    assert.ok(result instanceof Left);
-    assert.equal(result.fold((e) => e, () => ""), "fail");
+    expect(result instanceof Left).toBe(true);
+    expect(result.fold((e) => e, () => "")).toBe("fail");
   });
 });
 
 describe("练习2: 链式错误处理", () => {
   it("全部校验通过应返回 Right", () => {
     const result = createUser({ name: "Alice", age: 25 });
-    assert.ok(result instanceof Right);
-    assert.deepEqual(result.getOrElse({}), { name: "Alice", age: 25 });
+    expect(result instanceof Right).toBe(true);
+    expect(result.getOrElse({})).toEqual({ name: "Alice", age: 25 });
   });
 
   it("name 校验失败应返回 Left", () => {
     const result = createUser({ name: "", age: 25 });
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("age 校验失败应返回 Left", () => {
     const result = createUser({ name: "Bob", age: 15 });
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 });

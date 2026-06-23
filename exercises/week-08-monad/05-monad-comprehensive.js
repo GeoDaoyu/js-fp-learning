@@ -1,8 +1,8 @@
 // ==========================================
 // Week 08 · Day 5: Maybe+Either+Monad 全链路 + 周复盘
 // ==========================================
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 // ==========================================
 // === 在这里写你的代码 ===
@@ -153,30 +153,30 @@ describe("练习1: 全链路下单", () => {
     // u1(not blacklisted, gold 10%) + p1(price 8000, stock 10) + qty 2
     // total: 8000 * 2 * 0.9 = 14400
     const result = placeOrder("u1", "p1", 2);
-    assert.ok(result instanceof Right);
+    expect(result instanceof Right).toBe(true);
     const order = result.getOrElse({});
-    assert.equal(order.total, 14400);
-    assert.equal(order.discountRate, 0.1);
+    expect(order.total).toBe(14400);
+    expect(order.discountRate).toBe(0.1);
   });
 
   it("用户不存在应失败", () => {
     const result = placeOrder("u999", "p1", 1);
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("用户被拉黑应失败", () => {
     const result = placeOrder("u2", "p1", 1);
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("库存不足应失败", () => {
     const result = placeOrder("u1", "p2", 1);
-    assert.ok(result instanceof Left);
+    expect(result instanceof Left).toBe(true);
   });
 
   it("无会员折扣应不影响下单", () => {
     // u1 有 gold 会员，这里测试即使有会员也能正常计算
     const result = placeOrder("u1", "p1", 1);
-    assert.equal(result.getOrElse({}).total, 7200); // 8000 * 0.9
+    expect(result.getOrElse({}).total).toBe(7200); // 8000 * 0.9
   });
 });

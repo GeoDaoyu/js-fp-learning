@@ -3,8 +3,8 @@
 // ==========================================
 // 需要先安装 Ramda: npm install ramda
 import * as R from "ramda";
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+import { describe, it, expect } from "vitest";
+
 
 const employees = [
   { name: "Alice", department: "Engineering", salary: 15000, years: 5 },
@@ -106,20 +106,20 @@ describe("练习1: topEngineers", () => {
     // Engineering: Alice(5y,15000→18000*1.2=21600*12=259200), Bob(2y,12000→144000),
     //   Frank(10y,18000→21600*1.2=25920*12=311040)
     // sorted: Frank(311040), Alice(259200), Bob(144000)
-    assert.equal(result.length, 3);
-    assert.deepEqual(result[0], { name: "Frank", totalPackage: 259200 });
-    assert.deepEqual(result[1], { name: "Alice", totalPackage: 216000 });
-    assert.deepEqual(result[2], { name: "Bob", totalPackage: 144000 });
+    expect(result.length).toBe(3);
+    expect(result[0]).toEqual({ name: "Frank", totalPackage: 259200 });
+    expect(result[1]).toEqual({ name: "Alice", totalPackage: 216000 });
+    expect(result[2]).toEqual({ name: "Bob", totalPackage: 144000 });
   });
 });
 
 describe("练习2: departmentReport", () => {
   it("应正确统计各部门", () => {
     const report = departmentReport(employees);
-    assert.equal(report.Engineering.count, 3);
-    assert.equal(report.Sales.count, 2);
-    assert.equal(report.HR.count, 2);
-    assert.equal(report.Engineering.maxSalary, 18000);
+    expect(report.Engineering.count).toBe(3);
+    expect(report.Sales.count).toBe(2);
+    expect(report.HR.count).toBe(2);
+    expect(report.Engineering.maxSalary).toBe(18000);
   });
 });
 
@@ -130,14 +130,14 @@ describe("练习3: giveRaise", () => {
     const alice = result.find((e) => e.name === "Alice");
     const bob = result.find((e) => e.name === "Bob");
     const charlie = result.find((e) => e.name === "Charlie");
-    assert.equal(alice.salary, 16500);
-    assert.equal(bob.salary, 12000); // < 5 years
-    assert.equal(charlie.salary, 10000); // not Engineering
+    expect(alice.salary).toBe(16500);
+    expect(bob.salary).toBe(12000); // < 5 years
+    expect(charlie.salary).toBe(10000); // not Engineering
   });
 
   it("不应修改原数组", () => {
     const snapshot = employees.map((e) => ({ ...e }));
     giveRaise(employees);
-    assert.deepEqual(employees, snapshot);
+    expect(employees).toEqual(snapshot);
   });
 });
