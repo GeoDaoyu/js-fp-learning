@@ -6,7 +6,6 @@ title: 答案参考
 import { ref, computed, onMounted } from 'vue'
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
-import 'highlight.js/styles/github-dark.css'
 
 hljs.registerLanguage('javascript', javascript)
 
@@ -200,3 +199,20 @@ onMounted(() => {
 <div v-else class="code-viewer">
   <pre><code class="hljs language-js" v-html="highlightedCode"></code></pre>
 </div>
+
+<style>
+.hljs { color: var(--vp-c-text-1); }
+.hljs-keyword { color: var(--vp-c-brand); }
+.hljs-string { color: var(--vp-c-green); }
+.hljs-number { color: var(--vp-c-purple); }
+.hljs-comment { color: var(--vp-c-text-3); font-style: italic; }
+.hljs-title.function_ { color: var(--vp-c-brand-light); }
+.hljs-built_in { color: var(--vp-c-brand-dark); }
+.hljs-literal { color: var(--vp-c-purple); }
+.hljs-params { color: var(--vp-c-text-1); }
+.hljs-property { color: var(--vp-c-text-1); }
+.hljs-regexp { color: var(--vp-c-red); }
+.hljs-attr { color: var(--vp-c-yellow); }
+.hljs-selector-class { color: var(--vp-c-brand); }
+.hljs-meta { color: var(--vp-c-text-2); }
+</style>
