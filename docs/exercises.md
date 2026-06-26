@@ -6,7 +6,6 @@ title: 练习题目
 import { ref, computed, onMounted } from 'vue'
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
-import 'highlight.js/styles/github.css'
 
 hljs.registerLanguage('javascript', javascript)
 
@@ -149,19 +148,3 @@ onMounted(() => {
   <pre><code class="hljs language-js" v-html="highlightedCode"></code></pre>
 </div>
 
-<style>
-/* github-dark theme overrides for dark mode */
-html.dark .hljs { color: #e6edf3; }
-html.dark .hljs-keyword { color: #ff7b72; }
-html.dark .hljs-string { color: #a5d6ff; }
-html.dark .hljs-number { color: #79c0ff; }
-html.dark .hljs-comment { color: #8b949e; }
-html.dark .hljs-title.function_ { color: #d2a8ff; }
-html.dark .hljs-built_in { color: #ffa657; }
-html.dark .hljs-literal { color: #79c0ff; }
-html.dark .hljs-params { color: #e6edf3; }
-html.dark .hljs-property { color: #79c0ff; }
-html.dark .hljs-regexp { color: #ff7b72; }
-html.dark .hljs-selector-class { color: #ff7b72; }
-html.dark .hljs-meta { color: #8b949e; }
-</style>
