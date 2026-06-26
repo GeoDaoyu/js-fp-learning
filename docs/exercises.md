@@ -4,6 +4,11 @@ title: 练习题目
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import 'highlight.js/styles/github-dark.css'
+
+hljs.registerLanguage('javascript', javascript)
 
 const modules = import.meta.glob('../exercises/**/*.js', { query: '?raw', import: 'default', eager: true })
 
@@ -72,6 +77,11 @@ const currentExercise = computed(() => {
   return week[1].exercises[idx] || null
 })
 
+const highlightedCode = computed(() => {
+  if (!currentExercise.value) return ''
+  return hljs.highlight(currentExercise.value.content, { language: 'javascript' }).value
+})
+
 function onWeekChange() {
   selectedExercise.value = ''
   if (typeof localStorage !== 'undefined') {
@@ -136,5 +146,5 @@ onMounted(() => {
 </div>
 
 <div v-else class="code-viewer">
-  <pre><code class="language-js">{{ currentExercise.content }}</code></pre>
+  <pre><code class="hljs language-js" v-html="highlightedCode"></code></pre>
 </div>

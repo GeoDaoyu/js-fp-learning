@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "effect": "^3.13.0",
+    "highlight.js": "^11.11.1",
     "ramda": "^0.32.0"
   },
   "devDependencies": {

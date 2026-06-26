@@ -4,6 +4,11 @@ title: 答案参考
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import 'highlight.js/styles/github-dark.css'
+
+hljs.registerLanguage('javascript', javascript)
 
 const modules = import.meta.glob('../solutions/**/*.js', { query: '?raw', import: 'default', eager: true })
 
@@ -94,6 +99,11 @@ const currentExercise = computed(() => {
   if (!week) return null
   const idx = typeof selectedExercise.value === 'number' ? selectedExercise.value : Number(selectedExercise.value)
   return week.exercises[idx] || null
+})
+
+const highlightedCode = computed(() => {
+  if (!currentExercise.value) return ''
+  return hljs.highlight(currentExercise.value.content, { language: 'javascript' }).value
 })
 
 function onAuthorChange() {
@@ -188,5 +198,5 @@ onMounted(() => {
 </div>
 
 <div v-else class="code-viewer">
-  <pre><code class="language-js">{{ currentExercise.content }}</code></pre>
+  <pre><code class="hljs language-js" v-html="highlightedCode"></code></pre>
 </div>
