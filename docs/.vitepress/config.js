@@ -7,6 +7,10 @@ export default defineConfig({
   base: '/js-fp-learning/',
   srcExclude: ['superpowers/**'],
 
+  head: [
+    ['link', { rel: 'icon', type: 'image/png', href: '/js-fp-learning/favicon.png' }],
+  ],
+
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
