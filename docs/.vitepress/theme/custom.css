@@ -7,6 +7,15 @@
   max-height: 70vh;
   overflow: auto;
   border-radius: 8px;
+  background: var(--vp-code-block-bg);
+  padding: 1.25rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.code-viewer code {
+  font-family: var(--vp-font-family-mono);
+  white-space: pre;
 }
 
 .dropdown-group {

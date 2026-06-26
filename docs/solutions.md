@@ -32,7 +32,6 @@ const solutionTree = computed(() => {
         : filename,
     })
   }
-  // Sort within each level
   for (const author of Object.values(tree)) {
     for (const week of Object.values(author.weeks)) {
       week.exercises.sort((a, b) => a.label.localeCompare(b.label))
@@ -93,7 +92,8 @@ const currentExercise = computed(() => {
   if (!author) return null
   const week = author.weeks[selectedWeek.value]
   if (!week) return null
-  return week.exercises[selectedExercise.value] || null
+  const idx = typeof selectedExercise.value === 'number' ? selectedExercise.value : Number(selectedExercise.value)
+  return week.exercises[idx] || null
 })
 
 function onAuthorChange() {
@@ -129,8 +129,8 @@ onMounted(() => {
       selectedAuthor.value = a
       if (w && solutionTree.value[a].weeks[w]) {
         selectedWeek.value = w
-        if (e !== null && e !== undefined) {
-          selectedExercise.value = e
+        if (e !== null && e !== undefined && e !== '') {
+          selectedExercise.value = Number(e)
         }
       }
     }
@@ -159,7 +159,7 @@ onMounted(() => {
     </option>
   </select>
 
-  <select v-model="selectedExercise" @change="onExerciseChange" :disabled="!exerciseOptions.length">
+  <select v-model.number="selectedExercise" @change="onExerciseChange" :disabled="!exerciseOptions.length">
     <option value="" disabled>-- 选择题目 --</option>
     <option v-for="opt in exerciseOptions" :key="opt.value" :value="opt.value">
       {{ opt.label }}
@@ -179,7 +179,7 @@ onMounted(() => {
   👆 请选择一个周
 </div>
 
-<div v-else-if="!currentExercise && exerciseOptions.length" class="empty-state">
+<div v-else-if="selectedExercise === '' && exerciseOptions.length" class="empty-state">
   👆 请选择一个题目
 </div>
 
@@ -188,9 +188,5 @@ onMounted(() => {
 </div>
 
 <div v-else class="code-viewer">
-
-```js
-{{ currentExercise.content }}
-```
-
+  <pre><code class="language-js">{{ currentExercise.content }}</code></pre>
 </div>

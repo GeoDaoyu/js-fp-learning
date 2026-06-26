@@ -68,7 +68,8 @@ const exerciseOptions = computed(() => {
 const currentExercise = computed(() => {
   const week = exerciseTree.value.find(([k]) => k === selectedWeek.value)
   if (!week) return null
-  return week[1].exercises[selectedExercise.value] || null
+  const idx = typeof selectedExercise.value === 'number' ? selectedExercise.value : Number(selectedExercise.value)
+  return week[1].exercises[idx] || null
 })
 
 function onWeekChange() {
@@ -92,8 +93,8 @@ onMounted(() => {
     if (savedWeek && exerciseTree.value.find(([k]) => k === savedWeek)) {
       selectedWeek.value = savedWeek
       const week = exerciseTree.value.find(([k]) => k === savedWeek)
-      if (savedEx !== null && week && week[1].exercises[parseInt(savedEx)]) {
-        selectedExercise.value = savedEx
+      if (savedEx !== null && week && week[1].exercises[Number(savedEx)]) {
+        selectedExercise.value = Number(savedEx)
       }
     }
   }
@@ -114,7 +115,7 @@ onMounted(() => {
     </option>
   </select>
 
-  <select v-model="selectedExercise" @change="onExerciseChange" :disabled="!exerciseOptions.length">
+  <select v-model.number="selectedExercise" @change="onExerciseChange" :disabled="!exerciseOptions.length">
     <option value="" disabled>-- 选择题目 --</option>
     <option v-for="opt in exerciseOptions" :key="opt.value" :value="opt.value">
       {{ opt.label }}
@@ -126,7 +127,7 @@ onMounted(() => {
   👆 请先选择一周，然后选择要查看的题目
 </div>
 
-<div v-else-if="!selectedExercise && exerciseOptions.length" class="empty-state">
+<div v-else-if="selectedExercise === '' && exerciseOptions.length" class="empty-state">
   👆 请选择一个题目来查看内容
 </div>
 
@@ -135,9 +136,5 @@ onMounted(() => {
 </div>
 
 <div v-else class="code-viewer">
-
-```js
-{{ currentExercise.content }}
-```
-
+  <pre><code class="language-js">{{ currentExercise.content }}</code></pre>
 </div>
