@@ -1,0 +1,40 @@
+:root {
+  --vp-c-brand: #646cff;
+  --vp-c-brand-light: #747bff;
+}
+
+.code-viewer pre {
+  max-height: 70vh;
+  overflow: auto;
+  border-radius: 8px;
+}
+
+.dropdown-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.dropdown-group select {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  font-size: 0.9rem;
+  min-width: 200px;
+  cursor: pointer;
+}
+
+.dropdown-group select:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--vp-c-text-2);
+  font-size: 1.1rem;
+}

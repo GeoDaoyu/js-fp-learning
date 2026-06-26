@@ -16,13 +16,17 @@
     "week:08": "vitest run exercises/week-08-monad/",
     "week:09": "vitest run exercises/week-09-effect-ts/",
     "week:10": "vitest run exercises/week-10-capstone/",
-    "run": "node"
+    "run": "node",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "effect": "^3.13.0",
     "ramda": "^0.32.0"
   },
   "devDependencies": {
+    "vitepress": "^1.6.4",
     "vitest": "^4.1.9"
   }
 }
