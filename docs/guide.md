@@ -16,7 +16,7 @@ title: 学习指南
 ### 1. 克隆仓库
 
 ```bash
-git clone https://github.com/geodaoyu/js-fp-learning.git
+git clone https://github.com/GeoDaoyu/js-fp-learning.git
 cd js-fp-learning
 ```
 

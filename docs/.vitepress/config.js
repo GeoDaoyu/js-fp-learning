@@ -39,7 +39,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/geodaoyu/js-fp-learning' },
+      { icon: 'github', link: 'https://github.com/GeoDaoyu/js-fp-learning' },
     ],
 
     outline: 'deep',

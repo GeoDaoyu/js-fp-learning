@@ -51,7 +51,7 @@ features:
 
 ```bash
 # 克隆仓库
-git clone https://github.com/geodaoyu/js-fp-learning.git
+git clone https://github.com/GeoDaoyu/js-fp-learning.git
 cd js-fp-learning
 
 # 安装依赖
