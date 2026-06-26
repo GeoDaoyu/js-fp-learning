@@ -13,38 +13,25 @@ import { describe, it, expect } from "vitest";
 
 // 练习1: updateProp — 更新对象的某个属性
 function updateProp(obj, key, value) {
-  return {
-    ...obj,
-    [key]: value,
-  };
+  // TODO: 返回更新了指定属性的新对象（不修改原对象）
 }
 
 // 练习2: addProp — 给对象添加新属性
 function addProp(obj, key, value) {
-  return {
-    ...obj,
-    [key]: value,
-  };
+  // TODO: 返回添加了新属性的新对象（不修改原对象）
 }
 
 // 练习3: removeProp — 删除对象的某个属性
 // 提示: 用解构 + rest
 function removeProp(obj, key) {
-  const { [key]: value, ...rest } = obj;
-  return rest;
+  // TODO: 返回删除了指定属性的新对象，用解构 + rest 语法（不修改原对象）
 }
 
 // 练习4: updateCity — 不可变更新嵌套对象的 city
 // user 结构: { name, age, address: { city, street } }
 // 要求: 返回新对象，不修改原 user 及原 user.address
 function updateCity(user, newCity) {
-  return {
-    ...user,
-    address: {
-      ...user.address,
-      city: newCity,
-    },
-  };
+  // TODO: 不可变更新嵌套对象的 address.city，原 user 及原 user.address 均不变
 }
 
 // ==========================================

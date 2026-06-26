@@ -12,11 +12,7 @@ import { describe, it, expect } from "vitest";
 // 接收一个单参数函数 fn，返回具有相同功能的函数
 // 当同一个参数再次传入时，直接返回缓存结果，不重新调用 fn
 function memoize(fn) {
-  const map = new Map();
-  return (key) => {
-    if (!map.has(key)) map.set(key, fn(key));
-    return map.get(key);
-  };
+  // TODO: 使用 Map 缓存单参数函数 fn 的计算结果，同一参数再次调用时直接返回缓存值
 }
 
 // 练习2: memoizeWith — 自定义缓存 key
@@ -24,26 +20,18 @@ function memoize(fn) {
 // 用 resolver(...args) 生成缓存 key，其余逻辑同 memoize
 // 支持多参数函数
 function memoizeWith(resolver, fn) {
-  const map = new Map();
-  return (...args) => {
-    const key = resolver(...args);
-    if (!map.has(key)) map.set(key, fn(...args));
-    return map.get(key);
-  };
+  // TODO: 使用 resolver 生成缓存 key，用 Map 缓存支持多参数函数 fn 的计算结果
 }
 
 // 练习3: 闭包的优缺点（写在注释里）
 //
 // 3a. 闭包实现记忆化（memoization）用到了闭包的什么特性？
 //
-// 闭包能使内部函数持久持有外层作用域的变量（缓存 Map），
-// 在多次调用之间保持状态不丢失，这是实现记忆化的基础。
+// TODO: 思考并写下你的理解
 
 // 3b. 使用闭包可能带来什么问题？（至少写两点）
 //
-// ① 内存开销：闭包持有的缓存随调用次数增长，若无限缓存可能占用大量内存
-// ② 难以测试：闭包内的私有状态外部无法直接访问或重置，单元测试不便
-// ③ 意外共享：若闭包被多处引用，可能导致意外的状态共享
+// TODO: 思考并写下你的理解（至少写两点）
 
 // ==========================================
 // === 测试（不要修改） ===

@@ -20,15 +20,12 @@ const students = [
 
 // autoCurry（复用 Day1 的实现或重新实现）
 function autoCurry(fn) {
-  return (...accumulated) => {
-    if (accumulated.length >= fn.length) return fn(...accumulated);
-    return (...more) => autoCurry(fn)(...accumulated, ...more);
-  };
+  // TODO: 根据 fn.length 自动柯里化任意函数
 }
 
 // pipe（复用 Day4 的实现）
 function pipe(...fns) {
-  return (init) => fns.reduce((val, fn) => fn(val), init);
+  // TODO: 从左向右依次执行函数
 }
 
 // 练习1: 拆分单一职责小函数
@@ -37,52 +34,30 @@ function pipe(...fns) {
 // addGrade: 根据 score 添加 grade 字段
 // >= 90 → 'A', >= 80 → 'B', >= 70 → 'C', >= 60 → 'D', < 60 → 'F'
 function addGrade(student) {
-  const grade =
-    student.score >= 90
-      ? "A"
-      : student.score >= 80
-        ? "B"
-        : student.score >= 70
-          ? "C"
-          : student.score >= 60
-            ? "D"
-            : "F";
-  return { ...student, grade };
+  // TODO: 根据 score 添加 grade 字段（>=90→A, >=80→B, >=70→C, >=60→D, <60→F），不修改原对象
 }
 
 // addPassed: 添加 passed 字段（grade 不是 'F'）
 function addPassed(student) {
-  return { ...student, passed: student.grade !== "F" };
+  // TODO: 添加 passed 字段（grade 不是 'F' 则为 true），不修改原对象
 }
 
 // formatStudent: 重命名为 { name, score, grade, passed }
 function formatStudent(student) {
-  const { name, score, grade, passed } = student;
-  return { name, score, grade, passed };
+  // TODO: 提取 name, score, grade, passed 字段，返回新对象
 }
 
 // 练习2: 用 pipe 串联数据处理链路
 // 处理所有学生: 加评分 → 加通过状态 → 格式化
 function processStudents(studentList) {
-  const map = autoCurry((fn, arr) => arr.map(fn));
-  return pipe(map(addGrade), map(addPassed), map(formatStudent))(studentList);
+  // TODO: 用 pipe 串联 addGrade → addPassed → formatStudent 处理所有学生
 }
 
 // 练习3: point-free 风格
 // 获取所有及格学生的名字（大写），按分数降序排列
 // 要求: 用 pipe 串联，尽量 point-free
 function topPassedNames(studentList) {
-  const filter = autoCurry((fn, arr) => arr.filter(fn));
-  const map = autoCurry((fn, arr) => arr.map(fn));
-  const sort = autoCurry((fn, arr) => [...arr].sort(fn));
-  return pipe(
-    map(addGrade),
-    map(addPassed),
-    filter((s) => s.passed),
-    sort((a, b) => b.score - a.score),
-    map((s) => s.name),
-    map((s) => s.toUpperCase()),
-  )(studentList);
+  // TODO: 用 pipe 串联处理，获取所有及格学生的名字（大写），按分数降序排列
 }
 
 // ==========================================

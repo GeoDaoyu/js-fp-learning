@@ -24,43 +24,23 @@ const orders = [
 // toArray() → 返回栈的浅拷贝数组（不影响内部数据）
 // 内部用不可变方式操作（不用 push/pop 原地修改）
 function createStack() {
-  let arr = [];
-  return {
-    push: (item) => {
-      arr = [...arr, item];
-      return arr.length;
-    },
-    pop: () => {
-      const last = arr[arr.length - 1];
-      arr = arr.slice(0, -1);
-      return last;
-    },
-    peek: () => arr[arr.length - 1],
-    size: () => arr.length,
-    toArray: () => [...arr],
-  };
+  // TODO: 使用闭包和不可变数组，返回包含 push, pop, peek, size, toArray 方法的对象
 }
 
 // 练习2: 不可变数据处理 — 订单分析
 // 2a: filterDelivered — 筛选状态为 'delivered' 的订单（返回新数组）
 function filterDelivered(orderList) {
-  return orderList.filter(({ status }) => status === "delivered");
+  // TODO: 用 filter 筛选状态为 'delivered' 的订单，返回新数组
 }
 
 // 2b: addTotal — 给每个订单添加 total = price * quantity（返回新数组）
 function addTotal(orderList) {
-  return orderList.map((v) => ({
-    ...v,
-    total: v.price * v.quantity,
-  }));
+  // TODO: 用 map 给每个订单添加 total = price * quantity 字段，返回新数组
 }
 
 // 2c: totalRevenue — 计算已交付订单的总收入（用 filter + map + reduce）
 function totalRevenue(orderList) {
-  return orderList
-    .filter(({ status }) => status === "delivered")
-    .map(({ price, quantity }) => price * quantity)
-    .reduce((total, curr) => total + curr, 0);
+  // TODO: 用 filter + map + reduce 计算已交付订单的总收入，返回数值
 }
 
 // 练习3: createImmutableStore — 闭包封装不可变状态
@@ -68,14 +48,7 @@ function totalRevenue(orderList) {
 // setState(partial) → 合并 partial 到状态（不可变），返回新状态
 // 要求: setState 不修改旧 state 引用
 function createImmutableStore(initialState) {
-  let state = initialState;
-  return {
-    getState: () => state,
-    setState: (partial) => {
-      state = { ...state, ...partial };
-      return state;
-    },
-  };
+  // TODO: 使用闭包封装不可变状态，返回 getState / setState 方法
 }
 
 // ==========================================

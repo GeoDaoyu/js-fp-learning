@@ -12,33 +12,33 @@ const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 // 练习1: 用 reduce 求和
 function sum(arr) {
-  return arr.reduce((a, b) => a + b);
+  // TODO: 用 reduce 求和
 }
 
 // 练习2: 用 reduce 求乘积
 function product(arr) {
-  return arr.reduce((a, b) => a * b, 1);
+  // TODO: 用 reduce 求乘积（注意初始值应为 1）
 }
 
 // 练习3: 用 reduce 求最大值
 function max(arr) {
-  return arr.reduce((a, b) => (a > b ? a : b), -Infinity);
+  // TODO: 用 reduce 求最大值
 }
 
 // 练习4: 用 reduce 求最小值
 function min(arr) {
-  return arr.reduce((a, b) => (a < b ? a : b), Infinity);
+  // TODO: 用 reduce 求最小值
 }
 
 // 练习5: 理解初始值的影响
 // 5a: reduce 不带初始值 — 计算数组元素个数（用 reduce 实现 count）
 function count(arr) {
-  return arr.reduce((count, _) => count + 1, 0);
+  // TODO: 用 reduce 计算数组元素个数
 }
 
 // 5b: reduce 带初始值 0 — 计算所有正数的总和，负数视为 0
 function sumPositive(arr) {
-  return arr.reduce((sum, curr) => sum + (curr > 0 ? curr : 0), 0);
+  // TODO: 用 reduce 计算所有正数的总和，负数视为 0
 }
 
 // ==========================================

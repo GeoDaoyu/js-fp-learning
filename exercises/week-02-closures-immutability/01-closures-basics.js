@@ -15,24 +15,7 @@ import { describe, it, expect } from "vitest";
 // get() → 返回当前 count
 // reset() → 将 count 重置为 0，返回 0
 function createCounter(initial = 0) {
-  let count = initial;
-  return {
-    inc: () => {
-      count++;
-      return count;
-    },
-    dec: () => {
-      count--;
-      return count;
-    },
-    get: () => {
-      return count;
-    },
-    reset: () => {
-      count = 0;
-      return count;
-    },
-  };
+  // TODO: 使用闭包持有私有计数 count，返回包含 inc, dec, get, reset 方法的对象
 }
 
 // 练习2: createSecret — 闭包封装私有数据
@@ -40,14 +23,7 @@ function createCounter(initial = 0) {
 // getSecret() → 返回当前 secret
 // setSecret(newVal) → 更新 secret，返回更新后的值
 function createSecret(initialSecret) {
-  let secret = initialSecret;
-  return {
-    getSecret: () => secret,
-    setSecret: (newVal) => {
-      secret = newVal;
-      return secret;
-    },
-  };
+  // TODO: 使用闭包持有私有 secret，返回包含 getSecret, setSecret 方法的对象
 }
 
 // 练习3: 闭包分析（写在注释里）
@@ -60,13 +36,11 @@ function createSecret(initialSecret) {
 // const greet = makeGreeter('Alice');
 // greet();
 //
-// 形成了闭包。makeGreeter 返回的内部函数引用了外层作用域的 name 变量，
-// 且该引用在 makeGreeter 执行完毕后依然保持，greet() 调用时仍可访问 name。
+// TODO: 思考并写下你的理解
 
 // 3b. 闭包与普通函数的本质区别是什么？（一句话）
 //
-// 闭包能"记住"其定义时所在词法作用域的变量，即使外部函数已执行完毕；
-// 普通函数只能访问自身参数和全局变量。
+// TODO: 思考并写下你的理解（一句话）
 
 // ==========================================
 // === 测试（不要修改） ===

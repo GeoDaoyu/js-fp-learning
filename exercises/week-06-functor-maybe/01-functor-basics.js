@@ -27,21 +27,11 @@ class Container {
 //
 // 2a. 一个 Functor（函子）需要满足哪两个条件？
 //
-// ① 同一律（Identity）：对函子调用 map(x => x)（恒等函数），
-//    返回的函子应与原函子等价。
-//    → F.map(id) === F
-//
-// ② 复合律（Composition）：连续 map 两个函数的效果，
-//    等同于 map 这两个函数的组合。
-//    → F.map(g).map(h) === F.map(x => h(g(x)))
+// TODO: 思考并写下你的理解
 
 // 2b. Array.map 是函子吗？为什么？
 //
-// 严格来说，Array（数组类型）才是函子，map 是它作为函子必须具备的方法。
-// 但从题意理解：Array 是函子，因为：
-//   ① Array 是一个容器（容纳多个值）
-//   ② Array.prototype.map 满足同一律：[1,2,3].map(x => x) // [1,2,3]
-//   ③ Array.prototype.map 满足复合律：[1,2,3].map(g).map(h) === [1,2,3].map(x => h(g(x)))
+// TODO: 思考并写下你的理解
 
 // 练习3: 用 Container 串联操作
 
@@ -53,10 +43,7 @@ class Container {
 // reverse: 反转字符串
 
 function processString(str) {
-  return new Container(str)
-    .map((x) => x.toUpperCase())
-    .map((x) => x.trim())
-    .map((x) => x.split("").reverse().join(""));
+  // TODO: 用 Container 封装 "hello world"，串联 map(toUpperCase) → map(去除空格) → map(反转)
 }
 
 // ==========================================

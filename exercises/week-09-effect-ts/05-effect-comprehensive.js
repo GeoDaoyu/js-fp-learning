@@ -23,34 +23,25 @@ const users = {
 
 // 1a: findUser(id) → Option<User>
 function findUser(id) {
-  return O.fromNullable(users[id]);
+  // TODO: 用 O.fromNullable 从 users 查找用户，返回 Option
 }
 
 // 1b: ensureActive(user) → Either<error, user>
 function ensureActive(user) {
-  return user.active ? E.right(user) : E.left("User inactive");
+  // TODO: user.active 为 true 返回 E.right，否则 E.left('User inactive')
 }
 
 // 1c: getEmail(user) → Option<string>
 function getEmail(user) {
-  return O.fromNullable(user.email);
+  // TODO: 用 O.fromNullable 安全获取 user.email
 }
 
 // 1d: getUserEmail(userId) — 全链路
 // findUser → E.fromOption → ensureActive → getEmail → E.fromOption
 // Option → Either 用 E.fromOption(() => 'User not found')
 function getUserEmail(userId) {
-  return pipe(
-    findUser(userId),
-    E.fromOption(() => "User not found"),
-    E.flatMap(ensureActive),
-    E.flatMap((user) =>
-      pipe(
-        getEmail(user),
-        E.fromOption(() => "No email"),
-      ),
-    ),
-  );
+  // TODO: 全链路串联 findUser → ensureActive → getEmail
+  // Option 用 E.fromOption 转为 Either
 }
 
 // 练习2: 用 Effect-TS 做数据处理管道
@@ -66,39 +57,16 @@ const orders = [
 ];
 
 function totalDeliveredRevenue(orderList) {
-  return pipe(
-    orderList,
-    A.filter((o) => o.status === "delivered"),
-    A.map((o) => o.qty * o.price),
-    A.reduce(0, (acc, x) => acc + x),
-  );
+  // TODO: 用 pipe 串联 A.filter → A.map → A.reduce 计算已交付订单总收入
 }
 
 // 练习3: Effect-TS 学习反思（写在注释里）
 //
 // 3a. Effect-TS 与我们手写的 Maybe/Either 相比，最大的优势是什么？
-//
-// 最大的优势是类型安全和生态完整性：
-// 1. TypeScript 类型推断：每一步 pipe 操作的类型都被精准追踪，
-//    比如 E.flatMap(ensureActive) 编译器知道输入是 User、输出是 Either<string, User>，
-//    类型不匹配在编译期就能发现，而不是运行时爆 undefined
-// 2. 模块互操作：O.toEither、E.fromOption 等转换函数都是现成的，
-//    手写版本需要自己实现 Option ↔ Either 的桥接
-// 3. 工具函数丰富：E.tryCatch、A.lookup、O.fromNullable 等
-//    覆盖了大量常见场景，不需要重复造轮子
-// 4. 生产级质量：经过大量项目验证，边界情况处理完善
+//     TODO: 思考并写下你的理解
 //
 // 3b. Effect-TS 的学习曲线如何？哪些概念需要额外时间来消化？
-//
-// 学习曲线适中，手写了 Maybe/Either/Monad 之后会好很多：
-// 1. pipe 式调用需要适应：从 value.map(fn) 到 pipe(value, O.map(fn))
-//    思维转换需要时间，但本质上就是"数据流过一串函数"
-// 2. 类型签名阅读：Effect-TS 的函数签名用 Hindley-Milner 风格，
-//    比如 Array.reduce: (b, f) => (as) => B，需要习惯这种写法
-// 3. 泛型错误信息：类型不匹配时 TypeScript 的错误可能很长很绕，
-//    需要学会从错误中定位真正的类型问题
-// 4. 进阶概念：Effect-TS 除了 Option/Either，还有 Effect（异步+依赖注入+错误处理一体化），
-//    不过这些在第 6-8 周已经建立了基础，只需要对接到 Effect-TS 的具体 API
+//     TODO: 思考并写下你的理解
 
 // ==========================================
 // === 测试（不要修改） ===

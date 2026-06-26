@@ -83,26 +83,18 @@ const sortByCreatedAt = (todos) =>
 // 用于 Todo 列表页面展示：先按状态筛选，再按关键词搜索，最后分页
 // ==========================================
 
-const processTodos = (todos, filter, query, page, pageSize) =>
-  pipe(
-    todos,
-    filterByStatus(filter),
-    searchTodos(query),
-    paginate(page, pageSize)
-  );
+const processTodos = (todos, filter, query, page, pageSize) => {
+  // TODO: 用 pipe 串联 filterByStatus → searchTodos → paginate
+};
 
 // ==========================================
 // Pipeline 2: 搜索后排序管道（搜索 → 排序 → 分页）
 // 用于"搜索"场景：搜索匹配后按创建时间排序，再分页
 // ==========================================
 
-const searchAndSortTodos = (todos, query, page, pageSize) =>
-  pipe(
-    todos,
-    searchTodos(query),
-    sortByCreatedAt,
-    paginate(page, pageSize)
-  );
+const searchAndSortTodos = (todos, query, page, pageSize) => {
+  // TODO: 用 pipe 串联 searchTodos → sortByCreatedAt → paginate
+};
 
 // ==========================================
 // Pipeline 3: 统计管道（筛选 → 统计）
@@ -110,16 +102,9 @@ const searchAndSortTodos = (todos, query, page, pageSize) =>
 // 注意: 筛选不影响原始数据，返回的是统计结果
 // ==========================================
 
-const getStats = (todos, filter) =>
-  pipe(
-    todos,
-    filterByStatus(filter),
-    (filtered) => ({
-      total: filtered.length,
-      completed: filtered.filter((t) => t.completed).length,
-      active: filtered.filter((t) => !t.completed).length,
-    })
-  );
+const getStats = (todos, filter) => {
+  // TODO: 用 pipe 串联 filterByStatus → 统计，返回 { total, completed, active }
+};
 
 // ==========================================
 // === 测试你的 pipeline ===

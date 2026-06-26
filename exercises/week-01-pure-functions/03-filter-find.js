@@ -18,30 +18,27 @@ const users = [
 
 // 练习1: filter — 筛选成年用户（age >= 18）
 function getAdults(userList) {
-  return userList.filter((user) => user.age >= 18);
+  // TODO: 用 filter 筛选年龄 >= 18 的用户
 }
 
 // 练习2: find — 查找第一个名为指定名字的用户
 function findByName(userList, name) {
-  return userList.find((user) => user.name === name);
+  // TODO: 用 find 查找第一个名为指定名字的用户
 }
 
 // 练习3: some — 判断是否存在未成年用户
 function hasMinor(userList) {
-  return userList.some((user) => user.age < 18);
+  // TODO: 用 some 判断是否存在未成年用户
 }
 
 // 练习4: every — 判断是否所有用户都活跃
 function allActive(userList) {
-  return userList.every((user) => user.active);
+  // TODO: 用 every 判断是否所有用户都活跃
 }
 
 // 练习5: 综合 — 筛选成年用户 → 提取姓名 → 转为大写
 function getAdultNamesUpper(userList) {
-  return userList
-    .filter((user) => user.age >= 18)
-    .map((user) => user.name)
-    .map((name) => name.toUpperCase());
+  // TODO: 筛选成年用户 → 提取姓名 → 转为大写（链式 filter + map）
 }
 
 // ==========================================

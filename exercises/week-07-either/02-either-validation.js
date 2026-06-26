@@ -41,26 +41,21 @@ class Left extends Either {
 // name 为空 → Left('Name is required')
 // 否则 → Right(name)
 function validateName(formData) {
-  const name = formData.name;
-  return name ? Either.of(name) : Either.left("Name is required");
+  // TODO: 校验 name 不能为空 —— 空则 Left('Name is required')，否则 Right(name)
 }
 
 // 1b: validateAge(formData) — 校验 age
 // age 不存在或 < 18 → Left('Must be 18 or older')
 // 否则 → Right(age)
 function validateAge(formData) {
-  const age = formData.age;
-  return age >= 18 ? Either.of(age) : Either.left("Must be 18 or older");
+  // TODO: 校验 age >= 18 —— 不足则 Left('Must be 18 or older')，否则 Right(age)
 }
 
 // 1c: validateEmail(formData) — 校验 email
 // email 不存在或不含 @ → Left('Invalid email')
 // 否则 → Right(email)
 function validateEmail(formData) {
-  const email = formData.email;
-  return email && email.includes("@")
-    ? Either.of(email)
-    : Either.left("Invalid email");
+  // TODO: 校验 email 包含 @ —— 不含则 Left('Invalid email')，否则 Right(email)
 }
 
 // 练习2: 串联校验 — 多个校验步骤，任一失败则停止
@@ -70,26 +65,14 @@ function validateEmail(formData) {
 //   任一失败 → Left(错误信息)
 // 要求: 用 chain 串联
 function validateForm(formData) {
-  return validateName(formData)
-    .chain(() => validateAge(formData))
-    .chain(() => validateEmail(formData))
-    .map(() => formData);
+  // TODO: 用 chain 串联校验 name → age → email，全部通过返回 Right(formData)，任一失败短路返回 Left
 }
 
 // 练习3: Either 校验与命令式校验对比（写在注释里）
 //
 // 3a. Either 串联校验相比传统 if (err) return err 写法有什么优势？
 //
-// 传统写法：
-//   if (!name) return 'Name required'
-//   if (!age) return 'Must be 18'
-//   if (!email) return 'Invalid email'
-//
-// Either 版本的优势：
-// ① 短路是"自动的"——Left 在链上自然停止，不需要手动 return，减少漏掉某步判断的可能
-// ② 类型统一——每一步返回 Either，链条结构一致，而传统写法的 return 可能是值也可能是错误字符串
-// ③ 可组合——每个校验函数是独立的纯函数，可以复用、单独测试，而不是嵌在一大段 if-return 里
-// ④ 调用方统一处理——fold 在末尾集中处理成功/失败，而不是在每层 if 里分散做不同的事
+// TODO: 思考并写下你的理解
 
 // ==========================================
 // === 测试（不要修改） ===

@@ -11,42 +11,31 @@ import { describe, it, expect } from "vitest";
 // 练习1: curry2 — 手动柯里化二元函数
 // 接收一个 (a, b) => ... 的函数，返回 a => b => ...
 function curry2(fn) {
-  return (a) => (b) => fn(a, b);
+  // TODO: 接收二元函数，返回 a => b => ... 的柯里化形式
 }
 
 // 练习2: curry3 — 手动柯里化三元函数
 // 接收一个 (a, b, c) => ... 的函数，返回 a => b => c => ...
 function curry3(fn) {
-  return (a) => (b) => (c) => fn(a, b, c);
+  // TODO: 接收三元函数，返回 a => b => c => ... 的柯里化形式
 }
 
 // 练习3: autoCurry — 自动柯里化任意函数
 // 根据 fn.length 自动判断是否需要继续接收参数
 // 当累计参数 >= fn.length 时调用原函数
 function autoCurry(fn) {
-  return (...accumulated) => {
-    if (accumulated.length >= fn.length) return fn(...accumulated);
-    return (...more) => autoCurry(fn)(...accumulated, ...more);
-  };
+  // TODO: 根据 fn.length 自动柯里化任意函数，累计参数足够时调用原函数
 }
 
 // 练习4: 柯里化问答（写在注释里）
 //
 // 4a. 柯里化与普通多参数函数调用有什么区别？举例说明。
 //
-// 普通多参数函数一次性接收所有参数：add(1, 2, 3)。
-// 柯里化把它拆成单参数函数的链：add(1)(2)(3)，每一步只接一个参数。
-// 关键收益是支持偏函数应用：const add10 = add(10) 得到一个"加10"的专用函数，
-// 后续只需 add10(3) === 13，无需重复传第一个参数。
+// TODO: 思考并写下你的理解
 
 // 4b. fn.length 在柯里化中的作用是什么？有什么局限性？
 //
-// 作用：fn.length 返回函数声明时第一个默认参数之前的参数个数，
-// 柯里化用它判断"参数是否已经收齐"。
-// 局限性：
-//   - 默认参数 (a, b = 10) 不计入 length（练习3最后一个测试就是这种情况）
-//   - rest 参数 ...args 会让 fn.length === 0
-//   - 解构参数也不计入
+// TODO: 思考并写下你的理解
 
 // ==========================================
 // === 测试（不要修改） ===

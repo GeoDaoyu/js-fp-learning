@@ -21,26 +21,26 @@ const orders = [
 
 // 练习1: R.groupBy — 按 category 分组
 function groupByCat(orderList) {
-  return R.groupBy(R.prop("category"), orderList);
+  // TODO: 用 R.groupBy 按 category 分组
 }
 
 // 练习2: R.sort / R.sortBy — 排序
 
 // 2a: sortByAmount — 按 amount 升序排列
 function sortByAmount(orderList) {
-  return R.sortBy(R.prop("amount"))(orderList);
+  // TODO: 用 R.sortBy 按 amount 升序排列
 }
 
 // 2b: sortByAmountDesc — 按 amount 降序排列
 function sortByAmountDesc(orderList) {
-  return R.sort(R.descend(R.prop("amount")))(orderList);
+  // TODO: 用 R.sort 和 R.descend 按 amount 降序排列
 }
 
 // 练习3: R.uniq / R.uniqBy — 去重
 
 // 3a: uniqueCategories — 返回所有不重复的 category
 function uniqueCategories(orderList) {
-  return R.uniq(R.map(R.prop("category"), orderList));
+  // TODO: 用 R.uniq 和 R.map 返回不重复的 category
 }
 
 // 练习4: R.partition — 根据谓词一分为二
@@ -48,13 +48,13 @@ function uniqueCategories(orderList) {
 
 // 4a: splitHighValue — 将 >= 100 的订单和 < 100 的订单分开
 function splitHighValue(orderList) {
-  return R.partition(R.propSatisfies(R.gt(R.__, 100), "amount"), orderList);
+  // TODO: 用 R.partition 将订单按 amount >= 100 分开
 }
 
 // 练习5: R.zip / R.zipObj — 合并数组
 // 5a: makeDict — keys 和 values 两个数组合并为对象
 function makeDict(keys, values) {
-  return R.zipObj(keys, values);
+  // TODO: 用 R.zipObj 将 keys 和 values 合并为对象
 }
 
 // ==========================================

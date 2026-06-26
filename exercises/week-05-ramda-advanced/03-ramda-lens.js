@@ -27,64 +27,57 @@ const user = {
 // 练习1: Lens 基础 — view / set / over
 
 // 1a: nameLens — 创建一个聚焦 name 属性的 Lens
-const nameLens = R.lens(R.prop("name"), R.assoc("name"));
+const nameLens = null; // TODO: 使用 R.lens 创建聚焦 name 属性的 Lens
 
 // 1b: getName — 用 R.view 获取 name
 function getName(u) {
-  return R.view(nameLens, u);
+  // TODO: 使用 R.view 配合 nameLens 获取 name 属性
 }
 
 // 1c: setName — 用 R.set 设置 name
 function setName(u, newName) {
-  return R.set(nameLens, newName, u);
+  // TODO: 使用 R.set 配合 nameLens 设置 name 属性
 }
 
 // 1d: toUpperName — 用 R.over 将 name 转为大写
 function toUpperName(u) {
-  return R.over(nameLens, R.toUpper, u);
+  // TODO: 使用 R.over 配合 nameLens 将 name 转为大写
 }
 
 // 练习2: R.lensPath — 嵌套属性 Lens
 
 // 2a: cityLens — 创建聚焦 address.city 的 Lens
-const cityLens = R.lensPath(["address", "city"]);
+const cityLens = null; // TODO: 使用 R.lensPath 创建聚焦 address.city 的 Lens
 
 // 2b: setCity(user, newCity) — 设置 city
 function setCity(u, newCity) {
-  return R.set(cityLens, newCity, u);
+  // TODO: 使用 R.set 配合 cityLens 设置城市
 }
 
 // 2c: themeLens — 创建聚焦 settings.theme 的 Lens
-const themeLens = R.lensPath(["settings", "theme"]);
+const themeLens = null; // TODO: 使用 R.lensPath 创建聚焦 settings.theme 的 Lens
 
 // 2d: toggleTheme(u) — 切换主题 'dark' → 'light' 或 'light' → 'dark'
 function toggleTheme(u) {
-  return R.over(
-    themeLens,
-    R.ifElse(R.equals("dark"), R.always("light"), R.always("dark")),
-    u,
-  );
+  // TODO: 使用 R.over 配合 themeLens 切换主题 dark/light
 }
 
 // 练习3: Lens 组合 — R.compose 组合多个 Lens
 
 // 3a: streetLens — 先从 address 聚焦，再聚焦 street
 // 提示: R.compose(addressLens, streetLens) 或直接用 R.lensPath
-const streetLens = R.lensPath(["address", "street"]);
+const streetLens = null; // TODO: 使用 R.lensPath 创建聚焦 address.street 的 Lens
 
 // 3b: capitalizeStreet(u) — 将 street 首字母大写
 function capitalizeStreet(u) {
-  return R.over(streetLens, (s) => s.charAt(0).toUpperCase() + s.slice(1), u);
+  // TODO: 使用 R.over 配合 streetLens 将街道名首字母大写
 }
 
 // 练习4: Lens 问答（写在注释里）
 //
 // 4a. Lens 相比手动写 { ...obj, address: { ...obj.address, city: newCity } } 有什么优势？
 //
-// 1. 可组合 — 通过 R.compose 将多个 Lens 串联，聚焦任意深度的属性，手写 spread 每多一层就要多包一层。
-// 2. 读写统一 — 同一个 Lens 既能 view（读）也能 set/over（写/改），手动方式读写是两套代码。
-// 3. 不可变保证 — set/over 自动返回新对象，不会遗漏某层展开导致意外修改原对象。
-// 4. 可复用 — Lens 定义一次，多处使用；手动 spread 是 ad-hoc 的，每次都要重写嵌套结构。
+// TODO: 思考并写下你的理解
 
 // ==========================================
 // === 测试（不要修改） ===

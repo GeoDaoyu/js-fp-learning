@@ -20,18 +20,18 @@ import { describe, it, expect } from "vitest";
 
 // 1a: safeDivide(a, b) → Option<number>
 function safeDivideFP(a, b) {
-  return b === 0 ? O.none() : O.some(a / b);
+  // TODO: b === 0 返回 O.none()，否则 O.some(a / b)
 }
 
 // 1b: safeGet(obj, key) → Option<value>
 function safeGetFP(obj, key) {
-  return O.fromNullable(obj[key]);
+  // TODO: 用 O.fromNullable 安全获取 obj[key]
 }
 
 // 1c: safeToUpper(str) → 如果 str 非空，返回 O.some(str.toUpperCase())
 //     否则 O.none
 function safeToUpper(str) {
-  return str ? O.some(str.toUpperCase()) : O.none();
+  // TODO: str 非空返回 O.some(str.toUpperCase())，否则 O.none()
 }
 
 // 练习2: 用 pipe + Option 链式处理
@@ -40,30 +40,14 @@ function safeToUpper(str) {
 // 2a: getTheme(user) — 安全获取 user.profile.settings.theme
 // 用 pipe + O.fromNullable + O.map 或 O.chain
 function getTheme(user) {
-  return pipe(
-    user,
-    O.fromNullable,
-    O.flatMapNullable((u) => u.profile),
-    O.flatMapNullable((p) => p.settings),
-    O.flatMapNullable((s) => s.theme),
-    O.getOrElse(() => "default"),
-  );
+  // TODO: 用 pipe + O.fromNullable + O.flatMapNullable 安全链式获取 user.profile.settings.theme
+  // 缺失返回 'default'
 }
 
 // 练习3: 对比手写 Maybe 和 Effect-TS Option（写在注释里）
 //
 // 3a. Effect-TS Option 和我们手写的 Maybe 在使用上最大的不同是什么？
-//
-// 最大的不同是调用方式：手写 Maybe 用的是方法链式调用
-//   Maybe.of(x).map(fn).chain(fn2).getOrElse(d)
-// 而 Effect-TS Option 用的是 pipe + 函数式调用
-//   pipe(option, O.map(fn), O.flatMap(fn2), O.getOrElse(() => d))
-//
-// 这种差异源于设计哲学：手写版是 OOP 风格（方法挂在对象上），
-// Effect-TS 是纯函数式风格（数据与操作分离）。pipe 模式的好处是：
-//   - 可以和任意模块的函数组合，不限于 Option 自己的方法
-//   - TypeScript 类型推断更精准（每一步的类型变化都被追踪）
-//   - 不需要"包装"对象，Option 本身就是一个普通值
+//     TODO: 思考并写下你的理解
 
 // ==========================================
 // === 测试（不要修改） ===

@@ -103,32 +103,20 @@ class Left extends Either {
 const takenUsernames = ["admin", "root", "system"];
 
 function validateUsername(username) {
-  return username.length >= 3
-    ? Either.right(username)
-    : Either.left("Username too short");
+  // TODO: 校验用户名长度 >= 3，返回 Either
 }
 
 function validatePassword(password) {
-  return password.length >= 6
-    ? Either.right(password)
-    : Either.left("Password too short");
+  // TODO: 校验密码长度 >= 6，返回 Either
 }
 
 function checkNotTaken(username) {
-  return takenUsernames.includes(username)
-    ? Either.left("Username already taken")
-    : Either.right(username);
+  // TODO: 检查用户名是否已被占用，返回 Either
 }
 
 function register(username, password) {
-  return validateUsername(username)
-    .chain((name) => validatePassword(password).map((pw) => ({ name, pw })))
-    .chain(({ name, pw }) =>
-      checkNotTaken(name).map((name) => ({
-        username: name,
-        createdAt: new Date(),
-      }))
-    );
+  // TODO: 用 chain 串联 validateUsername → validatePassword → checkNotTaken
+  // 返回 Either<error, { username, createdAt }>
 }
 
 // 练习2: Monad vs Promise
@@ -147,19 +135,7 @@ function register(username, password) {
 //
 // 2b: 写一段话分析 Monad chain 和 Promise.then 的异同（写在注释里）
 //
-// 2b: Monad chain 和 Promise.then 的异同：
-//
-// 相同点：
-// - 都支持链式调用，将多个操作串联起来
-// - 都能"展平"嵌套：chain 展平嵌套的 Monad，then 展平嵌套的 Promise
-// - 都能短路：Left/Nothing 短路类似 Promise reject 的短路
-//
-// 不同点：
-// - Promise 是异步的，Monad 是同步的
-// - Promise.then 兼具 map 和 chain 的能力（自动识别返回值类型），
-//   Monad 需要显式区分 map（普通值）和 chain（Monad 值）
-// - Promise 主要处理"未来值"，Monad 主要处理"可能失败的值"或"可能为空的值"
-// - Promise 的错误处理走 .catch，Monad 用 fold / getOrElse
+// 2b: TODO: 思考并写下你的理解 — Monad chain 和 Promise.then 的异同
 
 // ==========================================
 // === 测试（不要修改） ===

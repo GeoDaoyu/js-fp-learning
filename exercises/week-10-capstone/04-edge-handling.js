@@ -64,49 +64,29 @@ import { describe, it, expect } from "vitest";
 
 // findTodoById: 查找 todo，不存在返回 O.none
 function findTodoById(todos, id) {
-  return pipe(
-    todos.find((t) => t.id === id),
-    O.fromNullable
-  );
+  // TODO: 用 pipe + O.fromNullable 查找 todo，不存在返回 O.none
 }
 
 // safeGetLocalStorage: 安全读取 localStorage，失败返回 O.none
 function safeGetLocalStorage(key) {
-  try {
-    const raw = typeof window !== "undefined" && window.localStorage
-      ? window.localStorage.getItem(key)
-      : null;
-    return pipe(raw, O.fromNullable);
-  } catch {
-    return O.none();
-  }
+  // TODO: 安全读取 localStorage，失败或不存在返回 O.none
 }
 
 // getTodoText: 安全获取 todo 文本，不存在返回默认值
 function getTodoText(todos, id) {
-  return pipe(
-    findTodoById(todos, id),
-    O.map((t) => t.text),
-    O.getOrElse(() => "未知待办事项")
-  );
+  // TODO: 用 pipe + O.map + O.getOrElse 安全获取 todo 文本，不存在返回默认值
 }
 
 // --- Either 处理器: 校验与异常 ---
 
 // validateTodoText: 校验 todo 文本
 function validateTodoText(text) {
-  const trimmed = text.trim();
-  if (trimmed === "") return E.left("待办事项不能为空");
-  if (trimmed.length > 200) return E.left("待办事项不能超过 200 字");
-  return E.right(trimmed);
+  // TODO: 校验 todo 文本：非空且不超过 200 字，返回 Either
 }
 
 // validatePage: 校验页码参数
 function validatePage(page, pageSize, total) {
-  if (page < 1) return E.left("页码必须大于 0");
-  const totalPages = Math.max(1, Math.ceil(total / pageSize));
-  if (page > totalPages) return E.left(`页码不能超过 ${totalPages}`);
-  return E.right(page);
+  // TODO: 校验页码 >= 1 且不超过最大页数，返回 Either
 }
 
 // chain 串联:
@@ -114,16 +94,7 @@ function validatePage(page, pageSize, total) {
 // safeAddTodo: 用 Either 串联校验 → 创建 todo
 // 返回 Either<error, todo>
 function safeAddTodo(todos, text, id, createdAt) {
-  return pipe(
-    validateTodoText(text),
-    E.map((validatedText) => ({
-      id,
-      text: validatedText,
-      completed: false,
-      createdAt,
-    })),
-    E.map((todo) => [...todos, todo])
-  );
+  // TODO: 用 pipe + E.map 串联 validateTodoText → 创建 todo → 追加到数组
 }
 
 // 错误统一处理:
@@ -131,41 +102,11 @@ function safeAddTodo(todos, text, id, createdAt) {
 // processTodoAction: 统一处理 todo 操作的错误
 // 根据操作类型执行不同的校验，返回 Either<error, result>
 function processTodoAction(todos, action) {
-  switch (action.type) {
-    case "ADD": {
-      return pipe(
-        validateTodoText(action.text),
-        E.map((text) => {
-          const todo = {
-            id: action.id,
-            text,
-            completed: false,
-            createdAt: action.createdAt,
-          };
-          return [...todos, todo];
-        })
-      );
-    }
-    case "UPDATE": {
-      return pipe(
-        findTodoById(todos, action.id),
-        E.fromOption(() => "待办事项不存在"),
-        E.flatMap(() => validateTodoText(action.text)),
-        E.map((text) =>
-          todos.map((t) => (t.id === action.id ? { ...t, text } : t))
-        )
-      );
-    }
-    case "DELETE": {
-      return pipe(
-        findTodoById(todos, action.id),
-        E.fromOption(() => "待办事项不存在"),
-        E.map(() => todos.filter((t) => t.id !== action.id))
-      );
-    }
-    default:
-      return E.left("未知操作类型");
-  }
+  // TODO: 根据 action.type 分派 ADD/UPDATE/DELETE 操作
+  // ADD: validateTodoText → 创建新 todo → 追加
+  // UPDATE: findTodoById → validateTodoText → 更新文本
+  // DELETE: findTodoById → 删除
+  // 全程用 Either 统一错误处理
 }
 
 // ==========================================

@@ -20,43 +20,30 @@ const orders = [
 // 练习1: reduce 实现数组分组 — 按 category 分组
 // 期望: { electronics: [{...}, {...}], books: [{...}, {...}], clothing: [{...}, {...}] }
 function groupByCategory(orderList) {
-  return orderList.reduce((grouped, order) => {
-    return {
-      ...grouped,
-      [order.category]: [...(grouped[order.category] || []), order],
-    };
-  }, {});
+  // TODO: 用 reduce 按 category 分组订单
 }
 
 // 练习2: reduce 实现分类汇总 — 统计每个 category 的总金额
 // 期望: { electronics: 450, books: 80, clothing: 200 }
 function totalByCategory(orderList) {
-  return orderList.reduce((grouped, order) => {
-    return {
-      ...grouped,
-      [order.category]: (grouped[order.category] || 0) + order.amount,
-    };
-  }, {});
+  // TODO: 用 reduce 统计每个 category 的总金额
 }
 
 // 练习3: 综合题 — 筛选→转换→聚合 全链路 FP 写法
 // 需求: 统计所有电子产品（electronics）的总金额
 // 要求: 用 filter + map + reduce 链式处理
 function totalElectronics(orderList) {
-  return orderList
-    .filter((order) => order.category === "electronics")
-    .map((order) => order.amount)
-    .reduce((total, amount) => total + amount, 0);
+  // TODO: 用 filter + map + reduce 统计所有电子产品的总金额
 }
 
 // 练习4: 用 reduce 实现 map
 function myMap(arr, fn) {
-  return arr.reduce((acc, v) => [...acc, fn(v)], []);
+  // TODO: 用 reduce 实现 map
 }
 
 // 练习5: 用 reduce 实现 filter
 function myFilter(arr, predicate) {
-  return arr.reduce((acc, v) => (predicate(v) ? [...acc, v] : [...acc]), []);
+  // TODO: 用 reduce 实现 filter
 }
 
 // ==========================================

@@ -9,45 +9,44 @@ import { describe, it, expect } from "vitest";
 // ==========================================
 
 // 练习1: 判断下面函数的性质（写在注释里就行）
-// 1. function greet(name) { return 'Hello ' + name; }           → 纯函数
-// 2. function logGreet(name) { console.log('Hello ' + name); }  → 副作用 IO操作
-// 3. let count = 0; function increment() { return ++count; }    → 副作用 外部变量
-// 4. function randomBetween(min, max) { return Math.random() * (max - min) + min; } → 副作用 随机数
+// 1. function greet(name) { return 'Hello ' + name; }           → ？
+// 2. function logGreet(name) { console.log('Hello ' + name); }  → ？
+// 3. let count = 0; function increment() { return ++count; }    → ？
+// 4. function randomBetween(min, max) { return Math.random() * (max - min) + min; } → ？
 // TODO: 标注每个函数的性质及原因
 
 // 练习2: 手写 3 个纯函数
 // TODO: 实现下面的函数
 
 function square(n) {
-  return n * n;
+  // TODO: 返回 n 的平方
 }
 
 function isEven(n) {
-  return n % 2 === 0;
+  // TODO: 判断 n 是否为偶数
 }
 
 function concatStrings(a, b) {
-  return a + b;
+  // TODO: 拼接两个字符串并返回
 }
 
 // 练习3: 手写 3 个有副作用的函数，并标注副作用类型
 // TODO: 实现下面三个有副作用的函数（类型写在注释里）
 
-// 副作用类型: IO操作
+// TODO: 标注副作用类型
 function updateDOM(id, text) {
-  document.getElementById(id).innerHTML = text;
+  // TODO: 更新指定 id 元素的文本内容
 }
 
-// 副作用类型: IO操作
+// TODO: 标注副作用类型
 function saveToLocalStorage(key, value) {
-  localStorage.setItem(key, value);
+  // TODO: 将值保存到 localStorage
 }
 
-// 副作用类型: 外部变量
+// TODO: 标注副作用类型
 let counter = 0;
 function incrementCounter() {
-  counter++;
-  return counter;
+  // TODO: 自增计数器并返回新值
 }
 
 // ==========================================

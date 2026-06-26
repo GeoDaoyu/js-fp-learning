@@ -10,31 +10,36 @@ import { describe, it, expect } from "vitest";
 
 // 练习1: 手写一组柯里化的验证函数
 // greaterThan(min)(value) — value > min 返回 true
-const greaterThan = (min) => (value) => value > min;
+const greaterThan = (min) => (value) => {
+  // TODO: value > min 返回 true
+};
 
 // lessThan(max)(value) — value < max 返回 true
-const lessThan = (max) => (value) => value < max;
+const lessThan = (max) => (value) => {
+  // TODO: value < max 返回 true
+};
 
 // between(min, max)(value) — min < value < max 返回 true
-const between = (min, max) => (value) =>
-  greaterThan(min)(value) && lessThan(max)(value);
+const between = (min, max) => (value) => {
+  // TODO: 利用 greaterThan 和 lessThan 判断 min < value < max
+};
 
 // 练习2: filterBy — 柯里化的过滤器
 // filterBy(predicate)(array) → 返回过滤后的数组
 function filterBy(predicate) {
-  return (array) => array.filter(predicate);
+  // TODO: 返回一个函数，接收数组并用 predicate 过滤
 }
 
 // 练习3: mapOver — 柯里化的 map
 // mapOver(fn)(array) → 返回映射后的数组
 function mapOver(fn) {
-  return (array) => array.map(fn);
+  // TODO: 返回一个函数，接收数组并用 fn 映射每个元素
 }
 
 // 练习4: formatCurrency — 柯里化的格式化器
 // formatCurrency(symbol)(amount) → 如 formatCurrency('¥')(100) → '¥100.00'
 function formatCurrency(symbol) {
-  return (amount) => `${symbol}${amount.toFixed(2)}`;
+  // TODO: 返回格式化后的货币字符串，如 formatCurrency('¥')(100) → '¥100.00'
 }
 
 // ==========================================

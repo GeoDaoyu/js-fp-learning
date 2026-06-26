@@ -11,36 +11,26 @@ import { describe, it, expect } from "vitest";
 // 练习1: compose2 — 组合两个函数
 // compose2(f, g)(x) → f(g(x))  （从右向左执行）
 function compose2(f, g) {
-  return (x) => f(g(x));
+  // TODO: 返回 f(g(x))，从右向左执行
 }
 
 // 练习2: compose — 组合任意多个函数
 // compose(f, g, h)(x) → f(g(h(x)))  （从右向左）
 function compose(...fns) {
-  return (x) => fns.reduceRight((acc, fn) => fn(acc), x);
+  // TODO: 从右向左依次执行函数，如 compose(f, g, h)(x) → f(g(h(x)))
 }
 
 // 练习3: pipe — 管道（从左向右）
 // pipe(f, g, h)(x) → h(g(f(x)))  （从左向右）
 function pipe(...fns) {
-  return (x) => fns.reduce((acc, fn) => fn(acc), x);
+  // TODO: 从左向右依次执行函数，如 pipe(f, g, h)(x) → h(g(f(x)))
 }
 
 // 练习4: compose 与 pipe 对比（写在注释里）
 //
 // 4a. 什么时候用 compose，什么时候用 pipe？
 //
-// 两者结果完全等价：pipe(f, g, h)(x) === compose(h, g, f)(x)（顺序对调）。
-// 区别只在读法和心智模型：
-// - compose 源自数学 f ∘ g ∘ h，compose(f, g, h) 最外层 f 最后执行，
-//   贴合代数/数学语义。
-// - pipe 源自 Unix |，pipe(f, g, h) 左到右就是数据流向，
-//   读起来像"先 f 再 g 最后 h"的步骤列表。
-// 实战选择：
-// - 业务流水线（processData、ETL、shell 风）→ 用 pipe，左到右更直观
-// - 底层工具库 / 代数操作 → 用 compose，贴合数学语义
-// - 应用层代码通常 pipe 更友好；Ramda 默认暴露 compose
-// - 关键是团队内统一，混用会增加阅读负担
+// TODO: 思考并写下你的理解
 
 // ==========================================
 // === 测试（不要修改） ===

@@ -13,27 +13,27 @@ import { describe, it, expect } from "vitest";
 
 // 练习1: append — 在数组末尾追加元素
 function append(arr, item) {
-  return [...arr, item];
+  // TODO: 返回末尾追加了 item 的新数组（不修改原数组）
 }
 
 // 练习2: prepend — 在数组开头插入元素
 function prepend(arr, item) {
-  return [item, ...arr];
+  // TODO: 返回开头插入了 item 的新数组（不修改原数组）
 }
 
 // 练习3: removeAt — 删除指定索引的元素
 function removeAt(arr, index) {
-  return arr.filter((_, i) => i !== index);
+  // TODO: 删除指定索引的元素，返回新数组（不修改原数组）
 }
 
 // 练习4: updateAt — 更新指定索引的元素
 function updateAt(arr, index, newVal) {
-  return arr.map((v, i) => (i === index ? newVal : v));
+  // TODO: 更新指定索引的元素，返回新数组（不修改原数组）
 }
 
 // 练习5: insertAt — 在指定索引处插入元素（原位置及之后的元素后移）
 function insertAt(arr, index, item) {
-  return [...arr.slice(0, index), item, ...arr.slice(index)];
+  // TODO: 在指定索引处插入元素，返回新数组（不修改原数组）
 }
 
 // ==========================================

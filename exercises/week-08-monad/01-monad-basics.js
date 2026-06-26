@@ -45,32 +45,19 @@ class Identity {
 
 // 2a: 分别用 map 和 chain 处理同一个函数，观察结果差异
 function demonstrateMapVsChain() {
-  const fn = (x) => Identity.of(x * 2);
-  return {
-    mapResult: Identity.of(5).map(fn),
-    chainResult: Identity.of(5).chain(fn),
-  };
+  // TODO: 分别用 map 和 chain 处理同一个函数 (x) => Identity.of(x * 2)，观察结果差异
 }
 
 // 练习3: Monad 三定律（写在注释里）
 //
 // 3a. 左单位律: of(a).chain(f) === f(a)
+//     TODO: 思考并写下你的理解
 //
 // 3b. 右单位律: m.chain(of) === m
+//     TODO: 思考并写下你的理解
 //
 // 3c. 结合律: m.chain(f).chain(g) === m.chain(x => f(x).chain(g))
-//
-// 3a. 左单位律: of(a).chain(f) === f(a)
-//     含义：把一个值放进 Monad 再 chain，等于直接用函数处理这个值。
-//     即 of 只是一个"包装"，不会改变 f 的行为。
-//
-// 3b. 右单位律: m.chain(of) === m
-//     含义：对一个 Monad 用 of 做 chain，得到的还是原来的 Monad。
-//     即 chain(of) 不会添加额外的嵌套层，of 是"中性"的。
-//
-// 3c. 结合律: m.chain(f).chain(g) === m.chain(x => f(x).chain(g))
-//     含义：连续 chain 的顺序不重要——先 chain(f) 再 chain(g)，
-//     等价于 chain 一个组合函数。保证链式调用是可预测的。
+//     TODO: 思考并写下你的理解
 
 // ==========================================
 // === 测试（不要修改） ===

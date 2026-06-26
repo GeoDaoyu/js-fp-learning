@@ -22,36 +22,36 @@ const user = {
 
 // 1a: pickPublic — 只保留 name 和 email
 function pickPublic(user) {
-  return R.pick(["name", "email"])(user);
+  // TODO: 用 R.pick 保留 name 和 email
 }
 
 // 1b: omitSensitive — 排除 email 和 address
 function omitSensitive(user) {
-  return R.omit(["email", "address"])(user);
+  // TODO: 用 R.omit 排除 email 和 address
 }
 
 // 练习2: R.assoc / R.dissoc — 添加和删除属性
 
 // 2a: addRole(user, role) — 给 user 添加 role 属性
 function addRole(user, role) {
-  return R.assoc("role", role)(user);
+  // TODO: 用 R.assoc 添加 role 属性
 }
 
 // 2b: removeEmail(user) — 删除 email 属性
 function removeEmail(user) {
-  return R.dissoc("email")(user);
+  // TODO: 用 R.dissoc 删除 email 属性
 }
 
 // 练习3: R.path / R.pathOr — 深层安全取值
 
 // 3a: getCity(user) — 安全获取 address.city
 function getCity(user) {
-  return R.path(["address", "city"])(user);
+  // TODO: 用 R.path 安全获取 address.city
 }
 
 // 3b: getZipOr(user, defaultZip) — 获取 zip，不存在时返回默认值
 function getZipOr(user, defaultZip) {
-  return R.pathOr(defaultZip, ["address", "zip"])(user);
+  // TODO: 用 R.pathOr 获取 zip，不存在时返回默认值
 }
 
 // 练习4: R.evolve — 批量转换对象属性
@@ -59,13 +59,7 @@ function getZipOr(user, defaultZip) {
 // 4a: ageInfo(user) — 将 age 转为字符串，name 转为大写
 // 期望: { ..., age: '25', name: 'ALICE' }
 function ageInfo(user) {
-  return R.evolve(
-    {
-      age: (age) => age.toString(),
-      name: (name) => name.toUpperCase(),
-    },
-    user,
-  );
+  // TODO: 用 R.evolve 将 age 转为字符串，name 转为大写
 }
 
 // ==========================================

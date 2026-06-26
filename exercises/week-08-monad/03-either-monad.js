@@ -39,17 +39,15 @@ class Left extends Either {
 
 // 2a: validateName(name) → name非空 ? Right(name) : Left('name empty')
 function validateName(name) {
-  return name && name.trim() !== "" ? Either.right(name) : Either.left("name empty");
+  // TODO: name 非空返回 Right(name)，否则 Left('name empty')
 }
 
 function validateAge(age) {
-  return age >= 18 ? Either.right(age) : Either.left("underage");
+  // TODO: age >= 18 返回 Right(age)，否则 Left('underage')
 }
 
 function createUser(data) {
-  return validateName(data.name).chain((name) =>
-    validateAge(data.age).map((age) => ({ name, age }))
-  );
+  // TODO: 用 chain 串联 validateName 和 validateAge，返回 Either<error, {name, age}>
 }
 
 // 练习3: 对比 — 有 chain 和没 chain 的区别
@@ -67,13 +65,8 @@ function createUser(data) {
 //     ({ name, age })))
 // 结果: Right({...}) — 展平了
 
-// 解释：
-// 外层用 chain 替代 map，因为 validateName 返回的是 Either（可能 Left 也可能 Right），
-// chain 会把结果展平而不是再包一层。内层的 validateAge 返回的是 Either，
-// 但 validateAge 后面紧跟的 .map(age => ({ name, age })) 中，map 的回调返回的是
-// 普通对象（不是 Either），所以这里用 map 就够了。
+// TODO: 思考并写下你的理解 — 外层为什么用 chain 内层为什么用 map？
 // 关键：chain 接的是"返回 Either 的函数"，map 接的是"返回普通值的函数"。
-// 如果外层也用 map，结果就是 Right(Right({...})) 嵌套；用 chain 就展平成 Right({...})。
 
 // ==========================================
 // === 测试（不要修改） ===

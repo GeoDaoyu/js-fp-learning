@@ -21,42 +21,45 @@ const products = [
 // 练习1: 利用 Ramda 自动柯里化创建专用过滤器
 
 // 1a: inStockOnly — 筛选 inStock 为 true 的商品
-const inStockOnly = R.filter(R.prop("inStock"));
+const inStockOnly = (products) => {
+  // TODO: 用 R.filter 和 R.prop 筛选在售商品
+};
 
 // 1b: inCategory(category) — 筛选指定分类的商品
 function inCategory(category) {
-  return R.filter(R.propEq(category, "category"));
+  // TODO: 用 R.filter 和 R.propEq 筛选指定分类
 }
 
 // 1c: priceAbove(min) — 筛选价格 >= min 的商品
 function priceAbove(min) {
-  return R.filter(R.propSatisfies(R.gte(R.__, min), "price"));
+  // TODO: 用 R.filter 和 R.propSatisfies 筛选价格 >= min 的商品
 }
 
 // 练习2: 利用 Ramda 自动柯里化创建数据提取器
 
 // 2a: getProductNames — 提取所有商品的 name 列表
-const getProductNames = R.map(R.prop("name"));
+const getProductNames = (products) => {
+  // TODO: 用 R.map 和 R.prop 提取所有商品名字
+};
 
 // 2b: totalPrice — 计算所有商品总价（用 R.reduce + R.prop）
-const totalPrice = R.compose(R.reduce(R.add, 0), R.map(R.prop("price")));
+const totalPrice = (products) => {
+  // TODO: 用 R.compose 计算所有商品总价
+};
 
 // 练习3: R.flip — 翻转参数顺序
 // 将二参数函数的参数顺序翻转
 
 // 3a: createDivider — 使用 R.flip 创建除法函数
 // divideBy(2)(10) → 5（即 10 / 2）
-const divideBy = R.flip(R.divide); // TODO: 用 R.flip + R.divide
+const divideBy = (divisor) => (dividend) => {
+  // TODO: 用 R.flip + R.divide 实现除法，使 divideBy(2)(10) 返回 5
+};
 
 // 练习4: 综合 — 用 Ramda 串联过滤 + 映射 + 统计
 // 统计所有在售且价格 >= 100 的商品总价
 function totalInStockAbove(minPrice, productList) {
-  return R.pipe(
-    R.filter(R.prop("inStock")),
-    R.filter(R.propSatisfies(R.gt(R.__, minPrice), "price")),
-    R.pluck("price"),
-    R.sum,
-  )(productList);
+  // TODO: 用 R.pipe 串联过滤、映射、统计在售且价格 >= minPrice 的商品总价
 }
 
 // ==========================================

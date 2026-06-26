@@ -34,8 +34,7 @@ class Container {
 // 即: 对 Functor 应用恒等函数，应返回等价的 Functor（不是同一个引用，而是值相等）
 
 function verifyIdentityLaw(functor) {
-  const mapped = functor.map((x) => x);
-  return mapped.getValue() === functor.getValue();
+  // TODO: 验证恒等律 — functor.map(x => x) 应与原 functor 等价（值相等）
 }
 
 // 练习2: 验证组合律 (Composition Law)
@@ -43,22 +42,14 @@ function verifyIdentityLaw(functor) {
 // 即: 复合函数 map 等价于两次 map
 
 function verifyCompositionLaw(functor, f, g) {
-  const left = functor.map((x) => f(g(x))).getValue();
-  const right = functor.map(g).map(f).getValue();
-  return left === right;
+  // TODO: 验证复合律 — functor.map(x => f(g(x))) 应等于 functor.map(g).map(f)
 }
 
 // 练习3: 为您的 Container 验证两个定律
 // 在下面用具体的 Container 实例和函数验证
 
 function runLawTests() {
-  const a = Container.of(5);
-  const f = (x) => x * 2;
-  const g = (x) => x + 1;
-  return {
-    identity: verifyIdentityLaw(a),
-    composition: verifyCompositionLaw(a, f, g),
-  };
+  // TODO: 用 Container.of(5) 实例验证两个定律，返回 { identity: boolean, composition: boolean }
 }
 
 // ==========================================

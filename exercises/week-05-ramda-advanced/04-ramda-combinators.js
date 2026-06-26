@@ -22,15 +22,12 @@ const orders = [
 // 1a: totalValue — 计算每个订单的总价值 { id, product, total: price * quantity }
 // 要求: 用 R.converge 组合 price 和 quantity
 function addTotalValue(order) {
-  return R.converge(R.assoc("total"), [
-    R.converge(R.multiply, [R.prop("price"), R.prop("quantity")]),
-    R.identity,
-  ])(order);
+  // TODO: 使用 R.converge 计算每个订单的总价值 total = price * quantity
 }
 
 // 1b: allTotals — 给所有订单添加 total 字段
 function allTotals(orderList) {
-  return R.map(addTotalValue)(orderList);
+  // TODO: 使用 R.map 给所有订单添加 total 字段
 }
 
 // 练习2: R.useWith — 参数预处理
@@ -39,8 +36,7 @@ function allTotals(orderList) {
 // 2a: compareByTotal — 比较两个订单的总价值
 // compareByTotal(orderA, orderB) → orderA.price * orderA.quantity > orderB.price * orderB.quantity
 function compareByTotal(orderA, orderB) {
-  const total = R.converge(R.multiply, [R.prop("price"), R.prop("quantity")]);
-  return R.useWith(R.gt, [total, total])(orderA, orderB);
+  // TODO: 使用 R.useWith 比较两个订单的总价值
 }
 
 // 练习3: R.applySpec — 批量从同一数据派生多个值
@@ -48,17 +44,12 @@ function compareByTotal(orderA, orderB) {
 // 3a: orderSummary — 从单个订单生成摘要对象
 // { productName: product, unitPrice: price, quantity, lineTotal: price * quantity }
 function orderSummary(order) {
-  return R.applySpec({
-    productName: R.prop("product"),
-    unitPrice: R.prop("price"),
-    quantity: R.prop("quantity"),
-    lineTotal: R.converge(R.multiply, [R.prop("price"), R.prop("quantity")]),
-  })(order);
+  // TODO: 使用 R.applySpec 从单个订单生成摘要对象
 }
 
 // 3b: summarizeAll — 给所有订单生成摘要
 function summarizeAll(orderList) {
-  return R.map(orderSummary)(orderList);
+  // TODO: 使用 R.map 给所有订单生成摘要
 }
 
 // 练习4: R.evolve — 深度转换对象
@@ -67,14 +58,7 @@ function summarizeAll(orderList) {
 // 4a: salesReport(orderList) — 生成销售报告
 // { orderCount, totalItems, totalRevenue }
 function salesReport(orderList) {
-  return R.applySpec({
-    orderCount: R.length,
-    totalItems: R.pipe(R.map(R.prop("quantity")), R.sum),
-    totalRevenue: R.pipe(
-      R.map(R.converge(R.multiply, [R.prop("price"), R.prop("quantity")])),
-      R.sum,
-    ),
-  })(orderList);
+  // TODO: 使用 R.applySpec / R.pipe 生成销售报告 { orderCount, totalItems, totalRevenue }
 }
 
 // ==========================================

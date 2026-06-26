@@ -56,63 +56,48 @@ import { describe, it, expect } from "vitest";
 
 // addTodo: 添加新 todo，返回新数组（不修改原数组）
 function addTodo(todos, text, id, createdAt) {
-  return [...todos, { id, text, completed: false, createdAt }];
+  // TODO: 添加新 todo，返回新数组（不修改原数组）
 }
 
 // toggleTodo: 切换指定 id 的完成状态，返回新数组
 function toggleTodo(todos, id) {
-  return todos.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t));
+  // TODO: 切换指定 id 的完成状态，返回新数组
 }
 
 // removeTodo: 删除指定 id 的 todo，返回新数组
 function removeTodo(todos, id) {
-  return todos.filter((t) => t.id !== id);
+  // TODO: 删除指定 id 的 todo，返回新数组
 }
 
 // updateTodoText: 更新指定 id 的文本，返回新数组
 function updateTodoText(todos, id, text) {
-  return todos.map((t) => (t.id === id ? { ...t, text } : t));
+  // TODO: 更新指定 id 的文本，返回新数组
 }
 
 // --- 筛选/搜索函数 ---
 
 // filterByStatus: 按状态筛选（柯里化，数据最后）
 function filterByStatus(status) {
-  return function (todos) {
-    if (status === "all") return todos;
-    if (status === "completed") return todos.filter((t) => t.completed);
-    return todos.filter((t) => !t.completed); // active
-  };
+  // TODO: 按状态筛选（柯里化，数据最后），支持 'all'/'completed'/'active'
 }
 
 // searchTodos: 按文本搜索，大小写不敏感（柯里化，数据最后）
 function searchTodos(query) {
-  return function (todos) {
-    if (query === "") return todos;
-    return todos.filter((t) =>
-      t.text.toLowerCase().includes(query.toLowerCase())
-    );
-  };
+  // TODO: 按文本搜索，大小写不敏感（柯里化，数据最后）
 }
 
 // --- 分页函数 ---
 
 // paginate: 分页切片（柯里化，数据最后）
 function paginate(page, pageSize) {
-  return function (todos) {
-    return todos.slice((page - 1) * pageSize, page * pageSize);
-  };
+  // TODO: 分页切片（柯里化，数据最后）
 }
 
 // --- 统计函数 ---
 
 // countByStatus: 统计各状态数量
 function countByStatus(todos) {
-  return {
-    total: todos.length,
-    completed: todos.filter((t) => t.completed).length,
-    active: todos.filter((t) => !t.completed).length,
-  };
+  // TODO: 统计各状态数量，返回 { total, completed, active }
 }
 
 // ==========================================
