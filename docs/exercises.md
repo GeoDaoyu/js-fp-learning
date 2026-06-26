@@ -6,6 +6,7 @@ title: 练习题目
 import { ref, computed, onMounted } from 'vue'
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
+import 'highlight.js/styles/github.css'
 
 hljs.registerLanguage('javascript', javascript)
 
@@ -149,19 +150,18 @@ onMounted(() => {
 </div>
 
 <style>
-/* highlight.js theme - follows VitePress light/dark */
-.hljs { color: var(--vp-c-text-1); }
-.hljs-keyword { color: var(--vp-c-brand); }
-.hljs-string { color: var(--vp-c-green); }
-.hljs-number { color: var(--vp-c-purple); }
-.hljs-comment { color: var(--vp-c-text-3); font-style: italic; }
-.hljs-title.function_ { color: var(--vp-c-brand-light); }
-.hljs-built_in { color: var(--vp-c-brand-dark); }
-.hljs-literal { color: var(--vp-c-purple); }
-.hljs-params { color: var(--vp-c-text-1); }
-.hljs-property { color: var(--vp-c-text-1); }
-.hljs-regexp { color: var(--vp-c-red); }
-.hljs-attr { color: var(--vp-c-yellow); }
-.hljs-selector-class { color: var(--vp-c-brand); }
-.hljs-meta { color: var(--vp-c-text-2); }
+/* github-dark theme overrides for dark mode */
+html.dark .hljs { color: #e6edf3; }
+html.dark .hljs-keyword { color: #ff7b72; }
+html.dark .hljs-string { color: #a5d6ff; }
+html.dark .hljs-number { color: #79c0ff; }
+html.dark .hljs-comment { color: #8b949e; }
+html.dark .hljs-title.function_ { color: #d2a8ff; }
+html.dark .hljs-built_in { color: #ffa657; }
+html.dark .hljs-literal { color: #79c0ff; }
+html.dark .hljs-params { color: #e6edf3; }
+html.dark .hljs-property { color: #79c0ff; }
+html.dark .hljs-regexp { color: #ff7b72; }
+html.dark .hljs-selector-class { color: #ff7b72; }
+html.dark .hljs-meta { color: #8b949e; }
 </style>
