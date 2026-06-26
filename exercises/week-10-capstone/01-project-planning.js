@@ -46,7 +46,7 @@
 // 2. [x] 列出功能清单，拆分为独立模块
 // 3. [x] 画出核心数据流
 // 4. [x] 标注每个环节的副作用边界（I/O、DOM、state mutation）
-// 5. [x] 确定用到的 FP 工具: pipe/compose, Maybe, Either, Ramda/fp-ts
+// 5. [x] 确定用到的 FP 工具: pipe/compose, Maybe, Either, Ramda/Effect-TS
 //
 // 提示: 先把整体框架搭出来(纯函数 + 副作用外壳)，再逐模块填充。
 //

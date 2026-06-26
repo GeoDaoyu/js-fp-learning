@@ -106,7 +106,8 @@ Maybe.of(null).fold(0, x => x * 2);    // → 0（Nothing 时返回默认值）
 
 | 库 | 语言 | Maybe 命名 | 特点 |
 |---|---|---|---|
-| [fp-ts](https://github.com/gcanti/fp-ts) | TypeScript | `Option` (`some`/`none`) | 最主流，类型完备，Week 9-10 将使用 |
+| [Effect-TS](https://effect.website/) | TypeScript | `Option` (`some`/`none`) | 最主流，生产级，Week 9-10 使用 |
+| [fp-ts](https://github.com/gcanti/fp-ts) | TypeScript | `Option` (`some`/`none`) | Effect-TS 的前身，稳定但不再活跃开发 |
 | [crocks](https://github.com/evilsoft/crocks) | JavaScript | `Maybe` | 文档友好，附带 `Result`、`Pair` 等工具 |
 | [sanctuary](https://github.com/sanctuary-js/sanctuary) | JavaScript | `Maybe` | 严格类型检查，偏 Haskell 风格 |
 | [monet](https://github.com/monet/monet.js) | JavaScript | `Maybe` | 轻量，提供 `Maybe`、`Either`、`Validation` |
@@ -115,12 +116,12 @@ Maybe.of(null).fold(0, x => x * 2);    // → 0（Nothing 时返回默认值）
 
 手写实现的 API 到各库基本一致，差异仅在一些术语：
 
-| 手写 | fp-ts | crocks | 含义 |
+| 手写 | Effect-TS | crocks | 含义 |
 |------|-------|--------|------|
-| `Maybe.of(x)` | `O.some(x)` / `O.none` | `Maybe.Just(x)` / `Maybe.Nothing()` | 构造 |
+| `Maybe.of(x)` | `O.some(x)` / `O.none()` | `Maybe.Just(x)` / `Maybe.Nothing()` | 构造 |
 | `.map(fn)` | `.pipe(O.map(fn))` | `.map(fn)` | 变换 |
-| `.chain(fn)` | `.pipe(O.chain(fn))` | `.chain(fn)` | 扁平映射 |
+| `.chain(fn)` | `.pipe(O.flatMap(fn))` | `.chain(fn)` | 扁平映射 |
 | `.getOrElse(d)` | `O.getOrElse(() => d)` | `.option(d)` / `.either(() => d, x => x)` | 取值 |
 | `.fold(d, fn)` | `O.match(() => d, fn)` | `.either(() => d, fn)` | 折叠 |
 
-> fp-ts 用 `pipe(x, fn1, fn2, ...)` 而不是链式 `.fn1().fn2()`，这是函数式与 OOP 风格的接口差异点。
+> Effect-TS 用 `pipe(x, fn1, fn2, ...)` 而不是链式 `.fn1().fn2()`，这是函数式与 OOP 风格的接口差异点。Effect-TS 的 Option 模块 API 与 fp-ts 高度兼容（同源），主要区别是 `chain` → `flatMap`、`none` 常量 → `none()` 函数。

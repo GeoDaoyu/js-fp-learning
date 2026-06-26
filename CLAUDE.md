@@ -46,4 +46,4 @@ The learner fills in implementations so that `node --test <file>` passes all ass
 - **Immutable data** — never mutate original arrays/objects
 - Weeks 4-5 introduce **Ramda** as the FP utility library
 - Weeks 6-8 cover **Functor / Maybe / Either / Monad**
-- Weeks 9-10 use **fp-ts** and a capstone project
+- Weeks 9-10 use **Effect-TS** and a capstone project

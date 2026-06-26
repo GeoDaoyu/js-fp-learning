@@ -46,7 +46,7 @@
 // 提示:
 //   1. 每个函数只做一件事
 //   2. 用 pipe/compose 组合简单函数
-//   3. 优先使用 Ramda 或 fp-ts
+//   3. 优先使用 Ramda 或 Effect-TS
 //   4. 对每个函数写 2-3 个测试用例（可以用 assert 或 console.log 验证）
 //
 

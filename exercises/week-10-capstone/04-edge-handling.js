@@ -54,9 +54,8 @@
 // === 在这里写你的边界处理代码 ===
 // ==========================================
 
-import { pipe } from "fp-ts/function";
-import * as O from "fp-ts/Option";
-import * as E from "fp-ts/Either";
+import { pipe } from "effect";
+import { Option as O, Either as E } from "effect";
 import { describe, it, expect } from "vitest";
 
 // 你的 Maybe / Either 处理器:
@@ -79,7 +78,7 @@ function safeGetLocalStorage(key) {
       : null;
     return pipe(raw, O.fromNullable);
   } catch {
-    return O.none;
+    return O.none();
   }
 }
 
@@ -151,7 +150,7 @@ function processTodoAction(todos, action) {
       return pipe(
         findTodoById(todos, action.id),
         E.fromOption(() => "待办事项不存在"),
-        E.chain(() => validateTodoText(action.text)),
+        E.flatMap(() => validateTodoText(action.text)),
         E.map((text) =>
           todos.map((t) => (t.id === action.id ? { ...t, text } : t))
         )

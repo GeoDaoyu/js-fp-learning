@@ -1,23 +1,23 @@
 // ==========================================
-// Week 09 · Day 3: fp-ts Either（错误处理）
+// Week 09 · Day 3: Effect-TS Either（错误处理）
 // ==========================================
-// 需要先安装 fp-ts: npm install fp-ts
-import { pipe } from "fp-ts/function";
-import * as E from "fp-ts/Either";
+// 需要先安装 effect: npm install effect
+import { pipe } from "effect";
+import { Either as E } from "effect";
 import { describe, it, expect } from "vitest";
 
 // ==========================================
 // === 在这里写你的代码 ===
 // ==========================================
 
-// 练习1: fp-ts Either 基本操作
+// 练习1: Effect-TS Either 基本操作
 // E.right(value) → 正常
 // E.left(error)  → 错误
-// E.map(fn)(either) → 映射
-// E.chain(fn)(either) → 展平
-// E.fold(leftFn, rightFn)(either) → 同时处理两种
-// E.getOrElse(() => defaultVal)(either) → 取值
-// E.tryCatch(fn, onError)(...) → 捕获异常
+// E.map(fn, either) → 映射
+// E.flatMap(fn, either) → 展平
+// E.match({ onLeft, onRight }) → 同时处理两种
+// E.getOrElse(() => defaultVal, either) → 取值
+// 注: Effect-TS 没有 E.tryCatch，需要手动 try/catch 包装
 
 // 1a: validatePositive(n) → n > 0 ? E.right(n) : E.left('not positive')
 function validatePositive(n) {
@@ -30,32 +30,34 @@ function validateEven(n) {
 }
 
 // 1c: 串联校验 validatePositive → validateEven
-// 用 pipe + E.chain
+// 用 pipe + E.flatMap
 function validateNumber(n) {
-  return pipe(validatePositive(n), E.chain(validateEven));
+  return pipe(validatePositive(n), E.flatMap(validateEven));
 }
 
-// 练习2: E.tryCatch — 捕获异常为 Either
-// 将可能抛错的函数转为 Either
+// 练习2: 手动 try/catch — 捕获异常为 Either
+// Effect-TS 的 Either 模块不提供 tryCatch，直接用 try/catch 包装
 
-// 2a: safeParseJSON(str) — 用 E.tryCatch 解析 JSON
+// 2a: safeParseJSON(str) — 解析 JSON，异常转 Either.left
 function safeParseJSON(str) {
-  return E.tryCatch(
-    () => JSON.parse(str),
-    (e) => String(e.message),
-  );
+  try {
+    return E.right(JSON.parse(str));
+  } catch (e) {
+    return E.left(String(e.message));
+  }
 }
 
-// 练习3: 对比手写 Either 和 fp-ts Either（写在注释里）
+// 练习3: 对比手写 Either 和 Effect-TS Either（写在注释里）
 //
-// 3a. fp-ts Either 和我们手写的版本在使用方式上有什么不同？
+// 3a. Effect-TS Either 和我们手写的版本在使用方式上有什么不同？
 //
-// 除了和 Option 一样的 pipe vs 方法链差异外，fp-ts Either 还提供了：
-//   - E.tryCatch：自动将同步抛出的异常捕获为 Left，避免了手写 try/catch
-//   - E.fold：同时处理两种分支的折叠函数，比手写更类型安全
+// 除了和 Option 一样的 pipe vs 方法链差异外，Effect-TS Either 还提供了：
 //   - E.mapLeft：只变换错误分支，正常分支保持不变
+//   - E.match：同时处理两种分支的折叠函数（{ onLeft, onRight }），比手写更类型安全
 //   - 和其他模块的互操作：比如 O.toEither 将 Option 转 Either，
 //     E.fromOption 反向转换，这些在手写版本中需要自己实现
+//   - 注意：Effect-TS 的 Either 是纯数据类型，不内置 tryCatch。
+//     异常捕获需要通过 Effect 模块，或在 Either 外部手动 try/catch
 
 // ==========================================
 // === 测试（不要修改） ===

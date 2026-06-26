@@ -42,7 +42,7 @@
 // === 在这里写你的 pipeline ===
 // ==========================================
 
-import { pipe } from "fp-ts/function";
+import { pipe } from "effect";
 import { describe, it, expect } from "vitest";
 
 // 复用 Day 2 的纯函数（复制到这里以便独立运行）
@@ -132,7 +132,7 @@ const getStats = (todos, filter) =>
 const testData = [
   { id: "1", text: "Learn FP", completed: false, createdAt: 3000 },
   { id: "2", text: "Build Todo App", completed: true, createdAt: 1000 },
-  { id: "3", text: "Learn fp-ts", completed: false, createdAt: 2000 },
+  { id: "3", text: "Learn Effect-TS", completed: false, createdAt: 2000 },
   { id: "4", text: "Write Tests", completed: true, createdAt: 5000 },
   { id: "5", text: "Ship it", completed: false, createdAt: 4000 },
 ];

@@ -71,13 +71,14 @@ const result = tryCatch(() => JSON.parse(raw))
 
 | 库 | tryCatch 写法 | Either 命名 |
 |---|---|---|
+| **Effect-TS** (TS) | `Either` 模块不内置 tryCatch，手动 `try { right } catch { left }` | `Either` (`left`/`right`) |
 | **fp-ts** (TS) | `E.tryCatch(() => JSON.parse(s), String)` | `Either` (`left`/`right`) |
 | **Effect-TS** | `Effect.tryPromise(() => fetch(url))` | 内建 Either 模式 |
 | **folktale** | `Result.try(() => riskyOp())` | `Result` (`Ok`/`Error`) |
 | **true-myth** | `Result.tryOrElse(() => JSON.parse(r), e => ...)` | `Result` (`Ok`/`Err`) |
 | **crocks** | `tryCatch(fn)` 返回 Either | `Either` (`Left`/`Right`) |
 
-> fp-ts 是 TypeScript 最主流的 FP 库，Week 9-10 会用到。Effect-TS 是目前最完整的 FP 框架，把 Either + Task + Dependency Injection 整合在一起。
+> Effect-TS 是目前 TypeScript 最完整的 FP 框架，把 Either + Task + Dependency Injection 整合在一起，Week 9-10 会用到。fp-ts 是其前身，API 高度兼容。
 
 ## Maybe + Either 对比
 

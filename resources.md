@@ -8,7 +8,8 @@
 ## 工具库文档
 
 - [Ramda 官方文档](https://ramdajs.com/docs/)
-- [fp-ts 官方文档](https://gcanti.github.io/fp-ts/)
+- [Effect-TS 官方文档](https://effect.website/)
+- [fp-ts 官方文档](https://gcanti.github.io/fp-ts/)（前身，API 同源）
 
 ## 补充阅读
 
