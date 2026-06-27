@@ -49,7 +49,7 @@ export default defineConfig({
     outline: 'deep',
 
     footer: {
-      message: 'MIT Licensed | Built with VitePress',
+      message: '<a href="https://github.com/GeoDaoyu/js-fp-learning/blob/main/LICENSE" target="_blank">MIT Licensed</a> | Built with VitePress',
     },
   },
 
