@@ -29,5 +29,8 @@
   "devDependencies": {
     "vitepress": "^1.6.4",
     "vitest": "^4.1.9"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
   }
 }
