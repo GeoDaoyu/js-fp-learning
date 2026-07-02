@@ -3,7 +3,6 @@
 // ==========================================
 import { describe, it, expect } from "vitest";
 
-
 // ==========================================
 // === 在这里写你的代码 ===
 // ==========================================
@@ -121,14 +120,14 @@ function checkNotTaken(username) {
 }
 
 function register(username, password) {
-  return validateUsername(username)
-    .chain((name) => validatePassword(password).map((pw) => ({ name, pw })))
-    .chain(({ name, pw }) =>
-      checkNotTaken(name).map((name) => ({
-        username: name,
-        createdAt: new Date(),
-      }))
-    );
+  return Either.of(username)
+    .chain(validateUsername)
+    .chain((name) => validatePassword(password).map(() => name))
+    .chain((name) => checkNotTaken(name))
+    .map((name) => ({
+      username: name,
+      createdAt: new Date(),
+    }));
 }
 
 // 练习2: Monad vs Promise
